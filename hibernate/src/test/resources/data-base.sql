@@ -17,11 +17,11 @@ values (1, 'scooby'),
        (6, 'luna');
 
 
-insert into user_pet(`user_id`, `pet_id`)
-values (1, 2),
-       (1, 3),
-       (2, 4),
-       (3, 5);
+insert into user_pet(`id`, `user_id`, `pet_id`)
+values (1, 1, 2),
+       (2, 1, 3),
+       (3, 2, 4),
+       (4, 3, 5);
 
 insert into addresses(`address`, `city`, `country`, `user_id`)
 values ('calle del sol', 'madrid', 'spain', 1),

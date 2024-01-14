@@ -50,6 +50,7 @@ public class BaseTest implements BeforeAllCallback, ExtensionContext.Store.Close
                 new HefestoAutoconfiguration(entityManager);
             }
         } catch (Exception e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException(e);
         } finally {
             // free the access
