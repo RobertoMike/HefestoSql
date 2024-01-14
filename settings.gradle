@@ -1,0 +1,3 @@
+rootProject.name = 'BaseBuilderForHefestoSql'
+include 'hibernate'
+project(":hibernate").name = "hefesto-hibernate-6"
