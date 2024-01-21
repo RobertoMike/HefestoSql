@@ -1,9 +1,8 @@
 package io.github.robertomike;
 
-import io.github.robertomike.builders.BaseBuilder;
-import io.github.robertomike.builders.Hefesto;
+import io.github.robertomike.hefesto.builders.BaseBuilder;
 import io.github.robertomike.configs.Config;
-import io.github.robertomike.configs.HefestoAutoconfiguration;
+import io.github.robertomike.hefesto.configs.HefestoAutoconfiguration;
 import jakarta.persistence.EntityManager;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;

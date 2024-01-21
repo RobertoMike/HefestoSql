@@ -2,6 +2,15 @@
 
 This library is for simplify the hibernate Criteria Builder, made it more simple and easy.
 
+## Links
+- [Example of use](#example-of-use)
+- [Configuration](#first-configuration)
+- [Difference between Hibernate and Hefesto](#some-differences)
+- [Operations for where](#what-are-the-supported-operators)
+- [Operations for select](#can-i-select-only-some-fields)
+- [Alias class for custom result](#can-i-use-other-class-that-are-not-the-hibernate-model-for-receiving-the-data)
+- [Methods to get data](#what-methods-can-i-use-to-get-data)
+
 ## Example of use
 
 It needs to be used with a model of Hibernate and this model need to implement the interface HibernateModel or BaseModel
@@ -17,6 +26,8 @@ public class example {
 ## First configuration
 
 For HefestoSql work, you need to set the session of Hibernate inside HefestoSql.
+
+If you are using spring boot 2 or 3 you can skip this step.
 
 Example:
 

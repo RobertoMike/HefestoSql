@@ -3,29 +3,13 @@ plugins {
 }
 
 group = 'io.github.robertomike'
-version = '1.0-stable'
+version = '1.0'
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    testImplementation platform('org.junit:junit-bom:5.9.1')
-    testImplementation 'org.junit.jupiter:junit-jupiter'
-
-    // https://projectlombok.org
-    compileOnly 'org.projectlombok:lombok:1.18.20'
-    annotationProcessor 'org.projectlombok:lombok:1.18.20'
-
-    testCompileOnly 'org.projectlombok:lombok:1.18.30'
-    testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
-    testImplementation "org.junit.jupiter:junit-jupiter-params:5.10.0"
-    testImplementation 'org.mockito:mockito-core:5.4.0'
-    testImplementation 'org.mockito:mockito-junit-jupiter:5.4.0'
-    testImplementation 'org.mockito:mockito-inline:5.2.0'
-    testImplementation 'org.powermock:powermock-api-mockito2:2.0.9'
 }
 
 test {

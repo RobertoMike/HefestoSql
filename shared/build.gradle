@@ -19,23 +19,15 @@ ext { // this are variables
 }
 
 dependencies {
-    implementation 'org.hibernate:hibernate-core:6.0.0.Final'
-    api 'org.hibernate:hibernate-core:6.0.0.Final'
-
-    compileOnly("com.google.auto.service:auto-service:1.0.1")
-    annotationProcessor("com.google.auto.service:auto-service:1.0.1")
-    implementation project(path: ':hefesto-base')
-    api project(path: ':hefesto-base')
-    implementation 'org.kohsuke.metainf-services:metainf-services:1.11'
+    testImplementation platform('org.junit:junit-bom:5.9.1')
+    testImplementation 'org.junit.jupiter:junit-jupiter'
 
     // https://projectlombok.org
-    implementation 'org.projectlombok:lombok:1.18.30'
-    compileOnly 'org.projectlombok:lombok:1.18.30'
-    annotationProcessor 'org.projectlombok:lombok:1.18.30'
+    compileOnly 'org.projectlombok:lombok:1.18.20'
+    annotationProcessor 'org.projectlombok:lombok:1.18.20'
+
     testCompileOnly 'org.projectlombok:lombok:1.18.30'
     testAnnotationProcessor 'org.projectlombok:lombok:1.18.30'
-
-    testImplementation 'mysql:mysql-connector-java:8.0.28'
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.10.0"
@@ -55,12 +47,12 @@ publishing {
             from components.java
 
             groupId = "${pomGroupId}"
-            artifactId = 'hefesto-hibernate-6'
+            artifactId = 'hefesto-base'
             version = "${pomVersion}"
 
             pom {
-                name = 'HefestoSql'
-                description = 'HefestoSql is an open-source Java library for creation of query with hibernate'
+                name = 'HefestoSql - Base'
+                description = 'This is a basic classes for HefestoSql is an open-source Java library for creation of query with hibernate'
                 url = 'https://github.com/RobertoMike/HefestoSql'
                 inceptionYear = '2024'
 
@@ -88,6 +80,7 @@ publishing {
     }
     repositories {
         maven {
+
             name = "central_repository_ossrh"
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
@@ -100,7 +93,7 @@ publishing {
         }
     }
 }
-//
+
 //signing {
 //    setRequired { !version.toString().endsWith("SNAPSHOT") }
 //    useGpgCmd()

@@ -1,9 +1,9 @@
 package io.github.robertomike.configs;
 
-import io.github.robertomike.models.Address;
-import io.github.robertomike.models.Pet;
-import io.github.robertomike.models.User;
-import io.github.robertomike.models.UserPet;
+import io.github.robertomike.hefesto.models.Address;
+import io.github.robertomike.hefesto.models.Pet;
+import io.github.robertomike.hefesto.models.User;
+import io.github.robertomike.hefesto.models.UserPet;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.Query;
 import org.hibernate.Session;
@@ -15,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Properties;
-import java.util.stream.Stream;
 
 public class Config {
     public SessionFactory sessionFactory() {
