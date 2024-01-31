@@ -31,9 +31,7 @@ jobs:
         run: |
           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
           gpg --list-secret-keys --keyid-format SHORT
-          touch ~/.gnupg/secring.gpg
-          ls -lh ~/.gnupg/secring.gpg
-          chmod 777 ~/.gnupg/secring.gpg
+          chmod -R 777 ~/.gnupg
           
           export GPG_TTY=$(tty) 
           gpg --batch --export-secret-keys --pinentry-mode=loopback --passphrase ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} -o ~/.gnupg/secring.gpg
