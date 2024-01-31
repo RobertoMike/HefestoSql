@@ -94,15 +94,15 @@ publishing {
     }
 }
 
-signing {
-    setRequired { !version.toString().endsWith("SNAPSHOT") }
-    useGpgCmd()
-    sign(publishing.publications.library)
-}
-
 javadoc {
     source = sourceSets.main.allJava
     classpath = configurations.compileClasspath
+}
+
+signing {
+    useGpgCmd()
+    setRequired { !version.toString().endsWith("SNAPSHOT") }
+    sign publishing.publications.library
 }
 
 tasks.register('printVersion') {
