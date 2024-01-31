@@ -33,8 +33,10 @@ jobs:
           gpg --list-secret-keys --keyid-format SHORT
           touch ~/.gnupg/secring.gpg
           ls -lh ~/.gnupg/secring.gpg
+          chmod 777 ~/.gnupg/secring.gpg
           
-          export GPG_TTY=$(tty) && gpg --batch --export-secret-keys --pinentry-mode=loopback --passphrase ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} -o ~/.gnupg/secring.gpg
+          export GPG_TTY=$(tty) 
+          gpg --batch --export-secret-keys --pinentry-mode=loopback --passphrase ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} -o ~/.gnupg/secring.gpg
           ls -lh ~/.gnupg/secring.gpg
 
       - uses: actions/checkout@v3
