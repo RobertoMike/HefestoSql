@@ -27,12 +27,15 @@ jobs:
           export GPG_TTY=$(tty)
           gpg --list-secret-keys --keyid-format LONG
 
-      - id: install-secret-key
-        name: Install gpg secret key
+      - name: IInstall secret key and Create file secring.gpg
         run: |
           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-          cat <(echo -e "${{ secrets.OSSRH_GPG_PUBLIC_KEY }}") | gpg --batch --import
           gpg --list-secret-keys --keyid-format SHORT
+          touch ~/.gnupg/secring.gpg
+          ls -lh ~/.gnupg/secring.gpg
+          
+          export GPG_TTY=$(tty) && gpg --batch --export-secret-keys --passphrase ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} -o ~/.gnupg/secring.gpg
+          ls -lh ~/.gnupg/secring.gpg
 
       - uses: actions/checkout@v3
       - name: Set up JDK 17
@@ -49,7 +52,7 @@ jobs:
       - name: Build and publish to Apache Maven Central
         run: |
           gradle build
-          export GPG_TTY=$(tty) && gradle -Psigning.keyId=2D5E45FB -Psigning.password=${GPG_KEY_PASSPHRASE} publishLibraryPublicationToCentral_repository_ossrhRepository --info
+          export GPG_TTY=$(tty) && gradle -Psigning.keyId=2D5E45FB -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} publishLibraryPublicationToCentral_repository_ossrhRepository --info
         env:
           GPG_KEY_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}

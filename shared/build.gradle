@@ -100,7 +100,6 @@ javadoc {
 }
 
 signing {
-    useGpgCmd()
     setRequired { !version.toString().endsWith("SNAPSHOT") }
     sign publishing.publications.library
 }
