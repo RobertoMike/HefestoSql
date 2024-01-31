@@ -27,14 +27,14 @@ jobs:
           export GPG_TTY=$(tty)
           gpg --list-secret-keys --keyid-format LONG
 
-      - name: IInstall secret key and Create file secring.gpg
+      - name: Install secret key and Create file secring.gpg
         run: |
           cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
           gpg --list-secret-keys --keyid-format SHORT
           touch ~/.gnupg/secring.gpg
           ls -lh ~/.gnupg/secring.gpg
           
-          export GPG_TTY=$(tty) && gpg --batch --export-secret-keys --passphrase ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} -o ~/.gnupg/secring.gpg
+          export GPG_TTY=$(tty) && gpg --batch --export-secret-keys --pinentry-mode=loopback --passphrase ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} -o ~/.gnupg/secring.gpg
           ls -lh ~/.gnupg/secring.gpg
 
       - uses: actions/checkout@v3
