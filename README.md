@@ -5,6 +5,7 @@ This library is for simplify the hibernate Criteria Builder, made it more simple
 ## Links
 - [Example of use](#example-of-use)
 - [Configuration](#first-configuration)
+- [How to install it](#how-to-install)
 - [Difference between Hibernate and Hefesto](#some-differences)
 - [Operations for where](#what-are-the-supported-operators)
 - [Operations for select](#can-i-select-only-some-fields)
@@ -20,6 +21,27 @@ public class example {
     public List<Model> method() {
         return Hefesto.make(Model.class).get();
     }
+}
+```
+
+## How to install
+Actually there are 2 versions:
+1) For Hibernate 6 (artifactId: hefesto-hibernate-6)
+2) For Hibernate 5 (artifactId: hefesto-hibernate-5)
+
+### Maven installation
+```xml
+<dependency>
+    <groupId>io.github.robertomike</groupId>
+    <artifactId>hefesto-hibernate-5</artifactId>
+    <version>1.0.0</version>
+</dependency>
+```
+
+### Gradle installation
+```gradle
+dependencies {
+    implementation 'io.github.robertomike:hefesto-hibernate-6:1.0.0'
 }
 ```
 
