@@ -49,12 +49,32 @@ jobs:
           gpg-private-key: ${{ secrets.MAVEN_GPG_PRIVATE_KEY }} # Value of the GPG private key to import
           gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
 
-      - name: Build and publish to Apache Maven Central
+      - name: Build and publish to Apache Maven Central hefesto base
+        if: contains(github.event.release.tag_name, '-hefesto-base')
         run: |
           gradle build
-          export GPG_TTY=$(tty) && gradle -Psigning.keyId=2D5E45FB -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} publishLibraryPublicationToCentral_repository_ossrhRepository --info
+          export GPG_TTY=$(tty) && gradle -Psigning.keyId=2D5E45FB -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} :hefesto-base:publishLibraryPublicationToCentral_repository_ossrhRepository
         env:
           GPG_KEY_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
-          MAVEN_GPG_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+
+      - name: Build and publish to Apache Maven Central hibernate 6
+        if: contains(github.event.release.tag_name, '-hibernate-6')
+        run: |
+          gradle build
+          export GPG_TTY=$(tty) && gradle -Psigning.keyId=2D5E45FB -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} :hibernate-6:publishLibraryPublicationToCentral_repository_ossrhRepository
+        env:
+          GPG_KEY_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+
+      - name: Build and publish to Apache Maven Central hibernate 5
+        if: contains(github.event.release.tag_name, '-hibernate-5')
+        run: |
+          gradle build      
+          export GPG_TTY=$(tty) && gradle -Psigning.keyId=2D5E45FB -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} :hibernate-5:publishLibraryPublicationToCentral_repository_ossrhRepository
+        env:
+          GPG_KEY_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
