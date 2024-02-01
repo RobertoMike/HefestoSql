@@ -57,7 +57,7 @@ publishing {
             from components.java
 
             groupId = "${pomGroupId}"
-            artifactId = 'hefesto-hibernate-6'
+            artifactId = 'hefesto-hibernate-5'
             version = "${pomVersion}"
 
             pom {
