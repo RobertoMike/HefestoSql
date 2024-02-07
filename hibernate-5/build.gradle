@@ -18,6 +18,12 @@ ext { // this are variables
     jdkCompileVersion = 17
 }
 
+compileJava.options.encoding = 'UTF-8'
+
+tasks.withType(JavaCompile).configureEach {
+    options.encoding = 'UTF-8'
+}
+
 dependencies {
     implementation 'org.hibernate:hibernate-core:5.2.0.Final'
     api 'org.hibernate:hibernate-core:5.2.0.Final'
