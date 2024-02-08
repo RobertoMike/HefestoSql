@@ -1,7 +1,7 @@
 package io.github.robertomike.hefesto.constructors;
 
 import io.github.robertomike.hefesto.utils.HibernateUtils;
-import jakarta.persistence.criteria.*;
+import javax.persistence.criteria.*;
 import org.hibernate.QueryException;
 
 import java.util.Map;

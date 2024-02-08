@@ -1,8 +1,8 @@
 package io.github.robertomike.hefesto.constructors;
 
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Root;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 import lombok.Getter;
 
 import java.util.HashMap;
@@ -19,7 +19,7 @@ public class ConstructJoinImplementation<T> extends ConstructJoin {
             switch (value.getJoinOperator()) {
                 case INNER -> joinType = JoinType.INNER;
                 case LEFT -> joinType = JoinType.LEFT;
-                case RIGHT -> joinType = JoinType.RIGHT;
+                case RIGHT -> throw new UnsupportedOperationException("Right join not supported");
             }
 
             var name = value.getTable();

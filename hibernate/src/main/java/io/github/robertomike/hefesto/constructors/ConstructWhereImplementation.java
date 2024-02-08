@@ -5,7 +5,7 @@ import io.github.robertomike.hefesto.builders.Hefesto;
 import io.github.robertomike.hefesto.exceptions.QueryException;
 import io.github.robertomike.hefesto.exceptions.UnsupportedOperationException;
 import io.github.robertomike.hefesto.utils.CastUtils;
-import jakarta.persistence.criteria.*;
+import javax.persistence.criteria.*;
 
 import java.util.HashMap;
 import java.util.List;

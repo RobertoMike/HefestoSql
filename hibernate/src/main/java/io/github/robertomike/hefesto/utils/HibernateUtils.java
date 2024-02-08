@@ -1,7 +1,7 @@
 package io.github.robertomike.hefesto.utils;
 
-import jakarta.persistence.criteria.From;
-import jakarta.persistence.criteria.Path;
+import javax.persistence.criteria.From;
+import javax.persistence.criteria.Path;
 
 public class HibernateUtils {
     public static final String DOT_REGEX = "\\.";

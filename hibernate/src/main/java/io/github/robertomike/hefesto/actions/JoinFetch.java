@@ -1,6 +1,6 @@
 package io.github.robertomike.hefesto.actions;
 
-import jakarta.persistence.criteria.JoinType;
+import javax.persistence.criteria.JoinType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

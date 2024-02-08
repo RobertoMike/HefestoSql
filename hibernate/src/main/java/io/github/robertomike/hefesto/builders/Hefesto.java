@@ -11,7 +11,7 @@ import io.github.robertomike.hefesto.constructors.*;
 import io.github.robertomike.hefesto.models.HibernateModel;
 import io.github.robertomike.hefesto.models.BaseModel;
 import io.github.robertomike.hefesto.utils.Page;
-import jakarta.persistence.criteria.*;
+import javax.persistence.criteria.*;
 import org.hibernate.QueryException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
@@ -157,7 +157,7 @@ public class Hefesto<T extends BaseModel> extends BaseBuilder<T, Session, Constr
     @Override
     public Optional<T> findFirst() {
         this.limit = 1;
-        return Optional.ofNullable(createQuery().getSingleResultOrNull());
+        return Optional.ofNullable(createQuery().getSingleResult());
     }
 
     /**
@@ -216,7 +216,7 @@ public class Hefesto<T extends BaseModel> extends BaseBuilder<T, Session, Constr
      * @param  parentJoins  the joins
      * @return        the generated subquery
      */
-    public Subquery<?> getSubQuery(CriteriaQuery<?> cr, Root<?> parentRoot, CriteriaBuilder cb, Map<String, jakarta.persistence.criteria.Join<?, ?>> parentJoins) {
+    public Subquery<?> getSubQuery(CriteriaQuery<?> cr, Root<?> parentRoot, CriteriaBuilder cb, Map<String, javax.persistence.criteria.Join<?, ?>> parentJoins) {
         var sub = customResultSubQuery != null ? cr.subquery(customResultSubQuery) : cr.subquery(model);
         var root = sub.from(model);
 
@@ -296,7 +296,7 @@ public class Hefesto<T extends BaseModel> extends BaseBuilder<T, Session, Constr
         var query = getSession().createQuery(cr);
         query.setMaxResults(1);
 
-        return query.getSingleResultOrNull();
+        return query.getSingleResult();
     }
 
     /**

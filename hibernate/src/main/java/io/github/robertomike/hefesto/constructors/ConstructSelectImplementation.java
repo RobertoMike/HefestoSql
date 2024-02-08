@@ -5,7 +5,7 @@ import io.github.robertomike.hefesto.enums.SelectOperator;
 import io.github.robertomike.hefesto.exceptions.QueryException;
 import io.github.robertomike.hefesto.utils.HibernateUtils;
 import io.github.robertomike.hefesto.models.BaseModel;
-import jakarta.persistence.criteria.*;
+import javax.persistence.criteria.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -83,8 +83,9 @@ public class ConstructSelectImplementation<T extends BaseModel> extends Construc
     }
 
     @SuppressWarnings("unchecked")
-    public void constructSubQuery(Root<T> root, Subquery<?> sub) {
+    public void constructSubQuery(Root<?> root, Subquery<?> sub) {
         if (isEmpty()) {
+            ((Subquery<Object>) sub).select((Expression<Object>) root);
             return;
         }
 
