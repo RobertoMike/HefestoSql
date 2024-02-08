@@ -59,11 +59,11 @@ jobs:
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
           OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
 
-      - name: Build and publish to Apache Maven Central hibernate 6
+      - name: Build and publish to Apache Maven Central hibernate
         if: contains(github.event.release.tag_name, '-hibernate')
         run: |
           gradle build
-          export GPG_TTY=$(tty) && gradle -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} :hibernate-6:publishLibraryPublicationToCentral_repository_ossrhRepository
+          export GPG_TTY=$(tty) && gradle -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} :hibernate:publishLibraryPublicationToCentral_repository_ossrhRepository
         env:
           GPG_KEY_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
           OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
