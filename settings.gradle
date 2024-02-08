@@ -1,6 +1,5 @@
 rootProject.name = 'HefestoSql'
-include 'hibernate-5'
-include 'hibernate-6'
+include 'hibernate'
 include 'shared'
 project(":shared").name = "hefesto-base"
 
