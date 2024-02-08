@@ -26,14 +26,14 @@ public class example {
 
 ## How to install
 Actually there are 2 versions:
-1) For Hibernate 6 (artifactId: hefesto-hibernate-6)
-2) For Hibernate 5 (artifactId: hefesto-hibernate-5)
+1) For Hibernate 6 (version: 1.0.0)
+2) For Hibernate 5 (version: 2.0.0)
 
 ### Maven installation
 ```xml
 <dependency>
     <groupId>io.github.robertomike</groupId>
-    <artifactId>hefesto-hibernate-5</artifactId>
+    <artifactId>hefesto-hibernate</artifactId>
     <version>1.0.0</version>
 </dependency>
 ```
@@ -41,7 +41,7 @@ Actually there are 2 versions:
 ### Gradle installation
 ```gradle
 dependencies {
-    implementation 'io.github.robertomike:hefesto-hibernate-6:1.0.0'
+    implementation 'io.github.robertomike:hefesto-hibernate:1.0.0'
 }
 ```
 
