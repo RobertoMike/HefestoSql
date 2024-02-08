@@ -8,8 +8,7 @@
         <option name="modules">
           <set>
             <option value="$PROJECT_DIR$" />
-            <option value="$PROJECT_DIR$/hibernate-5" />
-            <option value="$PROJECT_DIR$/hibernate-6" />
+            <option value="$PROJECT_DIR$/hibernate" />
             <option value="$PROJECT_DIR$/shared" />
           </set>
         </option>
