@@ -4,16 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: removing module hibernate 5 and moving all inside hibernate, preparing all for the new release" />
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: updating README.md">
+      <change beforePath="$PROJECT_DIR$/.github/workflows/maven-publish.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/maven-publish.yml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="ChangesViewManager">
-    <option name="groupingKeys">
-      <option value="directory" />
-    </option>
   </component>
   <component name="ComposerSettings">
     <execution />
@@ -33,17 +30,10 @@
       </state>
     </system>
   </component>
-  <component name="FileTemplateManagerImpl">
-    <option name="RECENT_TEMPLATES">
-      <list>
-        <option value="Class" />
-      </list>
-    </option>
-  </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="hibernate-5" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -54,6 +44,7 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
+  <component name="PhpWorkspaceProjectConfiguration" interpreter_name="C:\laragon\bin\php\php-8.1.10-Win32-vs16-x64\php.exe" />
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -67,8 +58,7 @@
     &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
     &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;hibernate-5&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Work/personal/HefestoSql/hibernate&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
     &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
     &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
     &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
@@ -80,11 +70,6 @@
     &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
 }</component>
-  <component name="RecentsManager">
-    <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Work\personal\HefestoSql\hibernate" />
-    </key>
-  </component>
   <component name="RunManager">
     <configuration default="true" type="AZURE_FUNCTION_SUPPORT" factoryName="Run Functions">
       <option name="appName" />
@@ -171,7 +156,9 @@
       <workItem from="1707296260754" duration="595000" />
       <workItem from="1707315059684" duration="181000" />
       <workItem from="1707315935655" duration="608000" />
-      <workItem from="1707326476308" duration="98000" />
+      <workItem from="1707326476308" duration="2142000" />
+      <workItem from="1707380280938" duration="1832000" />
+      <workItem from="1707424852193" duration="188000" />
     </task>
     <task id="LOCAL-00001" summary="Feat: implementing a module for hibernate 5 and change workflow to release every module independently">
       <option name="closed" value="true" />
@@ -189,48 +176,60 @@
       <option name="project" value="LOCAL" />
       <updated>1706778636923</updated>
     </task>
-    <task id="LOCAL-00003" summary="Feat: removing module hibernate 5 and moving all inside hibernate, preparing all for the new release">
+    <task id="LOCAL-00003" summary="Feat: adding encoding to UTF-8">
       <option name="closed" value="true" />
-      <created>1707425786525</created>
+      <created>1707326657873</created>
       <option name="number" value="00003" />
       <option name="presentableId" value="LOCAL-00003" />
       <option name="project" value="LOCAL" />
-      <updated>1707425786525</updated>
+      <updated>1707326657873</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Feat: changing short key sign for github secret key">
+      <option name="closed" value="true" />
+      <created>1707326706644</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1707326706644</updated>
+    </task>
+    <task id="LOCAL-00005" summary="Feat: ide changes">
+      <option name="closed" value="true" />
+      <created>1707326713013</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1707326713013</updated>
+    </task>
+    <task id="LOCAL-00006" summary="Feat: ide changes">
+      <option name="closed" value="true" />
+      <created>1707425985060</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1707425985060</updated>
+    </task>
+    <task id="LOCAL-00007" summary="Feat: updating README.md">
+      <option name="closed" value="true" />
+      <created>1707426268289</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1707426268289</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
   </component>
-  <component name="Vcs.Log.Tabs.Properties">
-    <option name="TAB_STATES">
-      <map>
-        <entry key="MAIN">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="master" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </State>
-          </value>
-        </entry>
-      </map>
-    </option>
-  </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Feat: implementing a module for hibernate 5 and change workflow to release every module independently" />
     <MESSAGE value="Fix: changing artifactId for gradle of hibernate 5" />
-    <MESSAGE value="Feat: removing module hibernate 5 and moving all inside hibernate, preparing all for the new release" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: removing module hibernate 5 and moving all inside hibernate, preparing all for the new release" />
+    <MESSAGE value="Feat: adding encoding to UTF-8" />
+    <MESSAGE value="Feat: changing short key sign for github secret key" />
+    <MESSAGE value="Feat: ide changes" />
+    <MESSAGE value="Feat: updating README.md" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: updating README.md" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1707426284865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
