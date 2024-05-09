@@ -50,7 +50,7 @@ jobs:
           gpg-passphrase: MAVEN_GPG_PASSPHRASE # env variable for GPG private key passphrase
 
       - name: Build and publish to Apache Maven Central hefesto base
-        if: contains(github.event.release.tag_name, '-hefesto-base')
+        if: contains(github.event.release.tag_name, '-hefesto-base') || contains(github.event.release.tag_name, '-all')
         run: |
           gradle build
           export GPG_TTY=$(tty) && gradle -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} :hefesto-base:publishLibraryPublicationToCentral_repository_ossrhRepository
@@ -60,7 +60,17 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
 
       - name: Build and publish to Apache Maven Central hibernate
-        if: contains(github.event.release.tag_name, '-hibernate')
+        if: contains(github.event.release.tag_name, '-hibernate-criterial-builder') || contains(github.event.release.tag_name, '-all')
+        run: |
+          gradle build
+          export GPG_TTY=$(tty) && gradle -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} :hibernate-criterial-builder:publishLibraryPublicationToCentral_repository_ossrhRepository
+        env:
+          GPG_KEY_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+
+      - name: Build and publish to Apache Maven Central hibernate
+        if: contains(github.event.release.tag_name, '-hibernate') || contains(github.event.release.tag_name, '-all')
         run: |
           gradle build
           export GPG_TTY=$(tty) && gradle -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} :hibernate:publishLibraryPublicationToCentral_repository_ossrhRepository

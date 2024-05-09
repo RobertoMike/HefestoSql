@@ -23,45 +23,55 @@ import java.util.Optional;
 
 /**
  * This class is the base for all the hefesto versions
- * @param <Model> define the model to return
+ *
+ * @param <Model>   define the model to return
  * @param <SESSION> define the session
- * @param <WHERE> define the class where that is implemented
- * @param <JOIN> define the class join that is implemented
- * @param <ORDER> define the class order that is implemented
- * @param <SELECT> define the class select that is implemented
+ * @param <WHERE>   define the class where that is implemented
+ * @param <JOIN>    define the class join that is implemented
+ * @param <ORDER>   define the class order that is implemented
+ * @param <SELECT>  define the class select that is implemented
  * @param <BUILDER> define the builder
  */
 @NoArgsConstructor
 public abstract class BaseBuilder<
-        Model extends BaseModel, SESSION, WHERE extends ConstructWhere,
-        JOIN extends ConstructJoin, ORDER extends ConstructOrder, SELECT extends ConstructSelect,
+        Model extends BaseModel,
+        SESSION,
+        WHERE extends ConstructWhere,
+        JOIN extends ConstructJoin,
+        ORDER extends ConstructOrder,
+        SELECT extends ConstructSelect,
         BUILDER extends BaseBuilder<Model, SESSION, WHERE, JOIN, ORDER, SELECT, BUILDER>
         >
         implements ConditionalBuilder<BUILDER, WHERE> {
     /**
      * This contains the table name
      */
-    @Getter()
+    @Getter
     protected String table;
+    /**
+     * This contains the class for save all selects
+     */
+    @Getter
+    protected SELECT selects;
     /**
      * This contains the class for save all orders
      */
-    @Getter()
+    @Getter
     protected ORDER orders;
     /**
      * This contains the class for save all wheres
      */
-    @Getter()
+    @Getter
     protected WHERE wheres;
     /**
      * This contains the class for save all joins
      */
-    @Getter()
+    @Getter
     protected JOIN joins;
     /**
      * This contains the class that will be returned and has the table
      */
-    @Getter()
+    @Getter
     protected Class<Model> model;
     /**
      * This contains the offset
@@ -74,18 +84,14 @@ public abstract class BaseBuilder<
     @Setter
     protected Integer limit = null;
     /**
-     * This contains the class for save all selects
-     */
-    @Getter()
-    protected SELECT selects;
-    /**
      * This contains the session for make the queries
      */
     @Setter
     protected static Object session;
 
     /**
-     * contructor
+     * constructor
+     *
      * @param model the class that will be returned
      */
     public BaseBuilder(Class<Model> model) {
@@ -95,7 +101,7 @@ public abstract class BaseBuilder<
     /**
      * Returns the session associated with this object.
      *
-     * @return  the session associated with this object
+     * @return the session associated with this object
      */
     @SuppressWarnings("unchecked")
     public SESSION getSession() {
@@ -105,11 +111,11 @@ public abstract class BaseBuilder<
     /**
      * This method resets the selects to the value passed
      *
-     * @param  select  the select to add
-     * @return         the builder instance
+     * @param select the select to add
+     * @return the builder instance
      */
     @SuppressWarnings("unchecked")
-    public BUILDER setSelects(String select) {
+    public BUILDER setSelect(String select) {
         this.selects.clear();
         selects.add(new Select(select));
         return (BUILDER) this;
@@ -117,6 +123,7 @@ public abstract class BaseBuilder<
 
     /**
      * Add new select to the current list
+     *
      * @param select the select
      * @return the current instance
      */
@@ -127,12 +134,13 @@ public abstract class BaseBuilder<
     }
 
     /**
-     * Add new select to the current list
+     * Reset and add many select to the current list
+     *
      * @param selects the selects
      * @return the current instance
      */
     @SuppressWarnings("unchecked")
-    public BUILDER select(String... selects) {
+    public BUILDER setSelects(String... selects) {
         this.selects.clear();
         for (String select : selects) {
             this.selects.add(new Select(select));
@@ -142,6 +150,7 @@ public abstract class BaseBuilder<
 
     /**
      * Add new select to the current list
+     *
      * @param selects the selects
      * @return the current instance
      */
@@ -153,8 +162,9 @@ public abstract class BaseBuilder<
 
     /**
      * Add new select to the current list
+     *
      * @param select the selects
-     * @param alias the alias for the select
+     * @param alias  the alias for the select
      * @return the current instance
      */
     @SuppressWarnings("unchecked")
@@ -165,7 +175,8 @@ public abstract class BaseBuilder<
 
     /**
      * Add new select to the current list
-     * @param select the selects
+     *
+     * @param select   the selects
      * @param operator the operator
      * @return the current instance
      */
@@ -177,8 +188,9 @@ public abstract class BaseBuilder<
 
     /**
      * Add new select to the current list
-     * @param select the selects
-     * @param alias the alias for the select
+     *
+     * @param select   the selects
+     * @param alias    the alias for the select
      * @param operator the operator
      * @return the current instance
      */
@@ -191,8 +203,8 @@ public abstract class BaseBuilder<
     /**
      * Adds a join to the list of joins.
      *
-     * @param  join  the join to be added
-     * @return       the updated builder object
+     * @param join the join to be added
+     * @return the updated builder object
      */
     @SuppressWarnings("unchecked")
     public BUILDER join(Join join) {
@@ -203,10 +215,10 @@ public abstract class BaseBuilder<
     /**
      * Adds a join clause to the query.
      *
-     * @param  table           the table to join
-     * @param  joinField       the field to join on
-     * @param  referenceField  the field to join with
-     * @return                 the modified builder object
+     * @param table          the table to join
+     * @param joinField      the field to join on
+     * @param referenceField the field to join with
+     * @return the modified builder object
      */
     @SuppressWarnings("unchecked")
     public BUILDER join(String table, String joinField, String referenceField) {
@@ -217,10 +229,10 @@ public abstract class BaseBuilder<
     /**
      * Adds a join clause to the query.
      *
-     * @param  table           the table to join
-     * @param  joinField       the field to join on
-     * @param  operator        the join operator
-     * @return                 the modified builder object
+     * @param table     the table to join
+     * @param joinField the field to join on
+     * @param operator  the join operator
+     * @return the modified builder object
      */
     @SuppressWarnings("unchecked")
     public BUILDER join(String table, String joinField, JoinOperator operator) {
@@ -231,9 +243,9 @@ public abstract class BaseBuilder<
     /**
      * Adds an order to the list of orders for sorting.
      *
-     * @param  field  the field to sort on
-     * @param  sort   the sort order
-     * @return        the updated builder object
+     * @param field the field to sort on
+     * @param sort  the sort order
+     * @return the updated builder object
      */
     @SuppressWarnings("unchecked")
     public BUILDER orderBy(String field, Sort sort) {
@@ -244,8 +256,8 @@ public abstract class BaseBuilder<
     /**
      * This allows you to order by multiple fields
      *
-     * @param  fields   the fields to order by
-     * @return       same instance
+     * @param fields the fields to order by
+     * @return same instance
      */
     @SuppressWarnings("unchecked")
     public BUILDER orderBy(String... fields) {
@@ -258,21 +270,14 @@ public abstract class BaseBuilder<
     /**
      * This allows you to order by multiple fields
      *
-     * @param  orders   the fields to order by
-     * @return       same instance
+     * @param orders the fields to order by
+     * @return same instance
      */
     @SuppressWarnings("unchecked")
     public BUILDER orderBy(Order... orders) {
         this.orders.addAll(orders);
         return (BUILDER) this;
     }
-
-    /**
-     * Retrieves the first model from the data source.
-     *
-     * @return  an Optional containing the first model, or an empty Optional if no model is found
-     */
-    public abstract Optional<Model> findFirst();
 
     /**
      * Counts the number of results.
@@ -282,11 +287,21 @@ public abstract class BaseBuilder<
     public abstract Long countResults();
 
     /**
+     * Retrieves a page of Model objects.
+     *
+     * @param limit the maximum number of objects to retrieve
+     * @return a page of Model objects
+     */
+    public Page<Model> page(int limit) {
+        return page(limit, 0L);
+    }
+
+    /**
      * A description of the entire Java function.
      *
-     * @param  limit  the maximum number of items to be returned
-     * @param  offset the starting position of the items to be returned
-     * @return        a Page object containing the requested items
+     * @param limit  the maximum number of items to be returned
+     * @param offset the starting position of the items to be returned
+     * @return a Page object containing the requested items
      */
     public abstract Page<Model> page(int limit, long offset);
 
@@ -298,22 +313,39 @@ public abstract class BaseBuilder<
     public abstract List<Model> get();
 
     /**
-     * Retrieves a page of Model objects.
+     * Retrieves a list of Model objects with the given selects.
      *
-     * @param  limit  the maximum number of objects to retrieve
-     * @return        a page of Model objects
+     * @return a list of Model objects
      */
-    public Page<Model> page(int limit) {
-        return page(limit, 0L);
+    public List<Model> get(Select... selects) {
+        addSelect(selects);
+        return get();
     }
+
+    /**
+     * Retrieves a list of Model objects with the given selects.
+     *
+     * @return a list of Model objects
+     */
+    public List<Model> get(String... selects) {
+        setSelects(selects);
+        return get();
+    }
+
+    /**
+     * Retrieves the first model from the data source.
+     *
+     * @return an Optional containing the first model, or an empty Optional if no model is found
+     */
+    public abstract Optional<Model> findFirst();
 
     /**
      * Finds the first Model by a given field, operator, and value.
      *
-     * @param  field     the field to search by
-     * @param  operator  the operator to use for comparison
-     * @param  value     the value to compare against
-     * @return           an Optional containing the first matching Model, or an empty Optional if no match is found
+     * @param field    the field to search by
+     * @param operator the operator to use for comparison
+     * @param value    the value to compare against
+     * @return an Optional containing the first matching Model, or an empty Optional if no match is found
      */
     public Optional<Model> findFirstBy(String field, Operator operator, Object value) {
         where(field, operator, value);
@@ -323,9 +355,9 @@ public abstract class BaseBuilder<
     /**
      * Find the first Model object that matches the given field and value.
      *
-     * @param  field     the field to search for
-     * @param  value     the value to match
-     * @return           an Optional containing the first matching Model, or empty if no match found
+     * @param field the field to search for
+     * @param value the value to match
+     * @return an Optional containing the first matching Model, or empty if no match found
      */
     public Optional<Model> findFirstBy(String field, Object value) {
         return findFirstBy(field, Operator.EQUAL, value);
@@ -334,8 +366,8 @@ public abstract class BaseBuilder<
     /**
      * Generates a function comment for the given function body.
      *
-     * @param  value  the value to search for in the "id" field
-     * @return        an optional containing the first model found, or an empty optional if no model is found
+     * @param value the value to search for in the "id" field
+     * @return an optional containing the first model found, or an empty optional if no model is found
      */
     public Optional<Model> findFirstById(Object value) {
         where("id", value);
