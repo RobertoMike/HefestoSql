@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'io.github.robertomike'
-version = '1.0.0'
+version = '1.1.0'
 
 repositories {
     mavenCentral()
@@ -26,14 +26,14 @@ tasks.withType(JavaCompile).configureEach {
 
 dependencies {
     implementation 'org.hibernate:hibernate-core:5.2.0.Final'
-
-    implementation 'javax.xml.bind:jaxb-api:2.3.1'
-    api 'javax.xml.bind:jaxb-api:2.3.1'
+    api 'org.hibernate:hibernate-core:5.2.0.Final'
 
     compileOnly("com.google.auto.service:auto-service:1.0.1")
     annotationProcessor("com.google.auto.service:auto-service:1.0.1")
     implementation project(path: ':hefesto-base')
     api project(path: ':hefesto-base')
+    implementation project(path: ':hibernate')
+    api project(path: ':hibernate')
     implementation 'org.kohsuke.metainf-services:metainf-services:1.11'
 
     // https://projectlombok.org
@@ -63,7 +63,7 @@ publishing {
             from components.java
 
             groupId = "${pomGroupId}"
-            artifactId = 'hefesto-hibernate-base'
+            artifactId = 'hefesto-hibernate'
             version = "${pomVersion}"
 
             pom {

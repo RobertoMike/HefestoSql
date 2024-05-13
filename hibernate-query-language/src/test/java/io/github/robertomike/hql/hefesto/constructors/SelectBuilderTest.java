@@ -1,11 +1,13 @@
-package io.github.robertomike.hefesto.hefesto.constructors;
+package io.github.robertomike.hql.hefesto.constructors;
 
-import io.github.robertomike.hefesto.BaseTest;
+import io.github.robertomike.hql.BaseTest;
 import io.github.robertomike.hefesto.builders.Hefesto;
 import io.github.robertomike.hefesto.enums.SelectOperator;
-import io.github.robertomike.hefesto.hefesto.models.Pet;
-import io.github.robertomike.hefesto.hefesto.models.User;
-import io.github.robertomike.hefesto.hefesto.models.alias.UserNameWithPetName;
+import io.github.robertomike.hql.hefesto.models.Pet;
+import io.github.robertomike.hql.hefesto.models.User;
+import io.github.robertomike.hql.hefesto.models.UserPet;
+import io.github.robertomike.hql.hefesto.models.alias.UserNameWithPetName;
+import io.github.robertomike.hql.hefesto.models.alias.UserWithAddress;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
@@ -29,7 +31,7 @@ public class SelectBuilderTest {
         var result = Hefesto.make(User.class)
                 .addSelect("id")
                 .addSelect("email", "name")
-                .findFirstById(1);
+                .findFirstById(1L);
 
         assertFalse(result.isEmpty());
         assertNotNull(result.get().getName());
@@ -43,13 +45,43 @@ public class SelectBuilderTest {
                 .addSelect("name", "userName")
                 .join("pets")
                 .addSelect("pets.name", "petName")
-                .findFirstById(2);
+                .findFirstById(2L);
 
         assertFalse(result.isEmpty());
         assertNotNull(result.get().getUserName());
         assertNotNull(result.get().getPetName());
         assertEquals("petto", result.get().getUserName());
         assertEquals("grillo", result.get().getPetName());
+    }
+
+    @Test
+    void selectAliasClassWithoutConstruct() {
+        var result = new Hefesto<>(User.class, UserWithAddress.class)
+                .addSelect("name", "userName")
+                .join("addresses")
+                .addSelect("addresses.address", "address")
+                .findFirstById(1L);
+
+        assertFalse(result.isEmpty());
+        assertNotNull(result.get().getUserName());
+        assertNotNull(result.get().getAddress());
+        assertEquals("test", result.get().getUserName());
+        assertEquals("calle del sol", result.get().getAddress());
+    }
+
+    @Test
+    void selectAliasClassWithNestedSetter() {
+        var result = new Hefesto<>(User.class, UserPet.class)
+                .join("pets")
+                .addSelect("user.name")
+                .addSelect("pets.name", "pet.name")
+                .findFirstById(2L);
+
+        assertFalse(result.isEmpty());
+        assertNotNull(result.get().getUser());
+        assertNotNull(result.get().getPet());
+        assertEquals("petto", result.get().getUser().getName());
+        assertEquals("grillo", result.get().getPet().getName());
     }
 
     @Test
@@ -66,7 +98,7 @@ public class SelectBuilderTest {
     void selectAvgIdOfUsers() {
         var result = new Hefesto<>(User.class)
                 .addSelect("id", SelectOperator.AVG)
-                .findFirstFor(Float.class);
+                .findFirstFor(Double.class);
 
         assertNotNull(result);
         assertTrue(result > 1);
@@ -97,7 +129,7 @@ public class SelectBuilderTest {
         var result = new Hefesto<>(User.class)
                 .join("pets")
                 .addSelect("pets.name", "petName")
-                .where("id", 1)
+                .where("user.id", 1L)
                 .orderBy("pets.id")
                 .findFirstFor(String.class);
 
@@ -111,7 +143,7 @@ public class SelectBuilderTest {
                 .join("pets")
                 .addSelect("pets.id", "id")
                 .addSelect("pets.name", "name")
-                .where("id", 1)
+                .where("user.id", 1L)
                 .findFirstFor(Pet.class);
 
         assertNotNull(result);
@@ -124,7 +156,7 @@ public class SelectBuilderTest {
                 .join("pets")
                 .addSelect("pets.id", "id")
                 .addSelect("pets.name", "name")
-                .where("id", 1)
+                .where("user.id", 1L)
                 .findFor(Pet.class);
 
         assertNotNull(result);
@@ -137,7 +169,7 @@ public class SelectBuilderTest {
         var result = new Hefesto<>(User.class)
                 .join("pets")
                 .addSelect("pets.name", "petName")
-                .where("id", 1)
+                .where("user.id", 1L)
                 .findFor(String.class);
 
         assertNotNull(result);

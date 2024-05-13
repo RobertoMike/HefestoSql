@@ -11,6 +11,7 @@ import io.github.robertomike.hefesto.enums.JoinOperator;
 import io.github.robertomike.hefesto.enums.Operator;
 import io.github.robertomike.hefesto.enums.SelectOperator;
 import io.github.robertomike.hefesto.enums.Sort;
+import io.github.robertomike.hefesto.exceptions.QueryException;
 import io.github.robertomike.hefesto.models.BaseModel;
 import io.github.robertomike.hefesto.utils.ConditionalBuilder;
 import io.github.robertomike.hefesto.utils.Page;
@@ -105,6 +106,9 @@ public abstract class BaseBuilder<
      */
     @SuppressWarnings("unchecked")
     public SESSION getSession() {
+        if (session == null) {
+            throw new QueryException("Session is not set");
+        }
         return (SESSION) session;
     }
 
