@@ -28,6 +28,19 @@ public class ConstructJoinImplementation extends ConstructJoin {
             table = fatherAcronym + "." + table;
         }
 
-        return join.getJoinOperator().getOperator() + " join " + table + " " + join.getAcronym();
+        var basic = join.getJoinOperator().getOperator() + " join " + table + " " + join.getAcronym();
+
+        if (join.getFieldReference() != null && join.getFieldJoin() != null) {
+            var fieldReference = join.getFieldReference();
+
+            fieldReference = fieldReference.contains(".") ? fieldReference : fatherAcronym + "." + fieldReference;
+
+            return join.getJoinOperator().getOperator() + " join " + join.getTable() + " " + join.getAcronym()
+                    + " on " + join.getAcronym() + "." + join.getFieldJoin() + " = " + fieldReference;
+        }
+
+        //? todo add other join types
+        //! JOIN Table AS alias ON aliad.field = baseTable.otherField
+        return basic;
     }
 }

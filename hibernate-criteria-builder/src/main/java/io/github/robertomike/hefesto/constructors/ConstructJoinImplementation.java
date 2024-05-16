@@ -19,7 +19,7 @@ public class ConstructJoinImplementation<T> extends ConstructJoin {
             switch (value.getJoinOperator()) {
                 case INNER -> joinType = JoinType.INNER;
                 case LEFT -> joinType = JoinType.LEFT;
-                case RIGHT -> throw new UnsupportedOperationException("Right join not supported");
+                case RIGHT -> joinType = JoinType.RIGHT;
             }
 
             var name = value.getTable();

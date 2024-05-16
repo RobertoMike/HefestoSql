@@ -1,4 +1,4 @@
-package io.github.robertomike.hefesto.hefesto.models;
+package io.github.robertomike.hefesto.models;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +10,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class HibernateModelTest {
     @Test
     void getTable() {
-        assertEquals("users", new User().getTable());
+        assertEquals(User.class.getSimpleName(), new User().getTable());
+    }
+    @Test
+    void getOriginalTable() {
+        assertEquals("users", new User().getOriginalTable());
     }
 }

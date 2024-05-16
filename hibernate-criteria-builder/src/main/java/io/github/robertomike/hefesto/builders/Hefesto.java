@@ -1,27 +1,30 @@
 package io.github.robertomike.hefesto.builders;
 
 import io.github.robertomike.hefesto.actions.Join;
-import io.github.robertomike.hefesto.actions.JoinFetch;
 import io.github.robertomike.hefesto.actions.wheres.WhereCustom;
-import io.github.robertomike.hefesto.actions.wheres.WhereField;
 import io.github.robertomike.hefesto.constructors.*;
-import io.github.robertomike.hefesto.enums.JoinOperator;
-import io.github.robertomike.hefesto.enums.Operator;
 import io.github.robertomike.hefesto.enums.WhereOperator;
 import io.github.robertomike.hefesto.models.BaseModel;
 import io.github.robertomike.hefesto.utils.Page;
-import javax.persistence.criteria.*;
+import io.github.robertomike.hefesto.utils.SharedMethods;
+import lombok.Getter;
 import org.hibernate.QueryException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
+import javax.persistence.criteria.Subquery;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class Hefesto<T extends BaseModel>
-        extends BaseBuilder<T, Session, ConstructWhereImplementation, ConstructJoinImplementation<T>, ConstructOrderImplementation, ConstructSelectImplementation<T>, Hefesto<T>> {
+        extends BaseBuilder<T, Session, ConstructWhereImplementation, ConstructJoinImplementation<T>, ConstructOrderImplementation, ConstructSelectImplementation<T>, Hefesto<T>>
+        implements SharedMethods<Hefesto<T>> {
+    @Getter
     private final ConstructJoinFetch joinsFetch = new ConstructJoinFetch();
     private Class<?> originalModel = null;
     private Class<?> customResultSubQuery = null;
@@ -49,7 +52,6 @@ public class Hefesto<T extends BaseModel>
         return new Hefesto<>(model);
     }
 
-
     /**
      * Adds a join to load in the query.
      *
@@ -59,39 +61,6 @@ public class Hefesto<T extends BaseModel>
      */
     public Hefesto<T> join(String field, String alias) {
         joins.add(Join.make(field, alias));
-        return this;
-    }
-
-    /**
-     * Adds a join to load in the query.
-     *
-     * @param field    the field to join on
-     * @param operator the join operator
-     * @return the updated Hefesto object
-     */
-    public Hefesto<T> join(String field, JoinOperator operator) {
-        joins.add(Join.make(field, operator));
-        return this;
-    }
-
-    /**
-     * Adds a join to load in the query.
-     *
-     * @param field the field to join on
-     * @return the updated Hefesto instance
-     */
-    public Hefesto<T> join(String field) {
-        joins.add(Join.make(field));
-        return this;
-    }
-
-    /**
-     * This method adds a where field to the query that allows you to filter by a field of a join, the same root or the parent when is a subQuery
-     *
-     * @param parentField could be parent field or a join field
-     */
-    public Hefesto<T> whereField(String field, String parentField) {
-        getWheres().add(new WhereField(field, parentField));
         return this;
     }
 
@@ -108,43 +77,6 @@ public class Hefesto<T extends BaseModel>
      */
     public Hefesto<T> orWhereCustom(WhereCustom.Custom custom) {
         getWheres().add(new WhereCustom(custom, WhereOperator.OR));
-        return this;
-    }
-
-    /**
-     * This method adds a where field to the query that allows you to filter by a field of a join, the same root or the parent when is a subQuery
-     *
-     * @param operator    not all operators are supported, only LIKE, NOT_LIKE, EQUAL, DIFF, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL
-     * @param parentField could be parent field or a join field
-     */
-    public Hefesto<T> whereField(String field, Operator operator, String parentField) {
-        getWheres().add(new WhereField(field, operator, parentField));
-        return this;
-    }
-
-    /**
-     * This method will allow you to preload the relationships you want to fetch
-     */
-    public Hefesto<T> with(JoinFetch... relationship) {
-        joinsFetch.addAll(relationship);
-        return this;
-    }
-
-    /**
-     * This method will allow you to preload the relationships you want to fetch
-     */
-    public Hefesto<T> with(String... relationships) {
-        for (var relationship : relationships) {
-            joinsFetch.add(JoinFetch.make(relationship));
-        }
-        return this;
-    }
-
-    /**
-     * This method will allow you to preload the relationships you want to fetch with the join type
-     */
-    public Hefesto<T> with(String relationship, JoinType joinType) {
-        joinsFetch.add(JoinFetch.make(relationship, joinType));
         return this;
     }
 

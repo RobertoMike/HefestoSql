@@ -22,6 +22,8 @@ import lombok.Setter;
 import java.util.List;
 import java.util.Optional;
 
+import static io.github.robertomike.hefesto.utils.CastUtils.getClassInstance;
+
 /**
  * This class is the base for all the hefesto versions
  *
@@ -33,6 +35,7 @@ import java.util.Optional;
  * @param <SELECT>  define the class select that is implemented
  * @param <BUILDER> define the builder
  */
+@SuppressWarnings("unchecked")
 @NoArgsConstructor
 public abstract class BaseBuilder<
         Model extends BaseModel,
@@ -43,7 +46,7 @@ public abstract class BaseBuilder<
         SELECT extends ConstructSelect,
         BUILDER extends BaseBuilder<Model, SESSION, WHERE, JOIN, ORDER, SELECT, BUILDER>
         >
-        implements ConditionalBuilder<BUILDER, WHERE> {
+        implements ConditionalBuilder<BUILDER> {
     /**
      * This contains the table name
      */
@@ -104,7 +107,6 @@ public abstract class BaseBuilder<
      *
      * @return the session associated with this object
      */
-    @SuppressWarnings("unchecked")
     public SESSION getSession() {
         if (session == null) {
             throw new QueryException("Session is not set");
@@ -118,7 +120,6 @@ public abstract class BaseBuilder<
      * @param select the select to add
      * @return the builder instance
      */
-    @SuppressWarnings("unchecked")
     public BUILDER setSelect(String select) {
         this.selects.clear();
         selects.add(new Select(select));
@@ -131,7 +132,6 @@ public abstract class BaseBuilder<
      * @param select the select
      * @return the current instance
      */
-    @SuppressWarnings("unchecked")
     public BUILDER addSelect(String select) {
         selects.add(new Select(select));
         return (BUILDER) this;
@@ -143,7 +143,6 @@ public abstract class BaseBuilder<
      * @param selects the selects
      * @return the current instance
      */
-    @SuppressWarnings("unchecked")
     public BUILDER setSelects(String... selects) {
         this.selects.clear();
         for (String select : selects) {
@@ -158,7 +157,6 @@ public abstract class BaseBuilder<
      * @param selects the selects
      * @return the current instance
      */
-    @SuppressWarnings("unchecked")
     public BUILDER addSelect(Select... selects) {
         this.selects.addAll(selects);
         return (BUILDER) this;
@@ -171,7 +169,6 @@ public abstract class BaseBuilder<
      * @param alias  the alias for the select
      * @return the current instance
      */
-    @SuppressWarnings("unchecked")
     public BUILDER addSelect(String select, String alias) {
         selects.add(new Select(select, alias));
         return (BUILDER) this;
@@ -184,7 +181,6 @@ public abstract class BaseBuilder<
      * @param operator the operator
      * @return the current instance
      */
-    @SuppressWarnings("unchecked")
     public BUILDER addSelect(String select, SelectOperator operator) {
         selects.add(new Select(select, operator));
         return (BUILDER) this;
@@ -198,7 +194,6 @@ public abstract class BaseBuilder<
      * @param operator the operator
      * @return the current instance
      */
-    @SuppressWarnings("unchecked")
     public BUILDER addSelect(String select, String alias, SelectOperator operator) {
         selects.add(new Select(select, alias, operator));
         return (BUILDER) this;
@@ -210,7 +205,6 @@ public abstract class BaseBuilder<
      * @param join the join to be added
      * @return the updated builder object
      */
-    @SuppressWarnings("unchecked")
     public BUILDER join(Join join) {
         joins.add(join);
         return (BUILDER) this;
@@ -224,10 +218,27 @@ public abstract class BaseBuilder<
      * @param referenceField the field to join with
      * @return the modified builder object
      */
-    @SuppressWarnings("unchecked")
     public BUILDER join(String table, String joinField, String referenceField) {
         joins.add(Join.make(table, joinField, referenceField));
         return (BUILDER) this;
+    }
+
+    /**
+     * Adds a join clause to the query.
+     *
+     * @param clazz          the class that has the table to join
+     * @param joinField      the field to join on
+     * @param referenceField the field to join with
+     * @return the modified builder object
+     */
+    public BUILDER join(Class<BaseModel> clazz, String joinField, String referenceField) {
+        var table = getTableFromClass(clazz);
+        joins.add(Join.make(table, joinField, referenceField));
+        return (BUILDER) this;
+    }
+
+    public String getTableFromClass(Class<BaseModel> clazz) {
+        return getClassInstance(clazz).getTable();
     }
 
     /**
@@ -238,7 +249,6 @@ public abstract class BaseBuilder<
      * @param operator  the join operator
      * @return the modified builder object
      */
-    @SuppressWarnings("unchecked")
     public BUILDER join(String table, String joinField, JoinOperator operator) {
         joins.add(Join.make(table, joinField, operator));
         return (BUILDER) this;
@@ -251,7 +261,6 @@ public abstract class BaseBuilder<
      * @param sort  the sort order
      * @return the updated builder object
      */
-    @SuppressWarnings("unchecked")
     public BUILDER orderBy(String field, Sort sort) {
         orders.add(new Order(field, sort));
         return (BUILDER) this;
@@ -263,7 +272,6 @@ public abstract class BaseBuilder<
      * @param fields the fields to order by
      * @return same instance
      */
-    @SuppressWarnings("unchecked")
     public BUILDER orderBy(String... fields) {
         for (String field : fields) {
             orders.add(new Order(field));
@@ -277,7 +285,6 @@ public abstract class BaseBuilder<
      * @param orders the fields to order by
      * @return same instance
      */
-    @SuppressWarnings("unchecked")
     public BUILDER orderBy(Order... orders) {
         this.orders.addAll(orders);
         return (BUILDER) this;

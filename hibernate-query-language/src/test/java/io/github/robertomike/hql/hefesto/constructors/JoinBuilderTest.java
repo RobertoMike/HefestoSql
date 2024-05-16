@@ -26,6 +26,15 @@ public class JoinBuilderTest {
         assertFalse(result.isEmpty());
     }
     @Test
+    @Order(1)
+    void completeJoin() {
+        var result = Hefesto.make(User.class)
+                .join("UserPet", "user.id", "id")
+                .get();
+
+        assertFalse(result.isEmpty());
+    }
+    @Test
     @Order(2)
     void innerJoinWithLeftJoinWithJoinFetch() {
         var result = Hefesto.make(User.class)

@@ -1,30 +1,28 @@
 package io.github.robertomike.hefesto.builders;
 
-import io.github.robertomike.hefesto.actions.Join;
-import io.github.robertomike.hefesto.actions.JoinFetch;
-import io.github.robertomike.hefesto.actions.wheres.WhereField;
 import io.github.robertomike.hefesto.actions.wheres.WhereRaw;
 import io.github.robertomike.hefesto.constructors.*;
 import io.github.robertomike.hefesto.enums.JoinOperator;
-import io.github.robertomike.hefesto.enums.Operator;
 import io.github.robertomike.hefesto.enums.WhereOperator;
 import io.github.robertomike.hefesto.models.BaseModel;
 import io.github.robertomike.hefesto.utils.FluentHibernateResultTransformer;
 import io.github.robertomike.hefesto.utils.Page;
+import io.github.robertomike.hefesto.utils.SharedMethods;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.QueryException;
 import org.hibernate.Session;
 import org.hibernate.query.Query;
 
-import javax.persistence.criteria.JoinType;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
 public class Hefesto<T extends BaseModel>
-        extends BaseBuilder<T, Session, ConstructWhereImplementation, ConstructJoinImplementation, ConstructOrderImplementation, ConstructSelectImplementation, Hefesto<T>> {
+        extends BaseBuilder<T, Session, ConstructWhereImplementation, ConstructJoinImplementation, ConstructOrderImplementation, ConstructSelectImplementation, Hefesto<T>>
+        implements SharedMethods<Hefesto<T>> {
+    @Getter
     private final ConstructJoinFetch joinsFetch = new ConstructJoinFetch();
     private Class<? extends BaseModel> originalModel = null;
     @Setter
@@ -62,57 +60,16 @@ public class Hefesto<T extends BaseModel>
         return new Hefesto<>(model);
     }
 
-    @Override
-    public Hefesto<T> join(String table, String joinField, String referenceField) {
-        throw new UnsupportedOperationException("This methods are not supported");
-    }
-
+    /**
+     * Unsupported method
+     * @param table     the table to join
+     * @param joinField the field to join on
+     * @param operator  the join operator
+     * @return return the current instance
+     */
     @Override
     public Hefesto<T> join(String table, String joinField, JoinOperator operator) {
         throw new UnsupportedOperationException("This methods are not supported");
-    }
-
-    /**
-     * Adds a join to load in the query.
-     *
-     * @param relationship the relationship to join on
-     * @return the updated Hefesto object
-     */
-    public Hefesto<T> join(String relationship) {
-        joins.add(Join.make(relationship));
-        return this;
-    }
-
-    /**
-     * Adds a join to load in the query.
-     *
-     * @param relationship the relationship to join on
-     * @return the updated Hefesto object
-     */
-    public Hefesto<T> join(String relationship, String alias) {
-        joins.add(new Join(relationship, null, null, alias));
-        return this;
-    }
-
-    /**
-     * Adds a join to load in the query.
-     *
-     * @param operator the join operator
-     * @return the updated Hefesto object
-     */
-    public Hefesto<T> join(String relationship, JoinOperator operator) {
-        joins.add(Join.make(relationship, operator));
-        return this;
-    }
-
-    /**
-     * This method adds a where field to the query that allows you to filter by a field of a join, the same root or the parent when is a subQuery
-     *
-     * @param parentField could be parent field or a join field
-     */
-    public Hefesto<T> whereField(String field, String parentField) {
-        getWheres().add(new WhereField(field, parentField));
-        return this;
     }
 
     /**
@@ -140,43 +97,6 @@ public class Hefesto<T extends BaseModel>
     }
 
     /**
-     * This method adds a where field to the query that allows you to filter by a field of a join, the same root or the parent when is a subQuery
-     *
-     * @param operator    not all operators are supported, only LIKE, NOT_LIKE, EQUAL, DIFF, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL
-     * @param parentField could be parent field or a join field
-     */
-    public Hefesto<T> whereField(String field, Operator operator, String parentField) {
-        getWheres().add(new WhereField(field, operator, parentField));
-        return this;
-    }
-
-    /**
-     * This method will allow you to preload the relationships you want to fetch
-     */
-    public Hefesto<T> with(JoinFetch... relationship) {
-        joinsFetch.addAll(relationship);
-        return this;
-    }
-
-    /**
-     * This method will allow you to preload the relationships you want to fetch
-     */
-    public Hefesto<T> with(String... relationships) {
-        for (var relationship : relationships) {
-            joinsFetch.add(JoinFetch.make(relationship));
-        }
-        return this;
-    }
-
-    /**
-     * This method will allow you to preload the relationships you want to fetch with the join type
-     */
-    public Hefesto<T> with(String relationship, JoinType joinType) {
-        joinsFetch.add(JoinFetch.make(relationship, joinType));
-        return this;
-    }
-
-    /**
      * Returns an Optional containing the first element of the result set,
      * or an empty Optional if the result set is empty.
      *
@@ -184,10 +104,9 @@ public class Hefesto<T extends BaseModel>
      * or an empty Optional if the result set is empty.
      */
     @Override
-    @SuppressWarnings("unchecked")
     public Optional<T> findFirst() {
         this.limit = 1;
-        return Optional.ofNullable(this.<T>createQueryAndApplyTransform().getSingleResult());
+        return Optional.ofNullable(this.<T>createQuery().getSingleResult());
     }
 
     /**
@@ -195,11 +114,11 @@ public class Hefesto<T extends BaseModel>
      *
      * @return The created query.
      */
-    public <R> Query<R> createQueryAndApplyTransform() {
-        return applyTransformer(createQuery());
+    public <R> Query<R> createQuery() {
+        return applyTransformer(createBaseQuery());
     }
 
-    public <R> Query<R> createQuery() {
+    public <R> Query<R> createBaseQuery() {
         Map<String, Object> params = new HashMap<>();
 
         @SuppressWarnings({"unchecked"})
@@ -249,7 +168,7 @@ public class Hefesto<T extends BaseModel>
      * @return a list of objects
      */
     public List<T> get() {
-        return this.<T>createQueryAndApplyTransform().list();
+        return this.<T>createQuery().list();
     }
 
     /**
@@ -265,7 +184,7 @@ public class Hefesto<T extends BaseModel>
 
         var total = countResults();
 
-        return new Page<>(this.<T>createQueryAndApplyTransform().list(), offset, total);
+        return new Page<>(this.<T>createQuery().list(), offset, total);
     }
 
     /**
@@ -276,7 +195,7 @@ public class Hefesto<T extends BaseModel>
     public Long countResults() {
         isCounting = true;
 
-        var total = this.<Long>createQuery().getSingleResult();
+        var total = this.<Long>createBaseQuery().getSingleResult();
 
         isCounting = false;
 
@@ -295,7 +214,7 @@ public class Hefesto<T extends BaseModel>
         }
 
         this.limit = 1;
-        return applyTransformer(createQuery(), resultClass).getSingleResult();
+        return applyTransformer(createBaseQuery(), resultClass).getSingleResult();
     }
 
     /**
@@ -305,7 +224,7 @@ public class Hefesto<T extends BaseModel>
      * @return a list of objects of the specified resultClass
      */
     public <R> List<R> findFor(Class<R> resultClass) {
-        return applyTransformer(createQuery(), resultClass).getResultList();
+        return applyTransformer(createBaseQuery(), resultClass).getResultList();
     }
 
     public String getQuery(Map<String, Object> params) {

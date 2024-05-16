@@ -80,10 +80,6 @@ class HefestoTest {
     void unsupportedMethods() {
         assertThrows(
                 UnsupportedOperationException.class,
-                () -> Hefesto.make(User.class).join("", "", "")
-        );
-        assertThrows(
-                UnsupportedOperationException.class,
                 () -> Hefesto.make(User.class).join("", "", JoinOperator.INNER)
         );
     }
