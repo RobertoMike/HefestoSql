@@ -22,7 +22,10 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Hefesto<T extends BaseModel>
-        extends BaseBuilder<T, Session, ConstructWhereImplementation, ConstructJoinImplementation<T>, ConstructOrderImplementation, ConstructSelectImplementation<T>, Hefesto<T>>
+        extends BaseBuilder<T, Session, ConstructWhereImplementation,
+        ConstructJoinImplementation<T>, ConstructOrderImplementation, ConstructSelectImplementation<T>,
+        ConstructGroupByImplementation, Hefesto<T>
+        >
         implements SharedMethods<Hefesto<T>> {
     @Getter
     private final ConstructJoinFetch joinsFetch = new ConstructJoinFetch();
@@ -35,6 +38,7 @@ public class Hefesto<T extends BaseModel>
         wheres = new ConstructWhereImplementation();
         joins = new ConstructJoinImplementation<>();
         selects = new ConstructSelectImplementation<>();
+        groupBy = new ConstructGroupByImplementation();
     }
 
     public Hefesto(Class<? extends BaseModel> modelEntity, Class<T> dto) {
@@ -50,6 +54,17 @@ public class Hefesto<T extends BaseModel>
      */
     public static <T extends BaseModel> Hefesto<T> make(Class<T> model) {
         return new Hefesto<>(model);
+    }
+
+    /**
+     * Create a new instance of the Hefesto class with the given model.
+     *
+     * @param model the model class to be used
+     * @param dto the model class that will be the result
+     * @return a new instance of Hefesto with the given model
+     */
+    public static <T extends BaseModel> Hefesto<T> make(Class<? extends BaseModel> model, Class<T> dto) {
+        return new Hefesto<>(model, dto);
     }
 
     /**
@@ -115,6 +130,7 @@ public class Hefesto<T extends BaseModel>
         }
         wheres.setJoins(joins.getJoins()).construct(cb, cr, root);
         orders.setJoins(joins.getJoins()).construct(cb, cr, root);
+        groupBy.construct(cr, root);
 
         var query = getSession().createQuery(cr);
 
@@ -159,6 +175,7 @@ public class Hefesto<T extends BaseModel>
         allJoins.putAll(joins.getJoins());
         wheres.setJoins(allJoins).constructSubQuery(sub, cb, root, parentRoot);
         selects.setJoins(allJoins).constructSubQuery(root, sub);
+        groupBy.construct(cr, root);
 
         return sub;
     }
@@ -210,6 +227,7 @@ public class Hefesto<T extends BaseModel>
         cr.select(cb.count(root));
         joins.construct(root);
         wheres.setJoins(joins.getJoins()).construct(cb, cr, root);
+        groupBy.construct(cr, root);
 
         return getSession().createQuery(cr).getSingleResult();
     }
@@ -261,9 +279,13 @@ public class Hefesto<T extends BaseModel>
         var root = cr.from(model);
 
         joins.construct(root);
-        selects.setJoins(joins.getJoins()).multiSelect(root, cr, cb);
-        wheres.setJoins(joins.getJoins()).construct(cb, cr, root);
-        orders.setJoins(joins.getJoins()).construct(cb, cr, root);
+        selects.setJoins(joins.getJoins())
+                .multiSelect(root, cr, cb);
+        wheres.setJoins(joins.getJoins())
+                .construct(cb, cr, root);
+        orders.setJoins(joins.getJoins())
+                .construct(cb, cr, root);
+        groupBy.construct(cr, root);
 
         return cr;
     }

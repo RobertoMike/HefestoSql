@@ -178,7 +178,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the subQuery for the WHERE clause
      * @return the modified query object
      */
-    default R whereIn(String field, BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery) {
+    default R whereIn(String field, BaseBuilder subQuery) {
         getWheres().add(new Where(field, Operator.IN, subQuery));
         return (R) this;
     }
@@ -190,7 +190,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the subQuery for the WHERE clause
      * @return the modified query object
      */
-    default R whereNotIn(String field, BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery) {
+    default R whereNotIn(String field, BaseBuilder subQuery) {
         getWheres().add(new Where(field, Operator.NOT_IN, subQuery));
         return (R) this;
     }
@@ -214,7 +214,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the subQuery for the WHERE clause
      * @return the modified query object
      */
-    default R orWhereIn(String field, BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery) {
+    default R orWhereIn(String field, BaseBuilder subQuery) {
         getWheres().add(new Where(field, Operator.IN, subQuery, WhereOperator.OR));
         return (R) this;
     }
@@ -226,7 +226,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the subQuery for the WHERE clause
      * @return the modified query object
      */
-    default R orWhereNotIn(String field, BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery) {
+    default R orWhereNotIn(String field, BaseBuilder subQuery) {
         getWheres().add(new Where(field, Operator.NOT_IN, subQuery, WhereOperator.OR));
         return (R) this;
     }
@@ -272,7 +272,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the sub-query to be added as a condition
      * @return the current builder instance
      */
-    default R whereExists(BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery) {
+    default R whereExists(BaseBuilder subQuery) {
         getWheres().add(new WhereExist(subQuery));
         return (R) this;
     }
@@ -283,7 +283,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the sub-query to check for non-existence
      * @return the updated query builder
      */
-    default R whereNotExists(BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery) {
+    default R whereNotExists(BaseBuilder subQuery) {
         getWheres().add(new WhereExist(false, subQuery));
         return (R) this;
     }
@@ -294,7 +294,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the sub-query to be added as a condition
      * @return the current builder instance
      */
-    default R orWhereExists(BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery) {
+    default R orWhereExists(BaseBuilder subQuery) {
         getWheres().add(new WhereExist(subQuery, WhereOperator.OR));
         return (R) this;
     }
@@ -305,7 +305,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the sub-query to check for non-existence
      * @return the updated query builder
      */
-    default R orWhereNotExists(BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery) {
+    default R orWhereNotExists(BaseBuilder subQuery) {
         getWheres().add(new WhereExist(false, subQuery, WhereOperator.OR));
         return (R) this;
     }

@@ -20,7 +20,9 @@ import java.util.Map;
 import java.util.Optional;
 
 public class Hefesto<T extends BaseModel>
-        extends BaseBuilder<T, Session, ConstructWhereImplementation, ConstructJoinImplementation, ConstructOrderImplementation, ConstructSelectImplementation, Hefesto<T>>
+        extends BaseBuilder<T, Session, ConstructWhereImplementation, ConstructJoinImplementation,
+        ConstructOrderImplementation, ConstructSelectImplementation, ConstructGroupByImplementation, Hefesto<T>
+        >
         implements SharedMethods<Hefesto<T>> {
     @Getter
     private final ConstructJoinFetch joinsFetch = new ConstructJoinFetch();
@@ -40,6 +42,7 @@ public class Hefesto<T extends BaseModel>
         wheres = new ConstructWhereImplementation();
         joins = new ConstructJoinImplementation();
         selects = new ConstructSelectImplementation();
+        groupBy = new ConstructGroupByImplementation();
         table = (originalModel != null ? originalModel : model).getSimpleName();
         acronymTable = getTable().toLowerCase();
     }
@@ -62,6 +65,7 @@ public class Hefesto<T extends BaseModel>
 
     /**
      * Unsupported method
+     *
      * @param table     the table to join
      * @param joinField the field to join on
      * @param operator  the join operator
@@ -235,7 +239,9 @@ public class Hefesto<T extends BaseModel>
         return String.join(" ",
                 query, acronymTable,
                 joins.construct(this), joinsFetchQuery,
-                wheres.construct(params), orders.construct()
+                wheres.construct(params),
+                orders.construct(),
+                groupBy.construct()
         );
     }
 
@@ -246,7 +252,9 @@ public class Hefesto<T extends BaseModel>
         return String.join(" ",
                 query, acronymTable,
                 joins.construct(this),
-                wheres.construct(params), orders.construct()
+                wheres.construct(params),
+                orders.construct(),
+                groupBy.construct()
         );
     }
 

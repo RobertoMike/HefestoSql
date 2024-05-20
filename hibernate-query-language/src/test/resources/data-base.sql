@@ -5,7 +5,7 @@ values (1, 'test', 'test@mail.com', null, 'ACTIVE,BLOCKED'),
        (4, 'mary', 'mary@mail.com', 'mary.jpg', 'SUSPENDED'),
        (5, 'leo', 'leo@mail.com', null, 'INACTIVE'),
        (6, 'lara', 'lara@mail.com', 'lara.jpg', 'DELETED,SUSPENDED'),
-       (7, 'lau', 'leo@mail.com', null, 'PENDING,INACTIVE'),
+       (7, 'lau', 'lau@mail.com', null, 'PENDING,INACTIVE'),
        (8, 'gabi', 'gabi@mail.com', 'gabi.jpg', 'ACTIVE');
 
 insert into pets(`id`, `name`)

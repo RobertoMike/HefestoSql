@@ -39,8 +39,6 @@ public class ConstructJoinImplementation extends ConstructJoin {
                     + " on " + join.getAcronym() + "." + join.getFieldJoin() + " = " + fieldReference;
         }
 
-        //? todo add other join types
-        //! JOIN Table AS alias ON aliad.field = baseTable.otherField
         return basic;
     }
 }

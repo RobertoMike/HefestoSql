@@ -19,7 +19,7 @@ import javax.persistence.criteria.JoinType;
  * @param <B> is the builder
  */
 @SuppressWarnings("unchecked")
-public interface SharedMethods<B extends BaseBuilder<?, ?, ?, ?, ?, ?, ?>> {
+public interface SharedMethods<B extends BaseBuilder<?, ?, ?, ?, ?, ?, ?, ?>> {
 
     /**
      * Returns the 'Construct for Joins' object.

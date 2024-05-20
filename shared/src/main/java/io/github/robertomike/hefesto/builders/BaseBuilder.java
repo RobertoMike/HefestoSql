@@ -1,12 +1,10 @@
 package io.github.robertomike.hefesto.builders;
 
+import io.github.robertomike.hefesto.actions.GroupBy;
 import io.github.robertomike.hefesto.actions.Join;
 import io.github.robertomike.hefesto.actions.Order;
 import io.github.robertomike.hefesto.actions.Select;
-import io.github.robertomike.hefesto.constructors.ConstructJoin;
-import io.github.robertomike.hefesto.constructors.ConstructOrder;
-import io.github.robertomike.hefesto.constructors.ConstructSelect;
-import io.github.robertomike.hefesto.constructors.ConstructWhere;
+import io.github.robertomike.hefesto.constructors.*;
 import io.github.robertomike.hefesto.enums.JoinOperator;
 import io.github.robertomike.hefesto.enums.Operator;
 import io.github.robertomike.hefesto.enums.SelectOperator;
@@ -44,7 +42,8 @@ public abstract class BaseBuilder<
         JOIN extends ConstructJoin,
         ORDER extends ConstructOrder,
         SELECT extends ConstructSelect,
-        BUILDER extends BaseBuilder<Model, SESSION, WHERE, JOIN, ORDER, SELECT, BUILDER>
+        GROUP extends ConstructGroupBy,
+        BUILDER extends BaseBuilder<Model, SESSION, WHERE, JOIN, ORDER, SELECT, GROUP, BUILDER>
         >
         implements ConditionalBuilder<BUILDER> {
     /**
@@ -62,6 +61,11 @@ public abstract class BaseBuilder<
      */
     @Getter
     protected ORDER orders;
+    /**
+     * This contains the class for save all orders
+     */
+    @Getter
+    protected GROUP groupBy;
     /**
      * This contains the class for save all wheres
      */
@@ -287,6 +291,30 @@ public abstract class BaseBuilder<
      */
     public BUILDER orderBy(Order... orders) {
         this.orders.addAll(orders);
+        return (BUILDER) this;
+    }
+
+    /**
+     * This allows you to group by multiple fields
+     *
+     * @param fields the fields to group by
+     * @return same instance
+     */
+    public BUILDER groupBy(String... fields) {
+        for (String field : fields) {
+            groupBy.add(new GroupBy(field));
+        }
+        return (BUILDER) this;
+    }
+
+    /**
+     * This allows you to group by multiple fields
+     *
+     * @param groupBy the fields
+     * @return same instance
+     */
+    public BUILDER groupBy(GroupBy... groupBy) {
+        this.groupBy.addAll(groupBy);
         return (BUILDER) this;
     }
 
