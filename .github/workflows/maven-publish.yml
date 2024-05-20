@@ -70,6 +70,16 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
 
       - name: Build and publish to Apache Maven Central hibernate
+        if: contains(github.event.release.tag_name, '-hibernate-query-language') || contains(github.event.release.tag_name, '-all')
+        run: |
+          gradle build
+          export GPG_TTY=$(tty) && gradle -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} :hibernate-query-language:publishLibraryPublicationToCentral_repository_ossrhRepository
+        env:
+          GPG_KEY_PASSPHRASE: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
+          OSSRH_USERNAME: ${{ secrets.OSSRH_USERNAME }}
+          OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
+
+      - name: Build and publish to Apache Maven Central hibernate
         if: contains(github.event.release.tag_name, '-hibernate') || contains(github.event.release.tag_name, '-all')
         run: |
           gradle build

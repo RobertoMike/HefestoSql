@@ -17,7 +17,7 @@ public class FluentHibernateResultTransformer extends BasicTransformerAdapter {
 
     @Override
     public Object transformTuple(Object[] tuple, String[] aliases) {
-        if (tuple[0].getClass().equals(resultClass)) {
+        if (tuple.length > 0 && tuple[0] != null && tuple[0].getClass().equals(resultClass)) {
             return tuple[0];
         }
 
@@ -61,7 +61,7 @@ public class FluentHibernateResultTransformer extends BasicTransformerAdapter {
 
             boolean valid = true;
             for (int i = 0; i < parameterTypes.length; i++) {
-                if (!parameterTypes[i].equals(tuple[i].getClass())) {
+                if (tuple[i] == null || !parameterTypes[i].equals(tuple[i].getClass())) {
                     valid = false;
                     break;
                 }
