@@ -104,7 +104,7 @@ public class ComplexWheresTest {
 
 
         assertFalse(result.isEmpty());
-        assertTrue(result.size() == 1);
+        assertEquals(1, result.size());
     }
 
     @Test
@@ -119,7 +119,7 @@ public class ComplexWheresTest {
 
 
         assertFalse(result.getData().isEmpty());
-        assertTrue(result.getData().size() == 1);
+        assertEquals(1, result.getData().size());
     }
 
     @Test
