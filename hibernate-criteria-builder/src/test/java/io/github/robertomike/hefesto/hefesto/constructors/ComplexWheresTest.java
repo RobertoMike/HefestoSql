@@ -122,6 +122,21 @@ public class ComplexWheresTest {
     }
 
     @Test
+    void findInSetInsideCollectionWithOtherConditionAndPagination() {
+        var result = Hefesto.make(User.class)
+                .where(Arrays.asList(
+                        new Where("status", Operator.FIND_IN_SET, Status.PENDING, WhereOperator.OR),
+                        new Where("status", Operator.FIND_IN_SET, Status.BLOCKED, WhereOperator.OR)
+                ))
+                .where("status", Operator.FIND_IN_SET, Status.INACTIVE)
+                .page(3, 0);
+
+
+        assertFalse(result.getData().isEmpty());
+        assertTrue(result.getData().size() == 1);
+    }
+
+    @Test
     void findInSetWithOr() {
         var result = Hefesto.make(User.class)
                 .where("status", Operator.FIND_IN_SET, Status.ACTIVE)
