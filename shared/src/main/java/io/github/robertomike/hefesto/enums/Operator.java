@@ -14,7 +14,7 @@ public enum Operator {
     GREATER(">"),
     IN("in"),
     LIKE("like"),
-    NOT_LIKE("not_like"),
+    NOT_LIKE("not like"),
     NOT_IN("not in"),
     IS_NULL("is null"),
     IS_NOT_NULL("is not null"),

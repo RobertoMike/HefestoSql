@@ -1,5 +1,6 @@
 package io.github.robertomike.hefesto.utils;
 
+import io.github.robertomike.hefesto.exceptions.HefestoException;
 import io.github.robertomike.hefesto.exceptions.QueryException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -57,5 +58,13 @@ public class CastUtils {
         }
 
         throw new QueryException("Unsupported casting type:" + type);
+    }
+
+    public static <T> T getClassInstance(Class<T> clazz) {
+        try {
+            return clazz.getConstructor().newInstance();
+        } catch (Exception e) {
+            throw new HefestoException("Error creating class instance for " + clazz.getName() , e);
+        }
     }
 }

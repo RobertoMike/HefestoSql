@@ -4,8 +4,98 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: updating README.md">
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Merge: solved problems with the merge">
+      <change afterPath="$PROJECT_DIR$/.idea/jpa.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-criteria-builder/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/java/io/github/robertomike/hefesto/constructors/ConstructGroupByImplementation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/builders/HefestoTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/GroupByBuilderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/JoinBuilderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/Pet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/alias/PhotoAndCountName.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/alias/PhotoAndName.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/build.gradle" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/actions/wheres/WhereRaw.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/builders/Hefesto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/constructors/ConstructGroupByImplementation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/constructors/ConstructJoinFetch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/constructors/ConstructJoinImplementation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/constructors/ConstructOrderImplementation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/constructors/ConstructSelectImplementation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/constructors/ConstructWhereImplementation.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/utils/ClassUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/utils/FluentHibernateResultTransformer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/utils/NestedSetter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/utils/ReflectionUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/java/io/github/robertomike/hefesto/utils/StringUtils.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/BaseTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/configs/Config.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/enums/Status.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/constructors/ComplexWheresTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/constructors/GroupByBuilderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/constructors/OrderBuilderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/constructors/SelectBuilderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/constructors/WhereBuilderTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/converters/StatusConverter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/Address.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/UserPet.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/alias/PhotoAndCountName.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/alias/UserNameWithPetName.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/alias/UserWithAddress.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/utils/ClassUtilsTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/utils/NestedSetterTest.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/resources/data-base.sql" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/resources/hibernate.properties" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/utils/SharedMethods.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hefesto/models/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/actions/GroupBy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/constructors/ConstructGroupBy.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/exceptions/HefestoException.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.github/workflows/maven-publish.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/maven-publish.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/actions/JoinFetch.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/actions/JoinFetch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/actions/wheres/WhereCustom.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/java/io/github/robertomike/hefesto/actions/wheres/WhereCustom.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/builders/Hefesto.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/java/io/github/robertomike/hefesto/builders/Hefesto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/constructors/ConstructJoinFetch.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/java/io/github/robertomike/hefesto/constructors/ConstructJoinFetch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/constructors/ConstructJoinImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/java/io/github/robertomike/hefesto/constructors/ConstructJoinImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/constructors/ConstructOrderImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/java/io/github/robertomike/hefesto/constructors/ConstructOrderImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/constructors/ConstructSelectImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/java/io/github/robertomike/hefesto/constructors/ConstructSelectImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/constructors/ConstructWhereImplementation.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/java/io/github/robertomike/hefesto/constructors/ConstructWhereImplementation.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/models/HibernateModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/models/HibernateModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/java/io/github/robertomike/hefesto/utils/HibernateUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/java/io/github/robertomike/hefesto/utils/HibernateUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/BaseTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/BaseTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/configs/Config.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/configs/Config.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/enums/Status.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/enums/Status.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/builders/HefestoTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/builders/HefestoTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/constructors/ComplexWheresTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/ComplexWheresTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/constructors/JoinBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/constructors/JoinBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/constructors/OrderBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/OrderBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/constructors/SelectBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/SelectBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/constructors/WhereBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/WhereBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/converters/StatusConverter.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/converters/StatusConverter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/models/Address.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/Address.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/models/HibernateModelTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hefesto/models/HibernateModelTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/models/Pet.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/Pet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/models/UserPet.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/UserPet.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/java/io/github/robertomike/hibernate6/hefesto/models/alias/UserNameWithPetName.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/alias/UserNameWithPetName.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/resources/data-base.sql" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/resources/data-base.sql" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/test/resources/database.properties" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/resources/database.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/shared/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/actions/Join.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/actions/Join.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/actions/wheres/WhereExist.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/actions/wheres/WhereExist.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/builders/BaseBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/builders/BaseBuilder.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/enums/JoinOperator.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/enums/JoinOperator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/enums/Operator.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/enums/Operator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/utils/CastUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/utils/CastUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/utils/ConditionalBuilder.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/utils/ConditionalBuilder.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -14,6 +104,9 @@
   </component>
   <component name="ComposerSettings">
     <execution />
+  </component>
+  <component name="CoverageOptionsProvider">
+    <option name="myAddOrReplace" value="0" />
   </component>
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
@@ -26,20 +119,45 @@
         <task path="$PROJECT_DIR$">
           <activation />
         </task>
-        <projects_view />
+        <projects_view>
+          <tree_state>
+            <expand>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HefestoSql" type="f1a62948:ProjectNode" />
+              </path>
+            </expand>
+            <select />
+          </tree_state>
+        </projects_view>
       </state>
     </system>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="hibernate-5" />
+        <entry key="$PROJECT_DIR$" value="feature/hibernate-5-base-module" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
+  </component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
+  <component name="MacroExpansionManager">
+    <option name="directoryName" value="zg2gy53v" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -53,24 +171,51 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.All test.executor": "Run",
+    "Gradle.ComplexWheresTest.findInSetInsideCollection.executor": "Debug",
+    "Gradle.ComplexWheresTest.findInSetWithAnd.executor": "Debug",
+    "Gradle.ComplexWheresTest.findInSetWithOr.executor": "Run",
+    "Gradle.GroupByBuilderTest.groupBy.executor": "Debug",
+    "Gradle.HefestoTest.findFirstBy.executor": "Debug",
+    "Gradle.WhereBuilderTest.notLike.executor": "Debug",
+    "Gradle.test hibernate-query-language.executor": "Coverage",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "git-widget-placeholder": "Merging master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Work/personal/HefestoSql/hibernate/src/main/java/io/github/robertomike/hefesto/utils",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "com.codeium.AppSettingsConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
-  <component name="RunManager">
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Work\personal\HefestoSql\hibernate\src\main\java\io\github\robertomike\hefesto\utils" />
+      <recent name="C:\Work\personal\HefestoSql\hibernate-query-language\src\main\java\io\github\robertomike\hefesto\actions\wheres" />
+      <recent name="C:\Work\personal\HefestoSql" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="io.github.robertomike.hefesto.hefesto.models.alias" />
+      <recent name="io.github.robertomike.hefesto.hefesto.constructors" />
+      <recent name="io.github.robertomike.hql.hefesto.models.alias" />
+      <recent name="io.github.robertomike.hql.hefesto.constructors" />
+      <recent name="io.github.robertomike.hefesto.constructors" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Gradle.ComplexWheresTest.findInSetInsideCollection">
     <configuration default="true" type="AZURE_FUNCTION_SUPPORT" factoryName="Run Functions">
       <option name="appName" />
       <option name="appServicePlanName" />
@@ -114,6 +259,102 @@
           <list>
             <option value=":hefesto-base:test" />
             <option value=":hibernate:test" />
+            <option value=":hibernate-criteria-builder:test" />
+            <option value=":hibernate-query-language:test" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="ComplexWheresTest.findInSetInsideCollection" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":hibernate-criteria-builder:test" />
+            <option value="--tests" />
+            <option value="&quot;io.github.robertomike.hefesto.hefesto.constructors.ComplexWheresTest.findInSetInsideCollection&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="ComplexWheresTest.findInSetWithAnd" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":hibernate-criteria-builder:test" />
+            <option value="--tests" />
+            <option value="&quot;io.github.robertomike.hefesto.hefesto.constructors.ComplexWheresTest.findInSetWithAnd&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="GroupByBuilderTest.groupBy" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":hibernate-query-language:test" />
+            <option value="--tests" />
+            <option value="&quot;io.github.robertomike.hql.hefesto.constructors.GroupByBuilderTest.groupBy&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="test hibernate-query-language" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":hibernate-query-language:test" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -137,6 +378,27 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <list>
+      <item itemvalue="Gradle.All test" />
+      <item itemvalue="Gradle.test hibernate-query-language" />
+      <item itemvalue="Gradle.ComplexWheresTest.findInSetInsideCollection" />
+      <item itemvalue="Gradle.ComplexWheresTest.findInSetWithAnd" />
+      <item itemvalue="Gradle.GroupByBuilderTest.groupBy" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Gradle.ComplexWheresTest.findInSetInsideCollection" />
+        <item itemvalue="Gradle.ComplexWheresTest.findInSetWithAnd" />
+        <item itemvalue="Gradle.GroupByBuilderTest.groupBy" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9f38398b9061-18abd8497189-intellij.indexing.shared.core-IU-241.14494.240" />
+      </set>
+    </attachedChunks>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -159,6 +421,23 @@
       <workItem from="1707326476308" duration="2142000" />
       <workItem from="1707380280938" duration="1832000" />
       <workItem from="1707424852193" duration="188000" />
+      <workItem from="1715325812534" duration="38995000" />
+      <workItem from="1715606414872" duration="160000" />
+      <workItem from="1715607033284" duration="6162000" />
+      <workItem from="1715622006052" duration="606000" />
+      <workItem from="1715622637579" duration="1981000" />
+      <workItem from="1715667471545" duration="3264000" />
+      <workItem from="1715718736306" duration="167000" />
+      <workItem from="1715757285819" duration="4072000" />
+      <workItem from="1715788640864" duration="3941000" />
+      <workItem from="1715887735099" duration="5790000" />
+      <workItem from="1715947690362" duration="698000" />
+      <workItem from="1715979861645" duration="687000" />
+      <workItem from="1716149023474" duration="4027000" />
+      <workItem from="1716189601033" duration="1281000" />
+      <workItem from="1716192121488" duration="2390000" />
+      <workItem from="1716894502801" duration="756000" />
+      <workItem from="1717514378656" duration="933000" />
     </task>
     <task id="LOCAL-00001" summary="Feat: implementing a module for hibernate 5 and change workflow to release every module independently">
       <option name="closed" value="true" />
@@ -216,11 +495,74 @@
       <option name="project" value="LOCAL" />
       <updated>1707426268289</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Ide changes">
+      <option name="closed" value="true" />
+      <created>1715282792404</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1715282792404</updated>
+    </task>
+    <task id="LOCAL-00009" summary="cherry pick changes from adding base hibernate module">
+      <option name="closed" value="true" />
+      <created>1715283864466</created>
+      <option name="number" value="00009" />
+      <option name="presentableId" value="LOCAL-00009" />
+      <option name="project" value="LOCAL" />
+      <updated>1715283864466</updated>
+    </task>
+    <task id="LOCAL-00010" summary="Feat: adding hql module, tested at 85%">
+      <option name="closed" value="true" />
+      <created>1715624259804</created>
+      <option name="number" value="00010" />
+      <option name="presentableId" value="LOCAL-00010" />
+      <option name="project" value="LOCAL" />
+      <updated>1715624259804</updated>
+    </task>
+    <task id="LOCAL-00011" summary="Feat: creating an interface to share methods in common between hibernate, adding more test, adding new join way for HQL and other small things">
+      <option name="closed" value="true" />
+      <created>1715892110943</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1715892110943</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Feat: adding groupBy, more test and support for every builder">
+      <option name="closed" value="true" />
+      <created>1716193420332</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1716193420332</updated>
+    </task>
+    <option name="localTasksCounter" value="13" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="hibernate-5" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Feat: implementing a module for hibernate 5 and change workflow to release every module independently" />
@@ -229,9 +571,35 @@
     <MESSAGE value="Feat: changing short key sign for github secret key" />
     <MESSAGE value="Feat: ide changes" />
     <MESSAGE value="Feat: updating README.md" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: updating README.md" />
+    <MESSAGE value="Ide changes" />
+    <MESSAGE value="Feat: renaming the current folder hibernate to hibernate criteria builder, creating a general hibernate module with the shared classes, and some other update to a new version" />
+    <MESSAGE value="cherry pick changes from adding base hibernate module" />
+    <MESSAGE value="Feat: adding hql module, tested at 85%" />
+    <MESSAGE value="Feat: creating an interface to share methods in common between hibernate, adding more test, adding new join way for HQL and other small things" />
+    <MESSAGE value="Feat: adding groupBy, more test and support for every builder" />
+    <MESSAGE value="Merge: solved problems with the merge" />
+    <option name="LAST_COMMIT_MESSAGE" value="Merge: solved problems with the merge" />
+    <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/configs/Config.java</url>
+          <line>48</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1707426284865" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1716278429848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/HefestoSql$test_hibernate_query_language.ic" NAME="test hibernate-query-language Coverage Results" MODIFIED="1716278027755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/HefestoSql$HefestoTest_findFirstBy.ic" NAME="HefestoTest.findFirstBy Coverage Results" MODIFIED="1715418112916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/HefestoSql$GroupByBuilderTest_groupBy.ic" NAME="GroupByBuilderTest.groupBy Coverage Results" MODIFIED="1716152058601" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
 </project>

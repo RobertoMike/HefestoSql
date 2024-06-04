@@ -13,14 +13,14 @@ import lombok.Setter;
 @RequiredArgsConstructor
 public class WhereExist extends BaseWhere {
     private boolean exists = true;
-    private final BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery;
+    private final BaseBuilder subQuery;
 
-    public WhereExist(BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery, WhereOperator whereOperator) {
+    public WhereExist(BaseBuilder subQuery, WhereOperator whereOperator) {
         this.whereOperation = whereOperator;
         this.subQuery = subQuery;
     }
 
-    public WhereExist(boolean exists, BaseBuilder<?, ?, ?, ?, ?, ?, ?> subQuery, WhereOperator whereOperator) {
+    public WhereExist(boolean exists, BaseBuilder subQuery, WhereOperator whereOperator) {
         this.exists = exists;
         this.whereOperation = whereOperator;
         this.subQuery = subQuery;

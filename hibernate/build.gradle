@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'io.github.robertomike'
-version = '2.0.0'
+version = '1.0.0'
 
 repositories {
     mavenCentral()
@@ -14,6 +14,7 @@ repositories {
 ext { // this are variables
     pomGroupId = group
     pomVersion = version
+    artifactId = 'hefesto-hibernate-base'
 
     jdkCompileVersion = 17
 }
@@ -28,11 +29,11 @@ dependencies {
     implementation 'org.hibernate:hibernate-core:6.0.0.Final'
     api 'org.hibernate:hibernate-core:6.0.0.Final'
 
-    compileOnly("com.google.auto.service:auto-service:1.0.1")
-    annotationProcessor("com.google.auto.service:auto-service:1.0.1")
     implementation project(path: ':hefesto-base')
     api project(path: ':hefesto-base')
-    implementation 'org.kohsuke.metainf-services:metainf-services:1.11'
+
+    compileOnly("com.google.auto.service:auto-service:1.0.1")
+    annotationProcessor("com.google.auto.service:auto-service:1.0.1")
 
     // https://projectlombok.org
     implementation 'org.projectlombok:lombok:1.18.30'
@@ -61,7 +62,7 @@ publishing {
             from components.java
 
             groupId = "${pomGroupId}"
-            artifactId = 'hefesto-hibernate'
+            artifactId = "${artifactId}"
             version = "${pomVersion}"
 
             pom {
