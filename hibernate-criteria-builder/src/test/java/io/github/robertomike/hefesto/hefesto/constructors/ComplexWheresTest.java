@@ -110,6 +110,7 @@ public class ComplexWheresTest {
     @Test
     void findInSetInsideCollectionWithOtherConditionAndPagination() {
         var result = Hefesto.make(User.class)
+                .where("id", Operator.GREATER, 0)
                 .where(Arrays.asList(
                         new Where("status", Operator.FIND_IN_SET, Status.PENDING, WhereOperator.OR),
                         new Where("status", Operator.FIND_IN_SET, Status.BLOCKED, WhereOperator.OR)

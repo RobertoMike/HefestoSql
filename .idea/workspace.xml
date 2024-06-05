@@ -4,9 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Merge: solved problems with the merge">
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Smell code corrections">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/ComplexWheresTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/ComplexWheresTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/resources/database.properties" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/resources/database.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -84,9 +85,10 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Gradle.All test.executor": "Run",
+    "Gradle.All test.executor": "Coverage",
     "Gradle.ComplexWheresTest.findInSetInsideCollection.executor": "Debug",
-    "Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition.executor": "Debug",
+    "Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition.executor": "Coverage",
+    "Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherConditionAndPagination.executor": "Debug",
     "Gradle.ComplexWheresTest.findInSetWithAnd.executor": "Debug",
     "Gradle.ComplexWheresTest.findInSetWithOr.executor": "Run",
     "Gradle.GroupByBuilderTest.groupBy.executor": "Debug",
@@ -97,7 +99,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "hibernate-5",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "C:/Work/personal/HefestoSql/hibernate/src/main/java/io/github/robertomike/hefesto/utils",
     "node.js.detected.package.eslint": "true",
@@ -127,7 +129,7 @@
       <recent name="io.github.robertomike.hefesto.constructors" />
     </key>
   </component>
-  <component name="RunManager" selected="Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition">
+  <component name="RunManager" selected="Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherConditionAndPagination">
     <configuration default="true" type="AZURE_FUNCTION_SUPPORT" factoryName="Run Functions">
       <option name="appName" />
       <option name="appServicePlanName" />
@@ -231,6 +233,30 @@
       <RunAsTest>true</RunAsTest>
       <method v="2" />
     </configuration>
+    <configuration name="ComplexWheresTest.findInSetInsideCollectionWithOtherConditionAndPagination" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":hibernate-criteria-builder:test" />
+            <option value="--tests" />
+            <option value="&quot;io.github.robertomike.hefesto.hefesto.constructors.ComplexWheresTest.findInSetInsideCollectionWithOtherConditionAndPagination&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
     <configuration name="ComplexWheresTest.findInSetWithAnd" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
@@ -317,6 +343,7 @@
     <list>
       <item itemvalue="Gradle.All test" />
       <item itemvalue="Gradle.test hibernate-query-language" />
+      <item itemvalue="Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherConditionAndPagination" />
       <item itemvalue="Gradle.ComplexWheresTest.findInSetInsideCollection" />
       <item itemvalue="Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition" />
       <item itemvalue="Gradle.ComplexWheresTest.findInSetWithAnd" />
@@ -324,6 +351,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherConditionAndPagination" />
         <item itemvalue="Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition" />
         <item itemvalue="Gradle.ComplexWheresTest.findInSetInsideCollection" />
         <item itemvalue="Gradle.ComplexWheresTest.findInSetWithAnd" />
@@ -376,6 +404,7 @@
       <workItem from="1716192121488" duration="2390000" />
       <workItem from="1716894502801" duration="756000" />
       <workItem from="1717514378656" duration="3567000" />
+      <workItem from="1717573165906" duration="4398000" />
     </task>
     <task id="LOCAL-00001" summary="Feat: implementing a module for hibernate 5 and change workflow to release every module independently">
       <option name="closed" value="true" />
@@ -481,7 +510,23 @@
       <option name="project" value="LOCAL" />
       <updated>1717515510129</updated>
     </task>
-    <option name="localTasksCounter" value="14" />
+    <task id="LOCAL-00014" summary="Feat: adding more test&#10;&#10;(cherry picked from commit 63c13fa312e0f1eb1e05d9c611e19332fe9bbae0)">
+      <option name="closed" value="true" />
+      <created>1717518518579</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1717518518579</updated>
+    </task>
+    <task id="LOCAL-00015" summary="Smell code corrections">
+      <option name="closed" value="true" />
+      <created>1717526646114</created>
+      <option name="number" value="00015" />
+      <option name="presentableId" value="LOCAL-00015" />
+      <option name="project" value="LOCAL" />
+      <updated>1717526646114</updated>
+    </task>
+    <option name="localTasksCounter" value="16" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -524,7 +569,9 @@
     <MESSAGE value="Feat: creating an interface to share methods in common between hibernate, adding more test, adding new join way for HQL and other small things" />
     <MESSAGE value="Feat: adding groupBy, more test and support for every builder" />
     <MESSAGE value="Merge: solved problems with the merge" />
-    <option name="LAST_COMMIT_MESSAGE" value="Merge: solved problems with the merge" />
+    <MESSAGE value="Feat: adding more test&#10;&#10;(cherry picked from commit 63c13fa312e0f1eb1e05d9c611e19332fe9bbae0)" />
+    <MESSAGE value="Smell code corrections" />
+    <option name="LAST_COMMIT_MESSAGE" value="Smell code corrections" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -535,17 +582,28 @@
           <line>48</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/hibernate-criteria-builder/src/main/java/io/github/robertomike/hefesto/constructors/ConstructWhereImplementation.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="8" />
+        </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
+    <pin-to-top-manager>
+      <pinned-members>
+        <PinnedItemInfo parentTag="org.hibernate.query.criteria.internal.predicate.CompoundPredicate" memberName="expressions" />
+      </pinned-members>
+    </pin-to-top-manager>
   </component>
   <component name="XSLT-Support.FileAssociations.UIState">
     <expand />
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1716278429848" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
-    <SUITE FILE_PATH="coverage/HefestoSql$test_hibernate_query_language.ic" NAME="test hibernate-query-language Coverage Results" MODIFIED="1716278027755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1717576207810" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/HefestoSql$test_hibernate_query_language.ic" NAME="test hibernate-query-language Coverage Results" MODIFIED="1715622777458" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/HefestoSql$HefestoTest_findFirstBy.ic" NAME="HefestoTest.findFirstBy Coverage Results" MODIFIED="1715418112916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/HefestoSql$GroupByBuilderTest_groupBy.ic" NAME="GroupByBuilderTest.groupBy Coverage Results" MODIFIED="1716152058601" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/HefestoSql$ComplexWheresTest_findInSetInsideCollectionWithOtherCondition.ic" NAME="ComplexWheresTest.findInSetInsideCollectionWithOtherCondition Coverage Results" MODIFIED="1717518526321" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
   </component>
 </project>
