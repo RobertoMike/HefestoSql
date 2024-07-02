@@ -4,18 +4,18 @@ plugins {
     id 'signing'
 }
 
-group = 'io.github.robertomike'
-version = '2.1.0'
+var groupId = 'io.github.robertomike'
+var version = '2.1.0'
+var artifactId = 'hefesto-base'
+
+group = groupId
+version = (Object) version
 
 repositories {
     mavenCentral()
 }
 
-ext { // this are variables
-    pomGroupId = group
-    pomVersion = version
-    artifactId = 'hefesto-base'
-
+ext {
     jdkCompileVersion = 17
 }
 
@@ -53,9 +53,9 @@ publishing {
         library(MavenPublication) {
             from components.java
 
-            groupId = "${pomGroupId}"
+            groupId = "${groupId}"
             artifactId = "${artifactId}"
-            version = "${pomVersion}"
+            version = "${version}"
 
             pom {
                 name = 'HefestoSql - Base'
