@@ -4,18 +4,19 @@ plugins {
     id 'signing'
 }
 
-var groupId = 'io.github.robertomike'
-var version = '2.1.0'
 var artifactId = 'hefesto-base'
 
-group = groupId
-version = (Object) version
+group = 'io.github.robertomike'
+version = '2.1.0'
 
 repositories {
     mavenCentral()
 }
 
 ext {
+    pomGroupId = group
+    pomVersion = version
+
     jdkCompileVersion = 17
 }
 
@@ -29,7 +30,6 @@ dependencies {
     testImplementation platform('org.junit:junit-bom:5.9.1')
     testImplementation 'org.junit.jupiter:junit-jupiter'
 
-    // https://projectlombok.org
     compileOnly 'org.projectlombok:lombok:1.18.20'
     annotationProcessor 'org.projectlombok:lombok:1.18.20'
 
@@ -53,7 +53,7 @@ publishing {
         library(MavenPublication) {
             from components.java
 
-            groupId = "${groupId}"
+            groupId = "${group}"
             artifactId = "${artifactId}"
             version = "${version}"
 
@@ -87,7 +87,6 @@ publishing {
     }
     repositories {
         maven {
-
             name = "central_repository_ossrh"
             url = "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
             credentials {
@@ -106,9 +105,11 @@ javadoc {
     classpath = configurations.compileClasspath
 }
 
-signing {
-    setRequired { !version.toString().endsWith("SNAPSHOT") }
-    sign publishing.publications.library
+if (!project.hasProperty('local')) {
+    signing {
+        setRequired { !version.toString().endsWith("SNAPSHOT") }
+        sign publishing.publications.library
+    }
 }
 
 tasks.register('printVersion') {

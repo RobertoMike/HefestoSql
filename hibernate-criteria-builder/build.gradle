@@ -11,10 +11,10 @@ repositories {
     mavenCentral()
 }
 
+var artifactId = 'hefesto-hibernate'
+
 ext { // this are variables
-    pomGroupId = group
     pomVersion = version
-    artifactId = 'hefesto-hibernate'
 
     jdkCompileVersion = 17
 }
@@ -32,10 +32,6 @@ dependencies {
     implementation project(path: ':hibernate')
     api project(path: ':hibernate')
 
-    compileOnly("com.google.auto.service:auto-service:1.0.1")
-    annotationProcessor("com.google.auto.service:auto-service:1.0.1")
-
-    // https://projectlombok.org
     implementation 'org.projectlombok:lombok:1.18.30'
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
@@ -61,7 +57,7 @@ publishing {
         library(MavenPublication) {
             from components.java
 
-            groupId = "${pomGroupId}"
+            groupId = "${group}"
             artifactId = "${artifactId}"
             version = "${pomVersion}"
 
@@ -113,9 +109,11 @@ javadoc {
     classpath = configurations.compileClasspath
 }
 
-signing {
-    setRequired { !version.toString().endsWith("SNAPSHOT") }
-    sign publishing.publications.library
+if (!project.hasProperty('local')) {
+    signing {
+        setRequired { !version.toString().endsWith("SNAPSHOT") }
+        sign publishing.publications.library
+    }
 }
 
 tasks.register('printVersion') {

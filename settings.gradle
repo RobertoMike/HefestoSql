@@ -4,4 +4,3 @@ include 'hibernate-query-language'
 include 'hibernate'
 include 'shared'
 project(":shared").name = "hefesto-base"
-
