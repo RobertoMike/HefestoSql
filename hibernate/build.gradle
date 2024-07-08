@@ -5,7 +5,7 @@ plugins {
 }
 
 group = 'io.github.robertomike'
-version = '1.0.0'
+version = '2.0.0'
 
 repositories {
     mavenCentral()
@@ -32,10 +32,6 @@ dependencies {
     implementation project(path: ':hefesto-base')
     api project(path: ':hefesto-base')
 
-    compileOnly("com.google.auto.service:auto-service:1.0.1")
-    annotationProcessor("com.google.auto.service:auto-service:1.0.1")
-
-    // https://projectlombok.org
     implementation 'org.projectlombok:lombok:1.18.30'
     compileOnly 'org.projectlombok:lombok:1.18.30'
     annotationProcessor 'org.projectlombok:lombok:1.18.30'
@@ -113,9 +109,11 @@ javadoc {
     classpath = configurations.compileClasspath
 }
 
-signing {
-    setRequired { !version.toString().endsWith("SNAPSHOT") }
-    sign publishing.publications.library
+if (!project.hasProperty('local')) {
+    signing {
+        setRequired { !version.toString().endsWith("SNAPSHOT") }
+        sign publishing.publications.library
+    }
 }
 
 tasks.register('printVersion') {

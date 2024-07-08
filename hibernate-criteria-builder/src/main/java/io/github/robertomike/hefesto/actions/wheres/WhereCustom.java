@@ -5,9 +5,6 @@ import jakarta.persistence.criteria.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-
-import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
 import java.util.Map;
 
 @Getter
@@ -22,7 +19,6 @@ public class WhereCustom extends BaseWhere {
     }
 
     public interface Custom {
-        @Nonnull
-        Predicate call(@Nonnull CriteriaBuilder cb, @Nonnull CriteriaQuery<?> cr, @Nonnull Root<?> root, @Nonnull Map<String, Join<?, ?>> joins, @Nullable Root<?> parentRoot);
+        Predicate call(CriteriaBuilder cb, CriteriaQuery<?> cr, Root<?> root, Map<String, Join<?, ?>> joins, Root<?> parentRoot);
     }
 }
