@@ -4,9 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Solving problem with maven publication">
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: changing the name of the packages from settings">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/shared/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -39,24 +41,6 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="HefestoSql" type="f1a62948:ProjectNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="HefestoSql" type="f1a62948:ProjectNode" />
-                <item name="hibernate-criteria-builder" type="2d1252cf:ModuleNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="HefestoSql" type="f1a62948:ProjectNode" />
-                <item name="hibernate-criteria-builder" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-              </path>
-              <path>
-                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
-                <item name="HefestoSql" type="f1a62948:ProjectNode" />
-                <item name="hibernate-criteria-builder" type="2d1252cf:ModuleNode" />
-                <item name="Tasks" type="e4a08cd1:TasksNode" />
-                <item name="publishing" type="c8890929:TasksNode$1" />
               </path>
             </expand>
             <select />
@@ -160,7 +144,7 @@
       <command value="gradle publishToMavenLocal -Plocal" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.HefestoSql [publishToMavenLocal]">
+  <component name="RunManager" selected="Gradle.All test">
     <configuration default="true" type="AZURE_FUNCTION_SUPPORT" factoryName="Run Functions">
       <option name="appName" />
       <option name="appServicePlanName" />
@@ -203,9 +187,9 @@
         <option name="taskNames">
           <list>
             <option value=":hefesto-base:test" />
-            <option value=":hibernate:test" />
-            <option value=":hibernate-criteria-builder:test" />
-            <option value=":hibernate-query-language:test" />
+            <option value=":hefesto-hibernate-base:test" />
+            <option value=":hefesto-hibernate:test" />
+            <option value=":hefesto-hibernate-hql:test" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -265,7 +249,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
+        <option name="scriptParameters" value="" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -501,7 +485,15 @@
       <option name="project" value="LOCAL" />
       <updated>1720458664357</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Feat: changing the version of base hefesto">
+      <option name="closed" value="true" />
+      <created>1720464615573</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1720464615573</updated>
+    </task>
+    <option name="localTasksCounter" value="17" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -557,7 +549,9 @@
     <MESSAGE value="Merge: solved problems with the merge" />
     <MESSAGE value="Feat: changing versions of packages" />
     <MESSAGE value="Solving problem with maven publication" />
-    <option name="LAST_COMMIT_MESSAGE" value="Solving problem with maven publication" />
+    <MESSAGE value="Feat: changing the version of base hefesto" />
+    <MESSAGE value="Feat: changing the name of the packages from settings" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: changing the name of the packages from settings" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">

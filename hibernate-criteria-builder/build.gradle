@@ -29,8 +29,8 @@ dependencies {
     implementation 'org.hibernate:hibernate-core:6.0.0.Final'
     api 'org.hibernate:hibernate-core:6.0.0.Final'
 
-    implementation project(path: ':hibernate')
-    api project(path: ':hibernate')
+    implementation project(path: ':hefesto-hibernate-base')
+    api project(path: ':hefesto-hibernate-base')
 
     implementation 'org.projectlombok:lombok:1.18.30'
     compileOnly 'org.projectlombok:lombok:1.18.30'
