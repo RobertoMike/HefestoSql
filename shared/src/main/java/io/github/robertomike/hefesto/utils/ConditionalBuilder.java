@@ -172,6 +172,18 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
     }
 
     /**
+     * Adds a WHERE IN clause to the query.
+     *
+     * @param field  the field to apply the WHERE clause on
+     * @param values the values to match against
+     * @return the modified query object
+     */
+    default R whereIn(String field, Iterable<?> values) {
+        getWheres().add(new Where(field, Operator.IN, values));
+        return (R) this;
+    }
+
+    /**
      * Adds a WHERE IN clause with a subQuery as value to the query.
      *
      * @param field    the field to apply the WHERE clause on
@@ -208,6 +220,18 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
     }
 
     /**
+     * Adds a WHERE IN clause to the query.
+     *
+     * @param field  the field to apply the WHERE clause on
+     * @param values the values to match against
+     * @return the modified query object
+     */
+    default R orWhereIn(String field, Iterable<?> values) {
+        getWheres().add(new Where(field, Operator.IN, values, WhereOperator.OR));
+        return (R) this;
+    }
+
+    /**
      * Adds a WHERE IN clause with a subQuery as value to the query.
      *
      * @param field    the field to apply the WHERE clause on
@@ -239,6 +263,18 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @return the modified query object
      */
     default R whereNotIn(String field, String... values) {
+        getWheres().add(new Where(field, Operator.NOT_IN, values));
+        return (R) this;
+    }
+
+    /**
+     * Adds a WHERE NOT IN condition to the query.
+     *
+     * @param field  the field to check against
+     * @param values the values to check against
+     * @return the modified query object
+     */
+    default R whereNotIn(String field, Iterable<?> values) {
         getWheres().add(new Where(field, Operator.NOT_IN, values));
         return (R) this;
     }
