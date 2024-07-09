@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: changing the name of the packages from settings">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hibernate-query-language/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/settings.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle" afterDir="false" />
-    </list>
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: changing maven publish file" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -493,7 +488,23 @@
       <option name="project" value="LOCAL" />
       <updated>1720464615573</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Feat: changing the name of the packages from settings">
+      <option name="closed" value="true" />
+      <created>1720467125837</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1720467125837</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Feat: changing maven publish file">
+      <option name="closed" value="true" />
+      <created>1720467439459</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1720467439459</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -551,7 +562,8 @@
     <MESSAGE value="Solving problem with maven publication" />
     <MESSAGE value="Feat: changing the version of base hefesto" />
     <MESSAGE value="Feat: changing the name of the packages from settings" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: changing the name of the packages from settings" />
+    <MESSAGE value="Feat: changing maven publish file" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: changing maven publish file" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
