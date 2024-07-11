@@ -4,8 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: Updating the version of the different modules">
-      <change beforePath="$PROJECT_DIR$/.github/workflows/maven-publish.yml" beforeDir="false" afterPath="$PROJECT_DIR$/.github/workflows/maven-publish.yml" afterDir="false" />
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Fix: solving problem with the pipeline of release with hibernate base">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -515,7 +514,23 @@
       <option name="project" value="LOCAL" />
       <updated>1720726490410</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Fix: solving problem with the pipeline of release">
+      <option name="closed" value="true" />
+      <created>1720727245318</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1720727245318</updated>
+    </task>
+    <task id="LOCAL-00021" summary="Fix: solving problem with the pipeline of release with hibernate base">
+      <option name="closed" value="true" />
+      <created>1720727787348</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1720727787348</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -575,7 +590,9 @@
     <MESSAGE value="Feat: changing the name of the packages from settings" />
     <MESSAGE value="Feat: changing maven publish file" />
     <MESSAGE value="Feat: Updating the version of the different modules" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: Updating the version of the different modules" />
+    <MESSAGE value="Fix: solving problem with the pipeline of release" />
+    <MESSAGE value="Fix: solving problem with the pipeline of release with hibernate base" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: solving problem with the pipeline of release with hibernate base" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
