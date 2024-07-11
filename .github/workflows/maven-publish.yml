@@ -80,7 +80,7 @@ jobs:
           OSSRH_PASSWORD: ${{ secrets.OSSRH_TOKEN }}
 
       - name: Build and publish to Apache Maven Central hibernate
-        if: contains(github.event.release.tag_name, '-hefesto-base-hibernate') || contains(github.event.release.tag_name, '-all')
+        if: contains(github.event.release.tag_name, '-hefesto-shared-hibernate') || contains(github.event.release.tag_name, '-all')
         run: |
           gradle build
           export GPG_TTY=$(tty) && gradle -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg -Psigning.password=${GPG_KEY_PASSPHRASE} :hefesto-hibernate-base:publishLibraryPublicationToCentral_repository_ossrhRepository
