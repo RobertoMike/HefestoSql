@@ -7,7 +7,7 @@ plugins {
 var artifactId = 'hefesto-base'
 
 group = 'io.github.robertomike'
-version = '1.1.0'
+version = '1.1.1'
 
 repositories {
     mavenCentral()

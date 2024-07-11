@@ -4,7 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: changing maven publish file" />
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: changing maven publish file">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate/build.gradle" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/shared/build.gradle" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
