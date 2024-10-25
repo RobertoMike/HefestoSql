@@ -9,9 +9,8 @@ import io.github.robertomike.hefesto.constructors.ConstructWhere;
 import io.github.robertomike.hefesto.enums.Operator;
 import io.github.robertomike.hefesto.enums.WhereOperator;
 
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * This class is used to build a WHERE clause.
@@ -79,9 +78,9 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param whereList the list of BaseWhere objects to be added
      * @return the updated object of type R
      */
-    default R where(BaseWhere... whereList) {
+    default <T extends BaseWhere> R where(T... whereList) {
         getWheres().add(
-                new CollectionWhere(Stream.of(whereList).collect(Collectors.toList()))
+                new CollectionWhere(Arrays.asList(whereList))
         );
         return (R) this;
     }
@@ -93,9 +92,9 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param whereList a list of BaseWhere conditions to be added
      * @return the modified object of type R
      */
-    default R orWhere(BaseWhere... whereList) {
+    default <T extends BaseWhere> R orWhere(T... whereList) {
         getWheres().add(
-                new CollectionWhere(Stream.of(whereList).collect(Collectors.toList()), WhereOperator.OR)
+                new CollectionWhere(Arrays.asList(whereList), WhereOperator.OR)
         );
         return (R) this;
     }
@@ -166,7 +165,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param values the values to match against
      * @return the modified query object
      */
-    default R whereIn(String field, String... values) {
+    default <T> R whereIn(String field, T... values) {
         getWheres().add(new Where(field, Operator.IN, values));
         return (R) this;
     }
@@ -178,7 +177,11 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param values the values to match against
      * @return the modified query object
      */
-    default R whereIn(String field, Iterable<?> values) {
+    default <T> R whereIn(String field, Iterable<T> values) {
+        if (values.spliterator().getExactSizeIfKnown() == 0) {
+            return (R) this;
+        }
+
         getWheres().add(new Where(field, Operator.IN, values));
         return (R) this;
     }
@@ -190,7 +193,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the subQuery for the WHERE clause
      * @return the modified query object
      */
-    default R whereIn(String field, BaseBuilder subQuery) {
+    default <T extends BaseBuilder> R whereIn(String field, T subQuery) {
         getWheres().add(new Where(field, Operator.IN, subQuery));
         return (R) this;
     }
@@ -202,7 +205,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the subQuery for the WHERE clause
      * @return the modified query object
      */
-    default R whereNotIn(String field, BaseBuilder subQuery) {
+    default <T extends BaseBuilder> R whereNotIn(String field, T subQuery) {
         getWheres().add(new Where(field, Operator.NOT_IN, subQuery));
         return (R) this;
     }
@@ -214,7 +217,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param values the values to match against
      * @return the modified query object
      */
-    default R orWhereIn(String field, String... values) {
+    default <T> R orWhereIn(String field, T... values) {
         getWheres().add(new Where(field, Operator.IN, values, WhereOperator.OR));
         return (R) this;
     }
@@ -226,7 +229,11 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param values the values to match against
      * @return the modified query object
      */
-    default R orWhereIn(String field, Iterable<?> values) {
+    default <T> R orWhereIn(String field, Iterable<T> values) {
+        if (values.spliterator().getExactSizeIfKnown() == 0) {
+            return (R) this;
+        }
+
         getWheres().add(new Where(field, Operator.IN, values, WhereOperator.OR));
         return (R) this;
     }
@@ -238,7 +245,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the subQuery for the WHERE clause
      * @return the modified query object
      */
-    default R orWhereIn(String field, BaseBuilder subQuery) {
+    default <T extends BaseBuilder> R orWhereIn(String field, T subQuery) {
         getWheres().add(new Where(field, Operator.IN, subQuery, WhereOperator.OR));
         return (R) this;
     }
@@ -250,7 +257,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the subQuery for the WHERE clause
      * @return the modified query object
      */
-    default R orWhereNotIn(String field, BaseBuilder subQuery) {
+    default <T extends BaseBuilder> R orWhereNotIn(String field, T subQuery) {
         getWheres().add(new Where(field, Operator.NOT_IN, subQuery, WhereOperator.OR));
         return (R) this;
     }
@@ -262,7 +269,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param values the values to check against
      * @return the modified query object
      */
-    default R whereNotIn(String field, String... values) {
+    default <T> R whereNotIn(String field, T... values) {
         getWheres().add(new Where(field, Operator.NOT_IN, values));
         return (R) this;
     }
@@ -274,7 +281,11 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param values the values to check against
      * @return the modified query object
      */
-    default R whereNotIn(String field, Iterable<?> values) {
+    default <T> R whereNotIn(String field, Iterable<T> values) {
+        if (values.spliterator().getExactSizeIfKnown() == 0) {
+            return (R) this;
+        }
+
         getWheres().add(new Where(field, Operator.NOT_IN, values));
         return (R) this;
     }
@@ -286,7 +297,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param whereList the list of BaseWhere objects
      * @return the result of the function
      */
-    default R where(List<BaseWhere> whereList) {
+    default R where(List<? extends BaseWhere> whereList) {
         getWheres().add(new CollectionWhere(whereList));
         return (R) this;
     }
@@ -297,7 +308,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param where the BaseWhere object to be added
      * @return the modified object
      */
-    default R where(BaseWhere where) {
+    default <T extends BaseWhere> R where(T where) {
         getWheres().add(where);
         return (R) this;
     }
@@ -308,7 +319,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the sub-query to be added as a condition
      * @return the current builder instance
      */
-    default R whereExists(BaseBuilder subQuery) {
+    default <T extends BaseBuilder> R whereExists(T subQuery) {
         getWheres().add(new WhereExist(subQuery));
         return (R) this;
     }
@@ -319,7 +330,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the sub-query to check for non-existence
      * @return the updated query builder
      */
-    default R whereNotExists(BaseBuilder subQuery) {
+    default <T extends BaseBuilder> R whereNotExists(T subQuery) {
         getWheres().add(new WhereExist(false, subQuery));
         return (R) this;
     }
@@ -330,7 +341,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the sub-query to be added as a condition
      * @return the current builder instance
      */
-    default R orWhereExists(BaseBuilder subQuery) {
+    default <T extends BaseBuilder> R orWhereExists(T subQuery) {
         getWheres().add(new WhereExist(subQuery, WhereOperator.OR));
         return (R) this;
     }
@@ -341,7 +352,7 @@ public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
      * @param subQuery the sub-query to check for non-existence
      * @return the updated query builder
      */
-    default R orWhereNotExists(BaseBuilder subQuery) {
+    default <T extends BaseBuilder> R orWhereNotExists(T subQuery) {
         getWheres().add(new WhereExist(false, subQuery, WhereOperator.OR));
         return (R) this;
     }

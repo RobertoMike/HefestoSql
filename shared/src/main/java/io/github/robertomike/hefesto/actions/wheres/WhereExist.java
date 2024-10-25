@@ -2,14 +2,13 @@ package io.github.robertomike.hefesto.actions.wheres;
 
 import io.github.robertomike.hefesto.builders.BaseBuilder;
 import io.github.robertomike.hefesto.enums.WhereOperator;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
 @AllArgsConstructor
+@ToString
+@EqualsAndHashCode(callSuper = true)
 @RequiredArgsConstructor
 public class WhereExist extends BaseWhere {
     private boolean exists = true;

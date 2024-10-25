@@ -1,13 +1,12 @@
 package io.github.robertomike.hefesto.actions;
 
 import io.github.robertomike.hefesto.enums.SelectOperator;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Select {
