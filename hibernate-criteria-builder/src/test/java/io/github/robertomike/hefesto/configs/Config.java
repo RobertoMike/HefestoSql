@@ -4,8 +4,8 @@ import io.github.robertomike.hefesto.hefesto.models.Address;
 import io.github.robertomike.hefesto.hefesto.models.Pet;
 import io.github.robertomike.hefesto.hefesto.models.User;
 import io.github.robertomike.hefesto.hefesto.models.UserPet;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import java.io.FileReader;
 import java.io.IOException;

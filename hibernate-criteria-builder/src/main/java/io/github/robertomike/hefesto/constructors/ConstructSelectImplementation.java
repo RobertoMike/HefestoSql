@@ -5,7 +5,7 @@ import io.github.robertomike.hefesto.enums.SelectOperator;
 import io.github.robertomike.hefesto.exceptions.QueryException;
 import io.github.robertomike.hefesto.utils.HibernateUtils;
 import io.github.robertomike.hefesto.models.BaseModel;
-import jakarta.persistence.criteria.*;
+import javax.persistence.criteria.*;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -2,9 +2,9 @@ package io.github.robertomike.hefesto.constructors;
 
 import lombok.Getter;
 
-import jakarta.persistence.criteria.CriteriaQuery;
-import jakarta.persistence.criteria.Expression;
-import jakarta.persistence.criteria.Root;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Expression;
+import javax.persistence.criteria.Root;
 
 @Getter
 public class ConstructGroupByImplementation extends ConstructGroupBy {

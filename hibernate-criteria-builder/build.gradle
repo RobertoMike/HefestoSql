@@ -28,6 +28,8 @@ tasks.withType(JavaCompile).configureEach {
 dependencies {
     implementation 'org.hibernate:hibernate-core:5.2.0.Final'
     api 'org.hibernate:hibernate-core:5.2.0.Final'
+    implementation('javax.xml.bind:jaxb-api:2.3.0')
+    api('javax.xml.bind:jaxb-api:2.3.0')
 
     implementation project(path: ':hefesto-hibernate-base')
     api project(path: ':hefesto-hibernate-base')

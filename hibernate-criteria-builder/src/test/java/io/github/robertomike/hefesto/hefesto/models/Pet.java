@@ -1,7 +1,7 @@
 package io.github.robertomike.hefesto.hefesto.models;
 
 import io.github.robertomike.hefesto.models.HibernateModel;
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.*;
 
 import java.util.Set;

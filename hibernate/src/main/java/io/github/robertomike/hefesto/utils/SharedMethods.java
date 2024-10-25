@@ -11,7 +11,7 @@ import io.github.robertomike.hefesto.enums.JoinOperator;
 import io.github.robertomike.hefesto.enums.Operator;
 import io.github.robertomike.hefesto.models.BaseModel;
 
-import jakarta.persistence.criteria.JoinType;
+import javax.persistence.criteria.JoinType;
 
 /**
  * This class is used to build a WHERE clause.

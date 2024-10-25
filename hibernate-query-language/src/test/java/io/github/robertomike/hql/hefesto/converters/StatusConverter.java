@@ -2,7 +2,7 @@ package io.github.robertomike.hql.hefesto.converters;
 
 
 import io.github.robertomike.hql.enums.Status;
-import jakarta.persistence.AttributeConverter;
+import javax.persistence.AttributeConverter;
 
 import java.util.Set;
 import java.util.stream.Collectors;

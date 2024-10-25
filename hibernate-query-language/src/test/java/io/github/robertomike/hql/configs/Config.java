@@ -4,8 +4,8 @@ import io.github.robertomike.hql.hefesto.models.Address;
 import io.github.robertomike.hql.hefesto.models.Pet;
 import io.github.robertomike.hql.hefesto.models.User;
 import io.github.robertomike.hql.hefesto.models.UserPet;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.Query;
+import javax.persistence.EntityManager;
+import javax.persistence.Query;
 
 import java.io.FileReader;
 import java.io.IOException;
@@ -20,7 +20,18 @@ import org.hibernate.cfg.Configuration;
 
 public class Config {
     public SessionFactory sessionFactory() {
-        var config = new Configuration();
+        var prop = new Properties();
+
+        try {
+            var properties = getClass().getResource("/database.properties");
+            var directory = Objects.requireNonNull(properties).getPath();
+            var fileReader = new FileReader(directory);
+            prop.load(fileReader);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        var config = new Configuration().addProperties(prop);
 
         return config.addAnnotatedClass(User.class)
                 .addAnnotatedClass(Address.class)

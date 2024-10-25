@@ -1,8 +1,8 @@
 package io.github.robertomike.hefesto.constructors;
 
-import jakarta.persistence.criteria.Join;
-import jakarta.persistence.criteria.JoinType;
-import jakarta.persistence.criteria.Root;
+import javax.persistence.criteria.Join;
+import javax.persistence.criteria.JoinType;
+import javax.persistence.criteria.Root;
 import lombok.Getter;
 
 import java.util.HashMap;

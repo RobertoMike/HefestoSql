@@ -1,7 +1,7 @@
 package io.github.robertomike.hefesto.actions.wheres;
 
 import io.github.robertomike.hefesto.enums.WhereOperator;
-import jakarta.persistence.criteria.*;
+import javax.persistence.criteria.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

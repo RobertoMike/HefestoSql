@@ -1,12 +1,12 @@
 package io.github.robertomike.hefesto.utils;
 
 import io.github.robertomike.hefesto.exceptions.HefestoException;
-import org.hibernate.query.TupleTransformer;
+import org.hibernate.transform.BasicTransformerAdapter;
 
 import java.lang.reflect.Constructor;
 import java.util.Arrays;
 
-public class FluentHibernateResultTransformer<T> implements TupleTransformer<T> {
+public class FluentHibernateResultTransformer extends BasicTransformerAdapter {
     private final Class<?> resultClass;
     private NestedSetter[] setters;
     private Constructor<?>[] constructors;
@@ -16,15 +16,15 @@ public class FluentHibernateResultTransformer<T> implements TupleTransformer<T> 
     }
 
     @Override
-    public T transformTuple(Object[] tuple, String[] aliases) {
+    public Object transformTuple(Object[] tuple, String[] aliases) {
         if (tuple.length > 0 && tuple[0] != null && tuple[0].getClass().equals(resultClass)) {
-            return (T) tuple[0];
+            return tuple[0];
         }
 
         createCachedConstructors(resultClass, tuple.length);
 
         if (validConstructorForTuple(constructors, tuple)) {
-            return (T) createObject(constructors, tuple);
+            return createObject(constructors, tuple);
         }
 
         aliases = Arrays.stream(aliases)
@@ -39,7 +39,7 @@ public class FluentHibernateResultTransformer<T> implements TupleTransformer<T> 
             setters[i].set(result, tuple[i]);
         }
 
-        return (T) result;
+        return result;
     }
 
     private Object createObject(Constructor<?>[] constructors, Object[] tuple) {

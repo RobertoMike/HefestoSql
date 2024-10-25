@@ -2,7 +2,7 @@ package io.github.robertomike.hefesto.models;
 
 import lombok.*;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 @Getter
 @Setter

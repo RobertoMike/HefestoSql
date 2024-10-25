@@ -3,7 +3,7 @@ package io.github.robertomike.hql;
 import io.github.robertomike.hefesto.builders.BaseBuilder;
 import io.github.robertomike.hefesto.configs.HefestoAutoconfiguration;
 import io.github.robertomike.hql.configs.Config;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 

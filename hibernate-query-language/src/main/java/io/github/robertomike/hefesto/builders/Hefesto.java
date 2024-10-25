@@ -110,7 +110,7 @@ public class Hefesto<T extends BaseModel>
     @Override
     public Optional<T> findFirst() {
         this.limit = 1;
-        return Optional.ofNullable(this.<T>createQuery().getSingleResultOrNull());
+        return Optional.ofNullable(this.<T>createQuery().getSingleResult());
     }
 
     /**
@@ -149,7 +149,7 @@ public class Hefesto<T extends BaseModel>
         if (isBasicClass(model)) {
             return query;
         }
-        return query.setTupleTransformer(new FluentHibernateResultTransformer<>(model));
+        return query.setResultTransformer(new FluentHibernateResultTransformer(model));
     }
 
     private boolean isBasicClass(Class<?> clazz) {
@@ -163,7 +163,7 @@ public class Hefesto<T extends BaseModel>
         if (isBasicClass(result)) {
             return query;
         }
-        return query.setTupleTransformer(new FluentHibernateResultTransformer<>(result));
+        return query.setResultTransformer(new FluentHibernateResultTransformer(result));
     }
 
     /**

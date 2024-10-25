@@ -3,7 +3,7 @@ package io.github.robertomike.hefesto;
 import io.github.robertomike.hefesto.builders.BaseBuilder;
 import io.github.robertomike.hefesto.configs.HefestoAutoconfiguration;
 import io.github.robertomike.hefesto.configs.Config;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.extension.BeforeAllCallback;
 import org.junit.jupiter.api.extension.ExtensionContext;
 
@@ -35,16 +35,16 @@ public class BaseTest implements BeforeAllCallback, ExtensionContext.Store.Close
                 started = true;
 
 
-                if (session != null) {
-                    BaseBuilder.setSession(session);
-                    return;
-                }
-
                 Config config = new Config();
                 sessionFactory = config.sessionFactory();
                 session = config.session(sessionFactory);
                 entityManager = sessionFactory.createEntityManager();
                 config.basicData(entityManager);
+
+                if (session != null) {
+                    BaseBuilder.setSession(session);
+                    return;
+                }
 
                 new HefestoAutoconfiguration(entityManager);
             }

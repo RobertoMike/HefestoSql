@@ -1,7 +1,7 @@
 package io.github.robertomike.hefesto.configs;
 
 import io.github.robertomike.hefesto.builders.BaseBuilder;
-import jakarta.persistence.EntityManager;
+import javax.persistence.EntityManager;
 import org.hibernate.Session;
 
 public class HefestoAutoconfiguration {

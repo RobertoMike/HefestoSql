@@ -104,7 +104,7 @@ public class Example {
 <td>
 
 ```java
-import jakarta.persistence.criteria.JoinType;
+import javax.persistence.criteria.JoinType;
 
 public class Example {
     public void example(Session session) {

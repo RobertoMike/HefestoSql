@@ -3,7 +3,7 @@ package io.github.robertomike.hql.hefesto.models;
 import io.github.robertomike.hefesto.models.HibernateModel;
 import io.github.robertomike.hql.hefesto.converters.StatusConverter;
 import io.github.robertomike.hql.enums.Status;
-import jakarta.persistence.*;
+import javax.persistence.*;
 
 import lombok.*;
 

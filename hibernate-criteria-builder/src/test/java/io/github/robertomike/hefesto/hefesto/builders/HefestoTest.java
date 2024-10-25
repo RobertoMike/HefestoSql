@@ -9,7 +9,7 @@ import io.github.robertomike.hefesto.hefesto.models.UserPet;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 
-import jakarta.persistence.criteria.JoinType;
+import javax.persistence.criteria.JoinType;
 
 import static org.junit.jupiter.api.Assertions.*;
 
