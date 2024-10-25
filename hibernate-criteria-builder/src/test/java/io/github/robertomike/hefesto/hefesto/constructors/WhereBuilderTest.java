@@ -21,6 +21,7 @@ import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.persistence.criteria.CriteriaQuery;
 import jakarta.persistence.criteria.Join;
 import jakarta.persistence.criteria.Root;
+import java.util.Arrays;
 import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -70,6 +71,26 @@ public class WhereBuilderTest {
     void notIn() {
         var result = Hefesto.make(User.class)
                 .whereNotIn("name", new String[]{"test", "petto"})
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().noneMatch(u -> u.getName().equals("test")));
+    }
+
+    @Test
+    void inIterable() {
+        var result = Hefesto.make(User.class)
+                .whereIn("name", Arrays.asList("test", "petto"))
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void notInIterable() {
+        var result = Hefesto.make(User.class)
+                .whereNotIn("name", Arrays.asList("test", "petto"))
                 .get();
 
         assertFalse(result.isEmpty());
@@ -296,7 +317,8 @@ public class WhereBuilderTest {
     @Test
     void passingUnsupportedWhere() {
         var query = Hefesto.make(User.class)
-                .where(new BaseWhere() {});
+                .where(new BaseWhere() {
+                });
 
         assertThrows(
                 QueryException.class,

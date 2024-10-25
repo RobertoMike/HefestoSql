@@ -2,15 +2,14 @@ package io.github.robertomike.hefesto.actions;
 
 
 import io.github.robertomike.hefesto.enums.JoinOperator;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Locale;
 
 @Getter
 @Setter
+@EqualsAndHashCode
+@ToString
 @AllArgsConstructor
 @RequiredArgsConstructor
 public class Join {

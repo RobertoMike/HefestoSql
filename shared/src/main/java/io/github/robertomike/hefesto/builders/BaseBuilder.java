@@ -403,7 +403,7 @@ public abstract class BaseBuilder<
     }
 
     /**
-     * Generates a function comment for the given function body.
+     * Find the first Model object that matches the given field and value.
      *
      * @param value the value to search for in the "id" field
      * @return an optional containing the first model found, or an empty optional if no model is found
@@ -411,5 +411,39 @@ public abstract class BaseBuilder<
     public Optional<Model> findFirstById(Object value) {
         where("id", value);
         return findFirst();
+    }
+
+    /**
+     * Find if exist results for the current query
+     *
+     * @return true if exists
+     */
+    public boolean exist() {
+        return countResults() > 0;
+    }
+
+    /**
+     * Find if exist results for the current query
+     *
+     * @param field the field to search for
+     * @param operator the operator to use for comparison
+     * @param value the value to search for
+     * @return true if exists
+     */
+    public boolean existBy(String field, Operator operator, Object value) {
+        where(field, operator, value);
+        return exist();
+    }
+
+    /**
+     * Find if exist results for the current query
+     *
+     * @param field the field to search for
+     * @param value the value to search for
+     * @return true if exists
+     */
+    public boolean existBy(String field, Object value) {
+        where(field, value);
+        return exist();
     }
 }

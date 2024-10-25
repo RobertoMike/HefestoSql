@@ -17,6 +17,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.EnumSource;
 
+import java.util.Arrays;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @ExtendWith(BaseTest.class)
@@ -64,6 +66,26 @@ public class WhereBuilderTest {
     void notIn() {
         var result = Hefesto.make(User.class)
                 .whereNotIn("name", "test", "petto")
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().noneMatch(u -> u.getName().equals("test")));
+    }
+
+    @Test
+    void inIterable() {
+        var result = Hefesto.make(User.class)
+                .whereIn("name", Arrays.asList("test", "petto"))
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertEquals(2, result.size());
+    }
+
+    @Test
+    void notInIterable() {
+        var result = Hefesto.make(User.class)
+                .whereNotIn("name", Arrays.asList("test", "petto"))
                 .get();
 
         assertFalse(result.isEmpty());
