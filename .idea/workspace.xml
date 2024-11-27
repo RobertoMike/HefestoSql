@@ -4,8 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: merging with master and resolving problems of versions and other things">
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: updating versions">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/actions/wheres/BaseWhere.java" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/java/io/github/robertomike/hefesto/actions/wheres/BaseWhere.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,6 +33,9 @@
         <task path="$PROJECT_DIR$/hibernate-criteria-builder">
           <activation />
         </task>
+        <task path="$PROJECT_DIR$/shared">
+          <activation />
+        </task>
         <projects_view>
           <tree_state>
             <expand>
@@ -42,11 +46,18 @@
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="HefestoSql" type="f1a62948:ProjectNode" />
+                <item name="hefesto-base" type="2d1252cf:ModuleNode" />
+              </path>
+              <path>
+                <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
+                <item name="HefestoSql" type="f1a62948:ProjectNode" />
+                <item name="hefesto-base" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
               </path>
               <path>
                 <item name="" type="6a2764b6:ExternalProjectsStructure$RootNode" />
                 <item name="HefestoSql" type="f1a62948:ProjectNode" />
+                <item name="hefesto-base" type="2d1252cf:ModuleNode" />
                 <item name="Tasks" type="e4a08cd1:TasksNode" />
                 <item name="publishing" type="c8890929:TasksNode$1" />
               </path>
@@ -68,7 +79,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master" />
+        <entry key="$PROJECT_DIR$" value="hibernate-5" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -95,40 +106,41 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;Gradle.All test.executor&quot;: &quot;Coverage&quot;,
-    &quot;Gradle.ComplexWheresTest.findInSetInsideCollection.executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition.executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.ComplexWheresTest.findInSetWithAnd.executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.ComplexWheresTest.findInSetWithOr.executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.GroupByBuilderTest.groupBy.executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.HefestoSql [hibernate-criteria-builder:publishLibraryPublicationToMavenLocal].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.HefestoSql [publishLibraryPublicationToMavenLocal].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.HefestoSql [publishToMavenLocal].executor&quot;: &quot;Run&quot;,
-    &quot;Gradle.HefestoTest.findFirstBy.executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.WhereBuilderTest.notLike.executor&quot;: &quot;Debug&quot;,
-    &quot;Gradle.test hibernate-query-language.executor&quot;: &quot;Coverage&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;hibernate-5&quot;,
-    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/Work/personal/HefestoSql/hibernate/src/main/java/io/github/robertomike/hefesto/utils&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;com.codeium.AppSettingsConfigurable&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Gradle.All test.executor": "Run",
+    "Gradle.ComplexWheresTest.findInSetInsideCollection.executor": "Debug",
+    "Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition.executor": "Debug",
+    "Gradle.ComplexWheresTest.findInSetWithAnd.executor": "Debug",
+    "Gradle.ComplexWheresTest.findInSetWithOr.executor": "Run",
+    "Gradle.GroupByBuilderTest.groupBy.executor": "Debug",
+    "Gradle.HefestoSql [hibernate-criteria-builder:publishLibraryPublicationToMavenLocal].executor": "Run",
+    "Gradle.HefestoSql [publishLibraryPublicationToMavenLocal].executor": "Run",
+    "Gradle.HefestoSql [publishToMavenLocal].executor": "Run",
+    "Gradle.HefestoTest.findFirstBy.executor": "Debug",
+    "Gradle.WhereBuilderTest.notLike.executor": "Debug",
+    "Gradle.test hibernate-query-language.executor": "Coverage",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "com.codeium.enabled": "true",
+    "git-widget-placeholder": "master",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Work/personal/HefestoSql/hibernate/src/main/java/io/github/robertomike/hefesto/utils",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0",
+    "run.code.analysis.last.selected.profile": "pProject Default",
+    "settings.editor.selected.configurable": "com.codeium.AppSettingsConfigurable",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Work\personal\HefestoSql\hibernate\src\main\java\io\github\robertomike\hefesto\utils" />
@@ -152,7 +164,7 @@
       <command value="gradle publishToMavenLocal -Plocal" />
     </option>
   </component>
-  <component name="RunManager" selected="Gradle.HefestoSql [publishLibraryPublicationToMavenLocal]">
+  <component name="RunManager" selected="Gradle.HefestoSql:shared [publishLibraryPublicationToCentral_repository_ossrhRepository]">
     <configuration default="true" type="AZURE_FUNCTION_SUPPORT" factoryName="Run Functions">
       <option name="appName" />
       <option name="appServicePlanName" />
@@ -235,7 +247,7 @@
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="-Plocal" />
+        <option name="scriptParameters" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -264,6 +276,28 @@
         <option name="taskNames">
           <list>
             <option value="publishToMavenLocal" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="HefestoSql:shared [publishLibraryPublicationToCentral_repository_ossrhRepository]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$/shared" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="publishLibraryPublicationToCentral_repository_ossrhRepository" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -312,6 +346,7 @@
     <list>
       <item itemvalue="Gradle.All test" />
       <item itemvalue="Gradle.test hibernate-query-language" />
+      <item itemvalue="Gradle.HefestoSql:shared [publishLibraryPublicationToCentral_repository_ossrhRepository]" />
       <item itemvalue="Gradle.HefestoSql [hibernate-criteria-builder:publishLibraryPublicationToMavenLocal]" />
       <item itemvalue="Gradle.HefestoSql [publishLibraryPublicationToMavenLocal]" />
       <item itemvalue="Gradle.HefestoSql [publishToMavenLocal]" />
@@ -320,6 +355,8 @@
       <list>
         <item itemvalue="Gradle.HefestoSql [publishToMavenLocal]" />
         <item itemvalue="Gradle.HefestoSql [publishLibraryPublicationToMavenLocal]" />
+        <item itemvalue="Gradle.HefestoSql [hibernate-criteria-builder:publishLibraryPublicationToMavenLocal]" />
+        <item itemvalue="Gradle.HefestoSql:shared [publishLibraryPublicationToCentral_repository_ossrhRepository]" />
         <item itemvalue="Gradle.HefestoSql [hibernate-criteria-builder:publishLibraryPublicationToMavenLocal]" />
       </list>
     </recent_temporary>
@@ -372,13 +409,8 @@
       <workItem from="1719428286352" duration="2607000" />
       <workItem from="1719947466421" duration="312000" />
       <workItem from="1720099098522" duration="6460000" />
-      <workItem from="1729874121013" duration="599000" />
-      <workItem from="1729877800996" duration="597000" />
-      <workItem from="1729888190157" duration="579000" />
-      <workItem from="1729951440922" duration="595000" />
-      <workItem from="1729973951472" duration="1471000" />
-      <workItem from="1730032367382" duration="100000" />
-      <workItem from="1730110009457" duration="96000" />
+      <workItem from="1731493347826" duration="33000" />
+      <workItem from="1731527145372" duration="1954000" />
     </task>
     <task id="LOCAL-00001" summary="Feat: implementing a module for hibernate 5 and change workflow to release every module independently">
       <option name="closed" value="true" />
@@ -548,31 +580,7 @@
       <option name="project" value="LOCAL" />
       <updated>1720727787348</updated>
     </task>
-    <task id="LOCAL-00022" summary="Feat: merging with master and resolving problems of versions and other things">
-      <option name="closed" value="true" />
-      <created>1729867622857</created>
-      <option name="number" value="00022" />
-      <option name="presentableId" value="LOCAL-00022" />
-      <option name="project" value="LOCAL" />
-      <updated>1729867622857</updated>
-    </task>
-    <task id="LOCAL-00023" summary="Feat: merging with master and resolving problems of versions and other things">
-      <option name="closed" value="true" />
-      <created>1729867628469</created>
-      <option name="number" value="00023" />
-      <option name="presentableId" value="LOCAL-00023" />
-      <option name="project" value="LOCAL" />
-      <updated>1729867628469</updated>
-    </task>
-    <task id="LOCAL-00024" summary="Feat: merging with master and resolving problems of versions and other things">
-      <option name="closed" value="true" />
-      <created>1729869128377</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1729869128377</updated>
-    </task>
-    <option name="localTasksCounter" value="25" />
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -590,38 +598,8 @@
     </option>
   </component>
   <component name="Vcs.Log.Tabs.Properties">
-    <option name="OPEN_GENERIC_TABS">
-      <map>
-        <entry key="3a7e2adb-3d17-480e-97d9-b41123d3d401" value="TOOL_WINDOW" />
-      </map>
-    </option>
     <option name="TAB_STATES">
       <map>
-        <entry key="3a7e2adb-3d17-480e-97d9-b41123d3d401">
-          <value>
-            <State>
-              <option name="FILTERS">
-                <map>
-                  <entry key="branch">
-                    <value>
-                      <list>
-                        <option value="HEAD" />
-                      </list>
-                    </value>
-                  </entry>
-                  <entry key="structure">
-                    <value>
-                      <list>
-                        <option value="dir:C:/Work/personal/HefestoSql/hibernate-query-language/src/test/resources" />
-                      </list>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-              <option name="SHOW_ONLY_AFFECTED_CHANGES" value="true" />
-            </State>
-          </value>
-        </entry>
         <entry key="MAIN">
           <value>
             <State>
@@ -664,25 +642,10 @@
     <MESSAGE value="Feat: Updating the version of the different modules" />
     <MESSAGE value="Fix: solving problem with the pipeline of release" />
     <MESSAGE value="Fix: solving problem with the pipeline of release with hibernate base" />
-    <MESSAGE value="Feat: merging with master and resolving problems of versions and other things" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: merging with master and resolving problems of versions and other things" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: solving problem with the pipeline of release with hibernate base" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/BaseTest.java</url>
-          <line>51</line>
-          <option name="timeStamp" value="1" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/configs/Config.java</url>
-          <line>32</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
     <pin-to-top-manager>
       <pinned-members>
         <PinnedItemInfo parentTag="org.hibernate.query.criteria.internal.predicate.CompoundPredicate" memberName="expressions" />
@@ -694,7 +657,7 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1729869984959" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1731092349919" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/HefestoSql$test_hibernate_query_language.ic" NAME="test hibernate-query-language Coverage Results" MODIFIED="1716278027755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/HefestoSql$HefestoTest_findFirstBy.ic" NAME="HefestoTest.findFirstBy Coverage Results" MODIFIED="1715418112916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/HefestoSql$GroupByBuilderTest_groupBy.ic" NAME="GroupByBuilderTest.groupBy Coverage Results" MODIFIED="1716152058601" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
