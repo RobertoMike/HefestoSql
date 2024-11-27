@@ -19,7 +19,6 @@ import java.util.List;
  */
 @SuppressWarnings("unchecked")
 public interface ConditionalBuilder<R extends ConditionalBuilder<R>> {
-
     /**
      * Returns the 'Constructor of Where' object.
      *
