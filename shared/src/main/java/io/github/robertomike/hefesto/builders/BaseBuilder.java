@@ -2,17 +2,16 @@ package io.github.robertomike.hefesto.builders;
 
 import io.github.robertomike.hefesto.actions.GroupBy;
 import io.github.robertomike.hefesto.actions.Join;
-import io.github.robertomike.hefesto.actions.Order;
 import io.github.robertomike.hefesto.actions.Select;
 import io.github.robertomike.hefesto.constructors.*;
 import io.github.robertomike.hefesto.enums.JoinOperator;
 import io.github.robertomike.hefesto.enums.Operator;
 import io.github.robertomike.hefesto.enums.SelectOperator;
-import io.github.robertomike.hefesto.enums.Sort;
 import io.github.robertomike.hefesto.exceptions.QueryException;
 import io.github.robertomike.hefesto.models.BaseModel;
 import io.github.robertomike.hefesto.utils.ConditionalBuilder;
 import io.github.robertomike.hefesto.utils.Page;
+import io.github.robertomike.hefesto.utils.SortBuilder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -45,7 +44,7 @@ public abstract class BaseBuilder<
         GROUP extends ConstructGroupBy,
         BUILDER extends BaseBuilder<Model, SESSION, WHERE, JOIN, ORDER, SELECT, GROUP, BUILDER>
         >
-        implements ConditionalBuilder<BUILDER> {
+        implements ConditionalBuilder<BUILDER>, SortBuilder<BUILDER> {
     /**
      * This contains the table name
      */
@@ -255,42 +254,6 @@ public abstract class BaseBuilder<
      */
     public BUILDER join(String table, String joinField, JoinOperator operator) {
         joins.add(Join.make(table, joinField, operator));
-        return (BUILDER) this;
-    }
-
-    /**
-     * Adds an order to the list of orders for sorting.
-     *
-     * @param field the field to sort on
-     * @param sort  the sort order
-     * @return the updated builder object
-     */
-    public BUILDER orderBy(String field, Sort sort) {
-        orders.add(new Order(field, sort));
-        return (BUILDER) this;
-    }
-
-    /**
-     * This allows you to order by multiple fields
-     *
-     * @param fields the fields to order by
-     * @return same instance
-     */
-    public BUILDER orderBy(String... fields) {
-        for (String field : fields) {
-            orders.add(new Order(field));
-        }
-        return (BUILDER) this;
-    }
-
-    /**
-     * This allows you to order by multiple fields
-     *
-     * @param orders the fields to order by
-     * @return same instance
-     */
-    public BUILDER orderBy(Order... orders) {
-        this.orders.addAll(orders);
         return (BUILDER) this;
     }
 

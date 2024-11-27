@@ -1,12 +1,28 @@
 package io.github.robertomike.hefesto.models;
 
+import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+
+import java.util.Locale;
 
 public interface HibernateModel extends BaseModel {
     default String getTable() {
         return getClass().getSimpleName();
     }
+
     default String getOriginalTable() {
-        return getClass().getAnnotation(Table.class).name();
+        Table table = getClass().getAnnotation(Table.class);
+
+        if (table != null) {
+            return table.name();
+        }
+
+        Entity entity = getClass().getAnnotation(Entity.class);
+
+        if (entity != null && !entity.name().isEmpty()) {
+            return entity.name();
+        }
+
+        return getTable().toLowerCase(Locale.ROOT);
     }
 }
