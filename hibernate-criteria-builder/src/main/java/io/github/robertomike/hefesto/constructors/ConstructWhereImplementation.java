@@ -80,7 +80,6 @@ public class ConstructWhereImplementation extends ConstructWhere {
     }
 
     private Predicate constructWhereField(WhereField where) {
-        Predicate predicate;
         From<?, ?> from = root;
         From<?, ?> parentFrom = parentRoot == null ? root : parentRoot;
         String parentField = where.getParentField();
@@ -98,23 +97,21 @@ public class ConstructWhereImplementation extends ConstructWhere {
             parentField = split[1];
         }
 
-        switch (where.getOperator()) {
-            case LIKE -> predicate = cb.like(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
-            case NOT_LIKE -> predicate = cb.notLike(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
+        return switch (where.getOperator()) {
+            case LIKE -> cb.like(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
+            case NOT_LIKE -> cb.notLike(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
 
-            case EQUAL -> predicate = cb.equal(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
-            case DIFF -> predicate = cb.notEqual(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
+            case EQUAL -> cb.equal(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
+            case DIFF -> cb.notEqual(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
 
-            case GREATER -> predicate = cb.gt(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
-            case LESS -> predicate = cb.lt(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
+            case GREATER -> cb.gt(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
+            case LESS -> cb.lt(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
             case GREATER_OR_EQUAL ->
-                    predicate = cb.ge(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
-            case LESS_OR_EQUAL -> predicate = cb.le(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
+                    cb.ge(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
+            case LESS_OR_EQUAL -> cb.le(getFieldFrom(from, field), getFieldFrom(parentFrom, parentField));
 
             default -> throw new UnsupportedOperationException("Unsupported operator: " + where.getOperator());
-        }
-
-        return predicate;
+        };
     }
 
     private Predicate applyWhereExist(WhereExist whereExist) {
@@ -134,7 +131,6 @@ public class ConstructWhereImplementation extends ConstructWhere {
     }
 
     private Predicate constructWhere(Where where) {
-        Predicate predicate;
         From<?, ?> from = root;
         String field = where.getField();
 
@@ -144,52 +140,50 @@ public class ConstructWhereImplementation extends ConstructWhere {
             field = split[1];
         }
 
-        switch (where.getOperator()) {
-            case LIKE -> predicate = cb.like(getFieldFrom(from, field), where.getValue().toString());
-            case NOT_LIKE -> predicate = cb.notLike(getFieldFrom(from, field), where.getValue().toString());
+        return switch (where.getOperator()) {
+            case LIKE -> cb.like(getFieldFrom(from, field), where.getValue().toString());
+            case NOT_LIKE -> cb.notLike(getFieldFrom(from, field), where.getValue().toString());
 
-            case EQUAL -> predicate = cb.equal(getFieldFrom(from, field), where.getValue());
-            case DIFF -> predicate = cb.notEqual(getFieldFrom(from, field), where.getValue());
+            case EQUAL -> cb.equal(getFieldFrom(from, field), where.getValue());
+            case DIFF -> cb.notEqual(getFieldFrom(from, field), where.getValue());
 
             case GREATER -> {
                 Path<Number> path = getFieldFrom(from, field);
                 var value = getTransformedValue(where.getValue(), path);
-                predicate = cb.gt(path, value);
+                yield cb.gt(path, value);
             }
             case LESS -> {
                 Path<Number> path = getFieldFrom(from, field);
                 var value = getTransformedValue(where.getValue(), path);
-                predicate = cb.lt(path, value);
+                yield cb.lt(path, value);
             }
             case GREATER_OR_EQUAL -> {
                 Path<Number> path = getFieldFrom(from, field);
                 var value = getTransformedValue(where.getValue(), path);
-                predicate = cb.ge(path, value);
+                yield cb.ge(path, value);
             }
             case LESS_OR_EQUAL -> {
                 Path<Number> path = getFieldFrom(from, field);
                 var value = getTransformedValue(where.getValue(), path);
-                predicate = cb.le(path, value);
+                yield cb.le(path, value);
             }
 
-            case IS_NULL -> predicate = cb.isNull(getFieldFrom(from, field));
-            case IS_NOT_NULL -> predicate = cb.isNotNull(getFieldFrom(from, field));
+            case IS_NULL -> cb.isNull(getFieldFrom(from, field));
+            case IS_NOT_NULL -> cb.isNotNull(getFieldFrom(from, field));
 
-            case IN -> predicate = applyWhereIn(where, from, field);
-            case NOT_IN -> predicate = cb.not(applyWhereIn(where, from, field));
+            case IN -> applyWhereIn(where, from, field);
+            case NOT_IN -> cb.not(applyWhereIn(where, from, field));
 
-            case FIND_IN_SET -> predicate = cb.greaterThan(
+            case FIND_IN_SET -> cb.greaterThan(
                     getPredicateForFindInSet(where, getFieldFrom(from, field)),
                     cb.literal(0)
             );
-            case NOT_FIND_IN_SET -> predicate = cb.equal(
+            case NOT_FIND_IN_SET -> cb.equal(
                     getPredicateForFindInSet(where, getFieldFrom(from, field)),
                     cb.literal(0)
             );
-            default -> throw new UnsupportedOperationException("Unsupported operator: " + where.getOperator());
-        }
-
-        return predicate;
+            // default -> throw new UnsupportedOperationException("Unsupported operator: " + where.getOperator());
+        };
     }
 
     private Expression<Integer> getPredicateForFindInSet(Where where, Path<Object> path) {
