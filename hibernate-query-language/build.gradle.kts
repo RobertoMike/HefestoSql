@@ -101,7 +101,7 @@ mavenPublishing {
         
         scm {
             connection.set("scm:git:git://github.com/RobertoMike/HefestoSql.git")
-            developerConnection.set("scm:git:ssh://git@github.com:RobertoMike/HefestoSql.git")
+            developerConnection.set("scm:git:ssh://git@github.com/RobertoMike/HefestoSql.git")
             url.set("https://github.com/RobertoMike/HefestoSql")
         }
     }
