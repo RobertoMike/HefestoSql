@@ -100,6 +100,35 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
     }
 
     /**
+     * Creates a deep join using dot notation path.
+     * Example: "user.brands.settings" creates nested joins: root -> user -> brands -> settings
+     *
+     * @param path dot-separated relationship path
+     * @param operator the join operator to use for all joins in the path
+     * @return the updated Hefesto object
+     */
+    @JvmOverloads
+    fun joinDeep(path: String, operator: JoinOperator = JoinOperator.INNER): Hefesto<T> {
+        joins.add(Join.makeDeep(path, operator))
+        return this
+    }
+
+    /**
+     * Creates a deep join using dot notation path with an alias for the final join.
+     * Example: "user.brands.settings" with alias "userSettings"
+     *
+     * @param path dot-separated relationship path
+     * @param alias the alias for the final join in the path
+     * @param operator the join operator to use for all joins in the path
+     * @return the updated Hefesto object
+     */
+    @JvmOverloads
+    fun joinDeep(path: String, alias: String, operator: JoinOperator = JoinOperator.INNER): Hefesto<T> {
+        joins.add(Join.makeDeep(path, alias, operator))
+        return this
+    }
+
+    /**
      * Adds fetch joins for eager loading relationships.
      *
      * @param fields the fields to fetch
