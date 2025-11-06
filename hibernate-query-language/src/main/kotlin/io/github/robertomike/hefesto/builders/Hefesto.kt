@@ -7,17 +7,18 @@ import io.github.robertomike.hefesto.enums.WhereOperator
 import io.github.robertomike.hefesto.models.BaseModel
 import io.github.robertomike.hefesto.utils.FluentHibernateResultTransformer
 import io.github.robertomike.hefesto.utils.Page
+import io.github.robertomike.hefesto.utils.SharedMethods
 import org.hibernate.QueryException
 import org.hibernate.Session
 import org.hibernate.query.Query
 import java.util.*
 
 class Hefesto<T : BaseModel> : BaseBuilder<T, Session, ConstructWhereImplementation, ConstructJoinImplementation,
-        ConstructOrderImplementation, ConstructSelectImplementation, ConstructGroupByImplementation, Hefesto<T>> {
+        ConstructOrderImplementation, ConstructSelectImplementation, ConstructGroupByImplementation, Hefesto<T>>,
+        SharedMethods<Hefesto<T>>{
 
-    private val _joinsFetch = ConstructJoinFetch()
+    override val joinsFetch = ConstructJoinFetch()
     var acronymTable: String = ""
-        private set
     private var isCounting = false
     private var originalModel: Class<out BaseModel>? = null
 
@@ -64,6 +65,13 @@ class Hefesto<T : BaseModel> : BaseBuilder<T, Session, ConstructWhereImplementat
     @Suppress("UNUSED_PARAMETER")
     fun joinUnsupported(table: String, joinField: String, operator: JoinOperator): Hefesto<T> {
         throw UnsupportedOperationException("This methods are not supported")
+    }
+
+    /**
+     * This method is not supported in HQL version
+     */
+    override fun join(table: String, joinField: String, operator: JoinOperator): Hefesto<T> {
+        throw UnsupportedOperationException("This method is not supported in HQL version")
     }
 
     /**
@@ -223,12 +231,12 @@ class Hefesto<T : BaseModel> : BaseBuilder<T, Session, ConstructWhereImplementat
     fun getQuery(params: MutableMap<String, Any?>): String {
         var query = if (isCounting) "select count($acronymTable)" else selects.construct(this)
         query += " from $table"
-        val joinsFetchQuery = if (!isCounting) _joinsFetch.construct(this) else ""
+        val joinsFetchQuery = if (!isCounting) joinsFetch.construct(this) else ""
 
         return listOf(
             query, acronymTable,
             joins.construct(this), joinsFetchQuery,
-            wheres.construct(params),
+            wheres.construct(params, acronymTable),
             orders.construct(),
             groupBy.construct()
         ).joinToString(" ")
@@ -241,7 +249,7 @@ class Hefesto<T : BaseModel> : BaseBuilder<T, Session, ConstructWhereImplementat
         return listOf(
             query, acronymTable,
             joins.construct(this),
-            wheres.construct(params),
+            wheres.construct(params, acronymTable),
             orders.construct(),
             groupBy.construct()
         ).joinToString(" ")

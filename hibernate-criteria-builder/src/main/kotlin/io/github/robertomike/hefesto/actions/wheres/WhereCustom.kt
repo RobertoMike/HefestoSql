@@ -11,10 +11,10 @@ class WhereCustom(val custom: Custom, whereOperator: WhereOperator = WhereOperat
     fun interface Custom {
         fun call(
             cb: CriteriaBuilder,
-            cr: CriteriaQuery<*>,
+            cr: CriteriaQuery<*>?,
             root: Root<*>,
             joins: @JvmSuppressWildcards Map<String, Join<*, *>>,
-            parentRoot: Root<*>
+            parentRoot: Root<*>?
         ): Predicate
     }
 }

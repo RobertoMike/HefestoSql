@@ -244,7 +244,7 @@ abstract class BaseBuilder<
      * @param operator  the join operator
      * @return the modified builder object
      */
-    fun join(table: String, joinField: String, operator: JoinOperator): BUILDER {
+    open fun join(table: String, joinField: String, operator: JoinOperator): BUILDER {
         joins.add(Join.make(table, joinField, operator))
         return this as BUILDER
     }

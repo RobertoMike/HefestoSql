@@ -52,7 +52,16 @@ class NestedSetter private constructor(
          * Create a setter for a nested property.
          */
         @JvmStatic
-        fun create(theClass: Class<*>, propertyName: String): NestedSetter {
+        fun create(theClass: Class<*>?, propertyName: String): NestedSetter {
+            if (theClass == null) {
+                throw PropertyAccessException(
+                    null,
+                    "Could not find a setter for a nested property.",
+                    true,
+                    Any::class.java,
+                    propertyName
+                )
+            }
             return getSetterOrNull(theClass, propertyName)
                 ?: throw PropertyAccessException(
                     null,

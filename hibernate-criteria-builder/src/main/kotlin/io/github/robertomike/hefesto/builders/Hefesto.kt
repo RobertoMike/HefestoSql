@@ -169,9 +169,9 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      */
     override fun whereField(field1: String, field2: String): Hefesto<T> {
         whereCustom { cb, _, root, _, parentRoot ->
-            val path1 = if (parentRoot != null) io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Any>(parentRoot, field1)
-                       else io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Any>(root, field1)
-            val path2 = io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Any>(root, field2)
+            val path1 = io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Any>(root, field1)
+            val path2 = if (parentRoot != null) io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Any>(parentRoot, field2)
+                       else io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Any>(root, field2)
             cb.equal(path1, path2)
         }
         return this

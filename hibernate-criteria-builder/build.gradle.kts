@@ -62,9 +62,6 @@ dependencies {
     implementation(project(":hefesto-hibernate-base"))
     api(project(":hefesto-hibernate-base"))
 
-    implementation("org.projectlombok:lombok:1.18.30")
-    compileOnly("org.projectlombok:lombok:1.18.30")
-    annotationProcessor("org.projectlombok:lombok:1.18.30")
     testCompileOnly("org.projectlombok:lombok:1.18.30")
     testAnnotationProcessor("org.projectlombok:lombok:1.18.30")
 

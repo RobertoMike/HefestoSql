@@ -57,6 +57,8 @@ dependencies {
 
     implementation("org.jetbrains.kotlin:kotlin-stdlib")
 
+    testCompileOnly("org.projectlombok:lombok:1.18.30")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.30")
     testImplementation("mysql:mysql-connector-java:8.0.28")
     testImplementation("org.junit.jupiter:junit-jupiter-api:5.8.1")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")

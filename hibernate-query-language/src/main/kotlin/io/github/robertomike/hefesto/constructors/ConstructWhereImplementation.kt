@@ -7,9 +7,11 @@ import io.github.robertomike.hefesto.exceptions.UnsupportedOperationException
 
 class ConstructWhereImplementation : ConstructWhere() {
     private lateinit var params: MutableMap<String, Any?>
+    private var acronymTable: String = ""
 
-    fun construct(params: MutableMap<String, Any?>): String {
+    fun construct(params: MutableMap<String, Any?>, acronymTable: String = ""): String {
         this.params = params
+        this.acronymTable = acronymTable
 
         if (items.isEmpty()) {
             return ""
@@ -102,8 +104,8 @@ class ConstructWhereImplementation : ConstructWhere() {
     }
 
     fun constructWhere(wheresQuery: MutableList<String>, where: Where) {
-        val field = where.field
-        val nameParam = standardizeNameParam(field, wheresQuery.size)
+        val field = qualifyFieldName(where.field)
+        val nameParam = standardizeNameParam(where.field, wheresQuery.size)
         val nameParamWhere = standardizeNameParamWhere(nameParam)
         val operator = where.operator.operator
         val value = where.value
@@ -149,5 +151,14 @@ class ConstructWhereImplementation : ConstructWhere() {
         if (param) {
             params[nameParam] = value
         }
+    }
+
+    private fun qualifyFieldName(field: String): String {
+        // If the field already contains a dot (e.g., "user.id") or if there's no acronym, return as is
+        if (field.contains(".") || acronymTable.isEmpty()) {
+            return field
+        }
+        // Otherwise, prepend the acronym (e.g., "id" becomes "user.id")
+        return "$acronymTable.$field"
     }
 }

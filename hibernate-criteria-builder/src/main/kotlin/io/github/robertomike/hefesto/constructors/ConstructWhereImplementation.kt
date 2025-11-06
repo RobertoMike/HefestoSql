@@ -11,7 +11,7 @@ import jakarta.persistence.criteria.*
 
 class ConstructWhereImplementation : ConstructWhere() {
     protected lateinit var cb: CriteriaBuilder
-    protected lateinit var cr: CriteriaQuery<*>
+    protected var cr: CriteriaQuery<*>? = null
     protected lateinit var root: Root<*>
     private var joins: Map<String, Join<*, *>> = HashMap()
     private var parentRoot: Root<*>? = null
@@ -53,7 +53,7 @@ class ConstructWhereImplementation : ConstructWhere() {
     fun getPredicateFromWhere(where: BaseWhere): Predicate {
         return when (where) {
             is CollectionWhere -> transform(where.wheres)
-            is WhereCustom -> where.custom.call(cb, cr, root, joins, parentRoot!!)
+            is WhereCustom -> where.custom.call(cb, cr, root, joins, parentRoot)
             is WhereExist -> applyWhereExist(where)
             is WhereField -> constructWhereField(where)
             is Where -> constructWhere(where)
@@ -126,7 +126,7 @@ class ConstructWhereImplementation : ConstructWhere() {
 
     private fun applyWhereExist(whereExist: WhereExist): Predicate {
         val subBuilder = whereExist.subQuery as Hefesto<*>
-        val subQuery = subBuilder.getSubQuery(cr, root, cb, joins)
+        val subQuery = subBuilder.getSubQuery(cr!!, root, cb, joins)
 
         return if (whereExist.exists) {
             cb.exists(subQuery)
@@ -237,7 +237,7 @@ class ConstructWhereImplementation : ConstructWhere() {
                     throw QueryException("The sub-query must have custom result for Where IN operation")
                 }
 
-                inClause.value(value.getSubQuery(cr, root, cb, joins))
+                inClause.value(value.getSubQuery(cr!!, root, cb, joins))
                 return inClause
             }
 
@@ -266,9 +266,13 @@ class ConstructWhereImplementation : ConstructWhere() {
         }
 
         this.cb = cb
+        // Don't set cr for subqueries - it will cause ClassCastException
+        // WhereCustom lambdas in subqueries should handle null cr gracefully
         this.root = root
         this.parentRoot = parentRoot
 
-        subQuery.where(transform(items))
+        val predicate: Predicate = transform(items)
+        @Suppress("UNCHECKED_CAST")
+        (subQuery as Subquery<Any>).where(predicate)
     }
 }
