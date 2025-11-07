@@ -9,6 +9,7 @@ import io.github.robertomike.hefesto.enums.Operator
 import io.github.robertomike.hefesto.enums.SelectOperator
 import io.github.robertomike.hefesto.exceptions.QueryException
 import io.github.robertomike.hefesto.models.BaseModel
+import io.github.robertomike.hefesto.utils.AggregateShortcuts
 import io.github.robertomike.hefesto.utils.ConditionalBuilder
 import io.github.robertomike.hefesto.utils.Page
 import io.github.robertomike.hefesto.utils.SortBuilder
@@ -38,7 +39,7 @@ abstract class BaseBuilder<
         SELECT : ConstructSelect,
         GROUP : ConstructGroupBy,
         BUILDER : BaseBuilder<Model, SESSION, WHERE, JOIN, ORDER, SELECT, GROUP, BUILDER>
-        > : ConditionalBuilder<BUILDER>, SortBuilder<BUILDER> {
+        > : ConditionalBuilder<BUILDER>, SortBuilder<BUILDER>, AggregateShortcuts<BUILDER> {
 
     /**
      * This contains the table name

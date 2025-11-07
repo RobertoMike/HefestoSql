@@ -10,9 +10,6 @@ import io.github.robertomike.hefesto.enums.WhereOperator
 import io.github.robertomike.hefesto.models.BaseModel
 import io.github.robertomike.hefesto.utils.Page
 import io.github.robertomike.hefesto.utils.SharedMethods
-import org.hibernate.QueryException
-import org.hibernate.Session
-import org.hibernate.query.Query
 import jakarta.persistence.criteria.CriteriaBuilder
 import jakarta.persistence.criteria.CriteriaQuery
 import jakarta.persistence.criteria.Root
@@ -20,12 +17,17 @@ import jakarta.persistence.criteria.Subquery
 import java.util.*
 
 class Hefesto<T : BaseModel>(model: Class<T>) :
-    BaseBuilder<T, Session, ConstructWhereImplementation, ConstructJoinImplementation<T>, ConstructOrderImplementation, ConstructSelectImplementation<T>, ConstructGroupByImplementation, Hefesto<T>>(model),
+    BaseBuilder<T, org.hibernate.Session, ConstructWhereImplementation, ConstructJoinImplementation<T>, ConstructOrderImplementation, ConstructSelectImplementation<T>, ConstructGroupByImplementation, Hefesto<T>>(model),
     SharedMethods<Hefesto<T>> {
 
     override val joinsFetch = ConstructJoinFetch()
     private var originalModel: Class<*>? = null
     private var customResultSubQuery: Class<*>? = null
+    
+    // Internal executor - separates building from execution
+    private val executor: HefestoExecutor<T> by lazy {
+        HefestoExecutor(model, originalModel, customResultSubQuery)
+    }
 
     init {
         orders = ConstructOrderImplementation()
@@ -203,10 +205,6 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         joinsFetch.add(joinFetch)
         return this
     }
-    
-    fun getJoins(): ConstructJoinImplementation<T> {
-        return joins
-    }
 
     fun getSelectsSize(): Int {
         return selects.size
@@ -238,9 +236,8 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      */
     override fun whereField(field1: String, field2: String): Hefesto<T> {
         whereCustom { cb, _, root, _, parentRoot ->
-            val path1 = io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Any>(root, field1)
-            val path2 = if (parentRoot != null) io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Any>(parentRoot, field2)
-                       else io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Any>(root, field2)
+            val path1 = resolveFieldPath<Any>(root, parentRoot, field1, false)
+            val path2 = resolveFieldPath<Any>(root, parentRoot, field2, parentRoot != null)
             cb.equal(path1, path2)
         }
         return this
@@ -256,8 +253,8 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      */
     override fun whereField(field1: String, operator: Operator, field2: String): Hefesto<T> {
         whereCustom { cb, _, root, _, _ ->
-            val path1 = io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Comparable<Any>>(root, field1)
-            val path2 = io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom<Comparable<Any>>(root, field2)
+            val path1 = resolveFieldPath<Comparable<Any>>(root, null, field1, false)
+            val path2 = resolveFieldPath<Comparable<Any>>(root, null, field2, false)
             
             when (operator) {
                 Operator.EQUAL -> cb.equal(path1, path2)
@@ -280,59 +277,36 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      * or an empty Optional if the result set is empty.
      */
     override fun findFirst(): Optional<T> {
-        this.limit = 1
-        return Optional.ofNullable(createQuery().singleResultOrNull)
+        return executor.findFirst(getSessionInstance(), selects, wheres, joins, joinsFetch, orders, groupBy)
     }
 
     /**
-     * Creates a query for the given criteria.
+     * Retrieves a list of objects.
      *
-     * @return The created query.
+     * @return a list of objects
      */
-    @Suppress("UNCHECKED_CAST")
-    private fun createQuery(): Query<T> {
-        val currentSession = getSessionInstance()
-        val cb = currentSession.criteriaBuilder
-        val cr = cb.createQuery(model)
-        val root = getRoot(cr)
-
-        joinsFetch.construct(root)
-
-        joins.construct(root)
-        selects.setJoins(joins.joins)
-        if (originalModel == null) {
-            selects.construct(root as Root<T>, cr, cb)
-        } else {
-            selects.multiSelect(root, cr, cb, isProjection = true)
-        }
-        wheres.setJoins(joins.joins).setJoinConditions(joins.joinConditions).construct(cb, cr, root)
-        orders.setJoins(joins.joins).construct(cb, cr, root)
-        groupBy.construct(cr, root)
-
-        val query = currentSession.createQuery(cr)
-
-        if (limit != null) {
-            query.maxResults = limit!!
-        }
-        if (offset != null) {
-            query.firstResult = offset!!
-        }
-
-        return query
+    override fun get(): List<T> {
+        return executor.get(getSessionInstance(), selects, wheres, joins, joinsFetch, orders, groupBy, limit, offset)
     }
 
     /**
-     * Retrieves the root entity for the given CriteriaQuery.
+     * Retrieves a page of results from the database based on the specified limit and offset.
      *
-     * @param cr the CriteriaQuery object to retrieve the root from
-     * @return the root entity for the given CriteriaQuery
+     * @param limit  the maximum number of results to retrieve
+     * @param offset the starting position of the results
+     * @return a Page object containing the retrieved results, the offset used, and the total number of results
      */
-    private fun getRoot(cr: CriteriaQuery<T>): Root<*> {
-        return if (originalModel == null) {
-            cr.from(model)
-        } else {
-            cr.from(originalModel)
-        }
+    override fun page(limit: Int, offset: Long): Page<T> {
+        return executor.page(getSessionInstance(), selects, wheres, joins, joinsFetch, orders, groupBy, limit, offset)
+    }
+
+    /**
+     * Counts the number of results based on the given criteria.
+     *
+     * @return the count of results as a Long value
+     */
+    override fun countResults(): Long {
+        return executor.countResults(getSessionInstance(), wheres, joins, groupBy)
     }
 
     /**
@@ -350,21 +324,7 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         cb: CriteriaBuilder,
         parentJoins: Map<String, jakarta.persistence.criteria.Join<*, *>>
     ): Subquery<*> {
-        val sub = if (customResultSubQuery != null) {
-            cr.subquery(customResultSubQuery)
-        } else {
-            cr.subquery(model)
-        }
-        val root = sub.from(model)
-
-        joins.construct(root)
-        val allJoins = HashMap(parentJoins)
-        allJoins.putAll(joins.joins)
-        wheres.setJoins(allJoins).setJoinConditions(joins.joinConditions).constructSubQuery(sub, cb, root, parentRoot)
-        selects.setJoins(allJoins).constructSubQuery(root, sub)
-        groupBy.construct(cr, root)
-
-        return sub
+        return executor.createSubQuery(cr, parentRoot, cb, parentJoins, selects, wheres, joins, groupBy)
     }
 
     fun setCustomResultForSubQuery(customResultSubQuery: Class<*>): Hefesto<T> {
@@ -377,67 +337,13 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
     }
 
     /**
-     * Retrieves a list of objects.
-     *
-     * @return a list of objects
-     */
-    override fun get(): List<T> {
-        return createQuery().resultList
-    }
-
-    /**
-     * Retrieves a page of results from the database based on the specified limit and offset.
-     *
-     * @param limit  the maximum number of results to retrieve
-     * @param offset the starting position of the results
-     * @return a Page object containing the retrieved results, the offset used, and the total number of results
-     */
-    override fun page(limit: Int, offset: Long): Page<T> {
-        this.offset = offset.toInt()
-        this.limit = limit
-
-        val total = countResults()
-
-        return Page(createQuery().resultList, offset, total)
-    }
-
-    /**
-     * Counts the number of results based on the given criteria.
-     *
-     * @return the count of results as a Long value
-     */
-    override fun countResults(): Long {
-        val currentSession = getSessionInstance()
-        val cb = currentSession.criteriaBuilder
-        val cr = cb.createQuery(Long::class.java)
-        val root = cr.from(model)
-
-        cr.select(cb.count(root))
-        joins.construct(root)
-        wheres.setJoins(joins.joins).setJoinConditions(joins.joinConditions).construct(cb, cr, root)
-        groupBy.construct(cr, root)
-
-        return currentSession.createQuery(cr).singleResult
-    }
-
-    /**
      * Find the first result of the specified result class.
      *
      * @param resultClass the class of the result to be returned
      * @return the first result of the specified class, or null if no result is found
      */
     fun <R> findFirstFor(resultClass: Class<R>): R {
-        if (selects.isEmpty()) {
-            throw QueryException("You need put at least one select")
-        }
-
-        val cr = commonConstructForCustomResult(resultClass)
-
-        val currentSession = getSessionInstance()
-        val query = currentSession.createQuery(cr)
-        query.maxResults = 1
-
-        return query.singleResult
+        return executor.findFirstFor(getSessionInstance(), resultClass, selects, wheres, joins, orders, groupBy)
     }
 
     /**
@@ -447,39 +353,51 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      * @return a list of objects of the specified resultClass
      */
     fun <R> findFor(resultClass: Class<R>): List<R> {
-        if (selects.isEmpty()) {
-            throw QueryException("You need put at least one select")
+        return executor.findFor(getSessionInstance(), resultClass, selects, wheres, joins, orders, groupBy)
+    }
+
+    // ========== HELPER METHODS ==========
+    
+    /**
+     * Infers and sets the result type for a subquery based on the field type.
+     * If the field exists in the model, uses its type. Otherwise, defaults to Long.
+     *
+     * @param field the field name to infer type from
+     * @param subQuery the subquery to configure
+     */
+    private fun <S : BaseModel> inferSubQueryResultType(field: String, subQuery: Hefesto<S>) {
+        if (!subQuery.hasCustomResultForSubQuery() && subQuery.getSelectsSize() > 0) {
+            try {
+                val fieldObj = model.getDeclaredField(field)
+                subQuery.setCustomResultForSubQuery(fieldObj.type)
+            } catch (_: NoSuchFieldException) {
+                // Field might be from a join or deep path, default to Long
+                subQuery.setCustomResultForSubQuery(Long::class.java)
+            }
         }
-
-        val cr = commonConstructForCustomResult(resultClass)
-
-        val currentSession = getSessionInstance()
-        return currentSession.createQuery(cr).resultList
     }
 
     /**
-     * Generates a common criteria query for custom result.
+     * Resolves a field path from the appropriate root (parent or local).
+     * Used for field-to-field comparisons in WHERE clauses.
      *
-     * @param resultClass the class of the result
-     * @return the generated criteria query
+     * @param root the local root
+     * @param parentRoot the parent root (for subqueries), can be null
+     * @param fieldName the field name to resolve
+     * @param useParent whether to use parent root if available
+     * @return the resolved field path
      */
-    private fun <R> commonConstructForCustomResult(resultClass: Class<R>): CriteriaQuery<R> {
-        val currentSession = getSessionInstance()
-        val cb = currentSession.criteriaBuilder
-        val cr = cb.createQuery(resultClass)
-        val root = cr.from(model)
-
-        joins.construct(root)
-        selects.setJoins(joins.joins)
-            .multiSelect(root, cr, cb)
-        wheres.setJoins(joins.joins)
-            .setJoinConditions(joins.joinConditions)
-            .construct(cb, cr, root)
-        orders.setJoins(joins.joins)
-            .construct(cb, cr, root)
-        groupBy.construct(cr, root)
-
-        return cr
+    private fun <R> resolveFieldPath(
+        root: Root<*>,
+        parentRoot: Root<*>?,
+        fieldName: String,
+        useParent: Boolean
+    ): jakarta.persistence.criteria.Path<R> {
+        return if (useParent && parentRoot != null) {
+            io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom(parentRoot, fieldName)
+        } else {
+            io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom(root, fieldName)
+        }
     }
 
     // ========== LAMBDA-BASED SUBQUERY METHODS ==========
@@ -487,7 +405,7 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
     /**
      * Adds a WHERE IN clause with a lambda-configured subquery.
      * The subquery result type is automatically inferred from the field type.
-     * 
+     *
      * Example:
      * ```
      * // Java
@@ -495,7 +413,7 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      *     subQuery.addSelect("user.id");
      *     subQuery.where("active", true);
      * })
-     * 
+     *
      * // Kotlin
      * whereIn("id", UserPet::class.java) {
      *     addSelect("user.id")
@@ -513,30 +431,19 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         subQueryModel: Class<S>,
         block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
     ): Hefesto<T> {
-        val subQuery = make(subQueryModel)
-        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
-        block.accept(context)
-        
-        // Automatically set result type to the field type if not explicitly set
-        if (!subQuery.hasCustomResultForSubQuery() && subQuery.getSelectsSize() > 0) {
-            // Try to infer result type from field
-            try {
-                val fieldObj = model.getDeclaredField(field)
-                subQuery.setCustomResultForSubQuery(fieldObj.type)
-            } catch (e: NoSuchFieldException) {
-                // Field might be from a join or deep path, default to Long
-                // User can call setCustomResultForSubQuery on getBuilder() if different type needed
-                subQuery.setCustomResultForSubQuery(Long::class.java)
-            }
-        }
-        
-        return whereIn(field, context.getBuilder())
+        val subQuery = io.github.robertomike.hefesto.utils.SubQueryConfigurer.configureSubQuery(
+            subQueryModel,
+            { make(it) },
+            block
+        )
+        inferSubQueryResultType(field, subQuery)
+        return whereIn(field, subQuery)
     }
 
     /**
      * Adds a WHERE NOT IN clause with a lambda-configured subquery.
      * The subquery result type is automatically inferred from the field type.
-     * 
+     *
      * Example:
      * ```
      * // Java
@@ -556,28 +463,19 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         subQueryModel: Class<S>,
         block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
     ): Hefesto<T> {
-        val subQuery = make(subQueryModel)
-        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
-        block.accept(context)
-        
-        // Automatically set result type to the field type if not explicitly set
-        if (!subQuery.hasCustomResultForSubQuery() && subQuery.getSelectsSize() > 0) {
-            try {
-                val fieldObj = model.getDeclaredField(field)
-                subQuery.setCustomResultForSubQuery(fieldObj.type)
-            } catch (e: NoSuchFieldException) {
-                // Field might be from a join or deep path, default to Long
-                subQuery.setCustomResultForSubQuery(Long::class.java)
-            }
-        }
-        
-        return whereNotIn(field, context.getBuilder())
+        val subQuery = io.github.robertomike.hefesto.utils.SubQueryConfigurer.configureSubQuery(
+            subQueryModel,
+            { make(it) },
+            block
+        )
+        inferSubQueryResultType(field, subQuery)
+        return whereNotIn(field, subQuery)
     }
 
     /**
      * Adds an OR WHERE IN clause with a lambda-configured subquery.
      * The subquery result type is automatically inferred from the field type.
-     * 
+     *
      * Example:
      * ```
      * // Java
@@ -597,27 +495,19 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         subQueryModel: Class<S>,
         block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
     ): Hefesto<T> {
-        val subQuery = make(subQueryModel)
-        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
-        block.accept(context)
-        
-        if (!subQuery.hasCustomResultForSubQuery() && subQuery.getSelectsSize() > 0) {
-            try {
-                val fieldObj = model.getDeclaredField(field)
-                subQuery.setCustomResultForSubQuery(fieldObj.type)
-            } catch (e: NoSuchFieldException) {
-                // Field might be from a join or deep path, default to Long
-                subQuery.setCustomResultForSubQuery(Long::class.java)
-            }
-        }
-        
-        return orWhereIn(field, context.getBuilder())
+        val subQuery = io.github.robertomike.hefesto.utils.SubQueryConfigurer.configureSubQuery(
+            subQueryModel,
+            { make(it) },
+            block
+        )
+        inferSubQueryResultType(field, subQuery)
+        return orWhereIn(field, subQuery)
     }
 
     /**
      * Adds an OR WHERE NOT IN clause with a lambda-configured subquery.
      * The subquery result type is automatically inferred from the field type.
-     * 
+     *
      * Example:
      * ```
      * // Java
@@ -637,26 +527,18 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         subQueryModel: Class<S>,
         block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
     ): Hefesto<T> {
-        val subQuery = make(subQueryModel)
-        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
-        block.accept(context)
-        
-        if (!subQuery.hasCustomResultForSubQuery() && subQuery.getSelectsSize() > 0) {
-            try {
-                val fieldObj = model.getDeclaredField(field)
-                subQuery.setCustomResultForSubQuery(fieldObj.type)
-            } catch (e: NoSuchFieldException) {
-                // Field might be from a join or deep path, default to Long
-                subQuery.setCustomResultForSubQuery(Long::class.java)
-            }
-        }
-        
-        return orWhereNotIn(field, context.getBuilder())
+        val subQuery = io.github.robertomike.hefesto.utils.SubQueryConfigurer.configureSubQuery(
+            subQueryModel,
+            { make(it) },
+            block
+        )
+        inferSubQueryResultType(field, subQuery)
+        return orWhereNotIn(field, subQuery)
     }
 
     /**
      * Adds a WHERE EXISTS clause with a lambda-configured subquery.
-     * 
+     *
      * Example:
      * ```
      * // Java
@@ -674,15 +556,17 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         subQueryModel: Class<S>,
         block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
     ): Hefesto<T> {
-        val subQuery = make(subQueryModel)
-        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
-        block.accept(context)
-        return whereExists(context.getBuilder())
+        val subQuery = io.github.robertomike.hefesto.utils.SubQueryConfigurer.configureSubQuery(
+            subQueryModel,
+            { make(it) },
+            block
+        )
+        return whereExists(subQuery)
     }
 
     /**
      * Adds a WHERE NOT EXISTS clause with a lambda-configured subquery.
-     * 
+     *
      * Example:
      * ```
      * // Java
@@ -700,15 +584,17 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         subQueryModel: Class<S>,
         block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
     ): Hefesto<T> {
-        val subQuery = make(subQueryModel)
-        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
-        block.accept(context)
-        return whereNotExists(context.getBuilder())
+        val subQuery = io.github.robertomike.hefesto.utils.SubQueryConfigurer.configureSubQuery(
+            subQueryModel,
+            { make(it) },
+            block
+        )
+        return whereNotExists(subQuery)
     }
 
     /**
      * Adds an OR WHERE EXISTS clause with a lambda-configured subquery.
-     * 
+     *
      * Example:
      * ```
      * // Java
@@ -726,15 +612,17 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         subQueryModel: Class<S>,
         block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
     ): Hefesto<T> {
-        val subQuery = make(subQueryModel)
-        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
-        block.accept(context)
-        return orWhereExists(context.getBuilder())
+        val subQuery = io.github.robertomike.hefesto.utils.SubQueryConfigurer.configureSubQuery(
+            subQueryModel,
+            { make(it) },
+            block
+        )
+        return orWhereExists(subQuery)
     }
 
     /**
      * Adds an OR WHERE NOT EXISTS clause with a lambda-configured subquery.
-     * 
+     *
      * Example:
      * ```
      * // Java
@@ -752,203 +640,11 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         subQueryModel: Class<S>,
         block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
     ): Hefesto<T> {
-        val subQuery = make(subQueryModel)
-        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
-        block.accept(context)
-        return orWhereNotExists(context.getBuilder())
-    }
-
-    // ==================== Aggregate Function Shortcuts ====================
-
-    /**
-     * Adds a COUNT aggregate function to the select clause.
-     * If no field is specified, counts all rows (COUNT(*)).
-     * 
-     * Example:
-     * ```
-     * // Java
-     * Long count = Hefesto.make(User.class)
-     *     .count()
-     *     .findFirstFor(Long.class);
-     * 
-     * Long activeCount = Hefesto.make(User.class)
-     *     .where("active", true)
-     *     .count("id")
-     *     .findFirstFor(Long.class);
-     * ```
-     *
-     * @param field optional field to count (defaults to "*" for count all)
-     * @return the updated Hefesto object
-     */
-    @JvmOverloads
-    fun count(field: String = "*"): Hefesto<T> {
-        return addSelect(field, io.github.robertomike.hefesto.enums.SelectOperator.COUNT) as Hefesto<T>
-    }
-
-    /**
-     * Adds a COUNT aggregate function with an alias.
-     * 
-     * Example:
-     * ```
-     * // Java
-     * Hefesto.make(User.class)
-     *     .count("id", "totalUsers")
-     *     .findFirstFor(Long.class);
-     * ```
-     *
-     * @param field the field to count
-     * @param alias the alias for the result
-     * @return the updated Hefesto object
-     */
-    fun count(field: String, alias: String): Hefesto<T> {
-        return addSelect(field, alias, io.github.robertomike.hefesto.enums.SelectOperator.COUNT) as Hefesto<T>
-    }
-
-    /**
-     * Adds a SUM aggregate function to the select clause.
-     * 
-     * Example:
-     * ```
-     * // Java
-     * Double total = Hefesto.make(Order.class)
-     *     .sum("amount")
-     *     .findFirstFor(Double.class);
-     * ```
-     *
-     * @param field the field to sum
-     * @return the updated Hefesto object
-     */
-    fun sum(field: String): Hefesto<T> {
-        return addSelect(field, io.github.robertomike.hefesto.enums.SelectOperator.SUM) as Hefesto<T>
-    }
-
-    /**
-     * Adds a SUM aggregate function with an alias.
-     * 
-     * Example:
-     * ```
-     * // Java
-     * Hefesto.make(Order.class)
-     *     .sum("amount", "totalAmount")
-     *     .findFirstFor(Double.class);
-     * ```
-     *
-     * @param field the field to sum
-     * @param alias the alias for the result
-     * @return the updated Hefesto object
-     */
-    fun sum(field: String, alias: String): Hefesto<T> {
-        return addSelect(field, alias, io.github.robertomike.hefesto.enums.SelectOperator.SUM) as Hefesto<T>
-    }
-
-    /**
-     * Adds an AVG (average) aggregate function to the select clause.
-     * 
-     * Example:
-     * ```
-     * // Java
-     * Double avgAge = Hefesto.make(User.class)
-     *     .avg("age")
-     *     .findFirstFor(Double.class);
-     * ```
-     *
-     * @param field the field to average
-     * @return the updated Hefesto object
-     */
-    fun avg(field: String): Hefesto<T> {
-        return addSelect(field, io.github.robertomike.hefesto.enums.SelectOperator.AVG) as Hefesto<T>
-    }
-
-    /**
-     * Adds an AVG aggregate function with an alias.
-     * 
-     * Example:
-     * ```
-     * // Java
-     * Hefesto.make(User.class)
-     *     .avg("age", "averageAge")
-     *     .findFirstFor(Double.class);
-     * ```
-     *
-     * @param field the field to average
-     * @param alias the alias for the result
-     * @return the updated Hefesto object
-     */
-    fun avg(field: String, alias: String): Hefesto<T> {
-        return addSelect(field, alias, io.github.robertomike.hefesto.enums.SelectOperator.AVG) as Hefesto<T>
-    }
-
-    /**
-     * Adds a MIN aggregate function to the select clause.
-     * 
-     * Example:
-     * ```
-     * // Java
-     * Long minId = Hefesto.make(User.class)
-     *     .min("id")
-     *     .findFirstFor(Long.class);
-     * ```
-     *
-     * @param field the field to find minimum value
-     * @return the updated Hefesto object
-     */
-    fun min(field: String): Hefesto<T> {
-        return addSelect(field, io.github.robertomike.hefesto.enums.SelectOperator.MIN) as Hefesto<T>
-    }
-
-    /**
-     * Adds a MIN aggregate function with an alias.
-     * 
-     * Example:
-     * ```
-     * // Java
-     * Hefesto.make(User.class)
-     *     .min("age", "youngestAge")
-     *     .findFirstFor(Integer.class);
-     * ```
-     *
-     * @param field the field to find minimum value
-     * @param alias the alias for the result
-     * @return the updated Hefesto object
-     */
-    fun min(field: String, alias: String): Hefesto<T> {
-        return addSelect(field, alias, io.github.robertomike.hefesto.enums.SelectOperator.MIN) as Hefesto<T>
-    }
-
-    /**
-     * Adds a MAX aggregate function to the select clause.
-     * 
-     * Example:
-     * ```
-     * // Java
-     * Long maxId = Hefesto.make(User.class)
-     *     .max("id")
-     *     .findFirstFor(Long.class);
-     * ```
-     *
-     * @param field the field to find maximum value
-     * @return the updated Hefesto object
-     */
-    fun max(field: String): Hefesto<T> {
-        return addSelect(field, io.github.robertomike.hefesto.enums.SelectOperator.MAX) as Hefesto<T>
-    }
-
-    /**
-     * Adds a MAX aggregate function with an alias.
-     * 
-     * Example:
-     * ```
-     * // Java
-     * Hefesto.make(User.class)
-     *     .max("age", "oldestAge")
-     *     .findFirstFor(Integer.class);
-     * ```
-     *
-     * @param field the field to find maximum value
-     * @param alias the alias for the result
-     * @return the updated Hefesto object
-     */
-    fun max(field: String, alias: String): Hefesto<T> {
-        return addSelect(field, alias, io.github.robertomike.hefesto.enums.SelectOperator.MAX) as Hefesto<T>
+        val subQuery = io.github.robertomike.hefesto.utils.SubQueryConfigurer.configureSubQuery(
+            subQueryModel,
+            { make(it) },
+            block
+        )
+        return orWhereNotExists(subQuery)
     }
 }

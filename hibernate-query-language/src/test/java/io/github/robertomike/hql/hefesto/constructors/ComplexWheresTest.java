@@ -1,13 +1,12 @@
 package io.github.robertomike.hql.hefesto.constructors;
 
-import io.github.robertomike.hefesto.actions.wheres.WhereRaw;
+import io.github.robertomike.hefesto.hql.actions.wheres.WhereRaw;
 import io.github.robertomike.hql.BaseTest;
 import io.github.robertomike.hefesto.actions.wheres.Where;
-import io.github.robertomike.hefesto.builders.Hefesto;
+import io.github.robertomike.hefesto.hql.builders.Hefesto;
 import io.github.robertomike.hefesto.enums.Operator;
 import io.github.robertomike.hql.enums.Status;
 import io.github.robertomike.hefesto.enums.WhereOperator;
-import io.github.robertomike.hefesto.exceptions.QueryException;
 import io.github.robertomike.hql.hefesto.models.Address;
 import io.github.robertomike.hql.hefesto.models.User;
 import io.github.robertomike.hql.hefesto.models.UserPet;

@@ -1,8 +1,8 @@
 package io.github.robertomike.hql.utils;
 
-import io.github.robertomike.hefesto.builders.Hefesto;
+import io.github.robertomike.hefesto.hql.builders.Hefesto;
 import io.github.robertomike.hefesto.exceptions.HefestoException;
-import io.github.robertomike.hefesto.utils.ClassUtils;
+import io.github.robertomike.hefesto.hql.utils.ClassUtils;
 import io.github.robertomike.hql.BaseTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

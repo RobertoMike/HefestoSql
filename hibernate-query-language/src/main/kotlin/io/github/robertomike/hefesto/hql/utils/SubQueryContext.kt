@@ -1,9 +1,8 @@
-package io.github.robertomike.hefesto.utils
+package io.github.robertomike.hefesto.hql.utils
 
-import io.github.robertomike.hefesto.builders.Hefesto
+import io.github.robertomike.hefesto.hql.builders.Hefesto
 import io.github.robertomike.hefesto.enums.JoinOperator
 import io.github.robertomike.hefesto.enums.SelectOperator
-import io.github.robertomike.hefesto.enums.WhereOperator
 import io.github.robertomike.hefesto.models.BaseModel
 
 /**

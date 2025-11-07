@@ -1,7 +1,8 @@
-package io.github.robertomike.hefesto.constructors
+package io.github.robertomike.hefesto.hql.constructors
 
 import io.github.robertomike.hefesto.actions.Select
-import io.github.robertomike.hefesto.builders.Hefesto
+import io.github.robertomike.hefesto.hql.builders.Hefesto
+import io.github.robertomike.hefesto.constructors.ConstructSelect
 import io.github.robertomike.hefesto.enums.SelectOperator
 import io.github.robertomike.hefesto.exceptions.QueryException
 

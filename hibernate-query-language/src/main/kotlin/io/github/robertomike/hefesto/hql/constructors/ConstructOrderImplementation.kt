@@ -1,6 +1,7 @@
-package io.github.robertomike.hefesto.constructors
+package io.github.robertomike.hefesto.hql.constructors
 
 import io.github.robertomike.hefesto.actions.Order
+import io.github.robertomike.hefesto.constructors.ConstructOrder
 
 class ConstructOrderImplementation : ConstructOrder() {
     fun construct(): String {

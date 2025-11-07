@@ -1,9 +1,8 @@
 package io.github.robertomike.hql.utils;
 
 import io.github.robertomike.hefesto.actions.wheres.Where;
-import io.github.robertomike.hefesto.actions.wheres.WhereRaw;
-import io.github.robertomike.hefesto.exceptions.HefestoException;
-import io.github.robertomike.hefesto.utils.NestedSetter;
+import io.github.robertomike.hefesto.hql.actions.wheres.WhereRaw;
+import io.github.robertomike.hefesto.hql.utils.NestedSetter;
 import io.github.robertomike.hql.BaseTest;
 import org.hibernate.PropertyAccessException;
 import org.junit.jupiter.api.Test;

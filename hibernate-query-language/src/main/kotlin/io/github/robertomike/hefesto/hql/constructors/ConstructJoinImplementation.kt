@@ -1,7 +1,8 @@
-package io.github.robertomike.hefesto.constructors
+package io.github.robertomike.hefesto.hql.constructors
 
 import io.github.robertomike.hefesto.actions.Join
-import io.github.robertomike.hefesto.builders.Hefesto
+import io.github.robertomike.hefesto.hql.builders.Hefesto
+import io.github.robertomike.hefesto.constructors.ConstructJoin
 
 class ConstructJoinImplementation : ConstructJoin() {
     fun construct(builder: Hefesto<*>): String {

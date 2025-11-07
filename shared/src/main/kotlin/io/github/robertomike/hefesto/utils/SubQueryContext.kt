@@ -1,7 +1,6 @@
 package io.github.robertomike.hefesto.utils
 
 import io.github.robertomike.hefesto.builders.BaseBuilder
-import io.github.robertomike.hefesto.models.BaseModel
 
 /**
  * Context class for building subqueries with lambda expressions.

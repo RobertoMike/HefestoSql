@@ -1,4 +1,6 @@
-package io.github.robertomike.hefesto.constructors
+package io.github.robertomike.hefesto.hql.constructors
+
+import io.github.robertomike.hefesto.constructors.ConstructGroupBy
 
 class ConstructGroupByImplementation : ConstructGroupBy() {
     /**

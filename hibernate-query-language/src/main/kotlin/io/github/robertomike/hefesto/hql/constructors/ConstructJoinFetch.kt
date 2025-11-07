@@ -1,7 +1,8 @@
-package io.github.robertomike.hefesto.constructors
+package io.github.robertomike.hefesto.hql.constructors
 
 import io.github.robertomike.hefesto.actions.JoinFetch
-import io.github.robertomike.hefesto.builders.Hefesto
+import io.github.robertomike.hefesto.hql.builders.Hefesto
+import io.github.robertomike.hefesto.constructors.Construct
 
 class ConstructJoinFetch : Construct<JoinFetch>() {
     fun construct(builder: Hefesto<*>): String {

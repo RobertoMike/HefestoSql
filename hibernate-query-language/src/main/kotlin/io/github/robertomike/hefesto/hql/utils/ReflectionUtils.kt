@@ -1,4 +1,4 @@
-package io.github.robertomike.hefesto.utils
+package io.github.robertomike.hefesto.hql.utils
 
 import java.beans.Introspector
 import java.beans.PropertyDescriptor

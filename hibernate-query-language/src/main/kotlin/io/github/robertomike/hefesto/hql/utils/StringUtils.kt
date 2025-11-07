@@ -1,4 +1,4 @@
-package io.github.robertomike.hefesto.utils
+package io.github.robertomike.hefesto.hql.utils
 
 object StringUtils {
     const val EMPTY = ""

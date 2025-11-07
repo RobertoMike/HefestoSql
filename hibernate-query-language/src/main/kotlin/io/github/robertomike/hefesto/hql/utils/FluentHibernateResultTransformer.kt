@@ -1,4 +1,4 @@
-package io.github.robertomike.hefesto.utils
+package io.github.robertomike.hefesto.hql.utils
 
 import io.github.robertomike.hefesto.exceptions.HefestoException
 import org.hibernate.query.TupleTransformer

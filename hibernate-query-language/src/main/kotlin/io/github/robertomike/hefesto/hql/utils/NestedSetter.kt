@@ -1,4 +1,4 @@
-package io.github.robertomike.hefesto.utils
+package io.github.robertomike.hefesto.hql.utils
 
 import org.hibernate.PropertyAccessException
 import java.lang.reflect.Method

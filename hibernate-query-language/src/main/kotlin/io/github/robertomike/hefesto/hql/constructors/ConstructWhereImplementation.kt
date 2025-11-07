@@ -1,9 +1,12 @@
-package io.github.robertomike.hefesto.constructors
+package io.github.robertomike.hefesto.hql.constructors
 
 import io.github.robertomike.hefesto.actions.wheres.*
-import io.github.robertomike.hefesto.builders.Hefesto
+import io.github.robertomike.hefesto.hql.builders.Hefesto
+import io.github.robertomike.hefesto.constructors.ConstructWhere
+import io.github.robertomike.hefesto.enums.Operator
 import io.github.robertomike.hefesto.exceptions.QueryException
 import io.github.robertomike.hefesto.exceptions.UnsupportedOperationException
+import io.github.robertomike.hefesto.hql.actions.wheres.WhereRaw
 
 class ConstructWhereImplementation : ConstructWhere() {
     private lateinit var params: MutableMap<String, Any?>
@@ -80,13 +83,13 @@ class ConstructWhereImplementation : ConstructWhere() {
 
     private fun constructWhereField(wheresQuery: MutableList<String>, whereField: WhereField) {
         when (whereField.operator) {
-            io.github.robertomike.hefesto.enums.Operator.LIKE,
-            io.github.robertomike.hefesto.enums.Operator.NOT_LIKE,
-            io.github.robertomike.hefesto.enums.Operator.EQUAL,
-            io.github.robertomike.hefesto.enums.Operator.DIFF,
-            io.github.robertomike.hefesto.enums.Operator.GREATER_OR_EQUAL,
-            io.github.robertomike.hefesto.enums.Operator.LESS,
-            io.github.robertomike.hefesto.enums.Operator.LESS_OR_EQUAL ->
+            Operator.LIKE,
+            Operator.NOT_LIKE,
+            Operator.EQUAL,
+            Operator.DIFF,
+            Operator.GREATER_OR_EQUAL,
+            Operator.LESS,
+            Operator.LESS_OR_EQUAL ->
                 wheresQuery.add("${whereField.parentField} ${whereField.operator.operator} ${whereField.field}")
 
             else -> throw UnsupportedOperationException("Unsupported operator: ${whereField.operator}")
@@ -113,8 +116,8 @@ class ConstructWhereImplementation : ConstructWhere() {
         var param = true
 
         when (where.operator) {
-            io.github.robertomike.hefesto.enums.Operator.IN,
-            io.github.robertomike.hefesto.enums.Operator.NOT_IN -> {
+            Operator.IN,
+            Operator.NOT_IN -> {
                 if (where.value is Hefesto<*>) {
                     wheresQuery.add("$field $operator (${(where.value as Hefesto<*>).getSubQuery(params)})")
                     return
@@ -133,16 +136,16 @@ class ConstructWhereImplementation : ConstructWhere() {
                 param = false
             }
 
-            io.github.robertomike.hefesto.enums.Operator.IS_NULL,
-            io.github.robertomike.hefesto.enums.Operator.IS_NOT_NULL -> {
+            Operator.IS_NULL,
+            Operator.IS_NOT_NULL -> {
                 wheresQuery.add("$field $operator")
                 param = false
             }
 
-            io.github.robertomike.hefesto.enums.Operator.NOT_FIND_IN_SET ->
+            Operator.NOT_FIND_IN_SET ->
                 wheresQuery.add("$operator($nameParamWhere,$field) = 0")
 
-            io.github.robertomike.hefesto.enums.Operator.FIND_IN_SET ->
+            Operator.FIND_IN_SET ->
                 wheresQuery.add("$operator($nameParamWhere,$field) > 0")
 
             else -> wheresQuery.add("$field $operator $nameParamWhere")

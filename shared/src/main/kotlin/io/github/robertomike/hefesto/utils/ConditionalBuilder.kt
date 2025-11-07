@@ -524,7 +524,7 @@ interface ConditionalBuilder<R : ConditionalBuilder<R>> {
     }
 
     /**
-     * Adds a BaseWhere object to the list of wheres and returns itself.
+     * Adds a BaseWhere object to the list of where's and returns itself.
      *
      * @param where the BaseWhere object to be added
      * @return the modified object
