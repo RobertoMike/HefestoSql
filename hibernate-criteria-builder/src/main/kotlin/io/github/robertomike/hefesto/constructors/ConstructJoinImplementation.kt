@@ -1,9 +1,15 @@
 package io.github.robertomike.hefesto.constructors
 
+import io.github.robertomike.hefesto.actions.wheres.Where
 import jakarta.persistence.criteria.*
 
 class ConstructJoinImplementation<T> : ConstructJoin() {
     val joins: MutableMap<String, Join<*, *>> = HashMap()
+    
+    /**
+     * Stores inline WHERE conditions for each join, keyed by join alias
+     */
+    val joinConditions: MutableMap<String, MutableList<Where>> = HashMap()
 
     fun construct(root: Root<*>) {
         items.forEach { joinDef ->
@@ -35,7 +41,6 @@ class ConstructJoinImplementation<T> : ConstructJoin() {
             // Custom join with explicit conditions
             // This would require more complex handling with CriteriaBuilder
             // For now, we'll use relationship join and log a warning
-            // TODO: Implement custom join with on() conditions
             from.join<Any, Any>(joinDef.table, joinType)
         } else {
             // Relationship join (standard JPA relationship)
@@ -44,6 +49,11 @@ class ConstructJoinImplementation<T> : ConstructJoin() {
 
         // Store the join with its alias
         joins[alias] = join
+        
+        // Store inline WHERE conditions for this join
+        if (joinDef.conditions.isNotEmpty()) {
+            joinConditions[alias] = joinDef.conditions.toMutableList()
+        }
 
         // Process nested deep joins recursively
         if (joinDef.hasDeepJoins()) {

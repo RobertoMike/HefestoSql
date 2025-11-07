@@ -8,7 +8,7 @@ plugins {
 val artifactId = "hefesto-base"
 
 group = "io.github.robertomike"
-version = "1.1.3"
+version = "2.0.0"
 
 repositories {
     mavenCentral()
@@ -39,6 +39,12 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
+    // Add jakarta.persistence-api for JPA metamodel support (compileOnly to avoid forcing it on users)
+    compileOnly("jakarta.persistence:jakarta.persistence-api:3.1.0")
+    
+    // Add kotlin-reflect for property references
+    implementation(kotlin("reflect"))
+    
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
 

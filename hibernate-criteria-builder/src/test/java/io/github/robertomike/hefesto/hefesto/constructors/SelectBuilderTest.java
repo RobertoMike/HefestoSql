@@ -66,7 +66,7 @@ public class SelectBuilderTest {
     void selectAvgIdOfUsers() {
         var result = new Hefesto<>(User.class)
                 .addSelect("id", SelectOperator.AVG)
-                .findFirstFor(Float.class);
+                .findFirstFor(Double.class);
 
         assertNotNull(result);
         assertTrue(result > 1);

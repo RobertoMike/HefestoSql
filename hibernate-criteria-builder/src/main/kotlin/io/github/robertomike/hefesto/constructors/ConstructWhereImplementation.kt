@@ -15,22 +15,110 @@ class ConstructWhereImplementation : ConstructWhere() {
     protected lateinit var root: Root<*>
     private var joins: Map<String, Join<*, *>> = HashMap()
     private var parentRoot: Root<*>? = null
+    private var joinConditions: Map<String, List<io.github.robertomike.hefesto.actions.wheres.Where>> = HashMap()
 
     fun setJoins(joins: Map<String, Join<*, *>>): ConstructWhereImplementation {
         this.joins = joins
         return this
     }
+    
+    fun setJoinConditions(joinConditions: Map<String, List<io.github.robertomike.hefesto.actions.wheres.Where>>): ConstructWhereImplementation {
+        this.joinConditions = joinConditions
+        return this
+    }
 
     fun construct(cb: CriteriaBuilder, cr: CriteriaQuery<*>, root: Root<*>) {
-        if (isEmpty()) {
-            return
-        }
-
         this.cr = cr
         this.cb = cb
         this.root = root
 
-        cr.where(transform(items))
+        // Collect all predicates: regular WHERE conditions + inline join conditions
+        val predicates = mutableListOf<Predicate>()
+        
+        // Add regular WHERE conditions
+        if (isNotEmpty()) {
+            predicates.add(transform(items))
+        }
+        
+        // Add inline join conditions
+        joinConditions.forEach { (alias, conditions) ->
+            conditions.forEach { condition ->
+                val joinPredicate = createJoinPredicate(alias, condition)
+                if (joinPredicate != null) {
+                    predicates.add(joinPredicate)
+                }
+            }
+        }
+        
+        // Apply all predicates
+        if (predicates.isNotEmpty()) {
+            cr.where(*predicates.toTypedArray())
+        }
+    }
+    
+    /**
+     * Creates a predicate for an inline join condition
+     */
+    private fun createJoinPredicate(alias: String, condition: io.github.robertomike.hefesto.actions.wheres.Where): Predicate? {
+        val join = joins[alias] ?: return null
+        
+        // Use the join as the From element for this condition
+        val from = join as From<*, *>
+        val field = condition.field
+        
+        return when (condition.operator) {
+            io.github.robertomike.hefesto.enums.Operator.LIKE -> cb.like(
+                getFieldFrom<String>(from, field),
+                condition.value.toString()
+            )
+
+            io.github.robertomike.hefesto.enums.Operator.NOT_LIKE -> cb.notLike(
+                getFieldFrom<String>(from, field),
+                condition.value.toString()
+            )
+
+            io.github.robertomike.hefesto.enums.Operator.EQUAL -> {
+                if (condition.value == null) {
+                    cb.isNull(getFieldFrom<Any>(from, field))
+                } else {
+                    cb.equal(getFieldFrom<Any>(from, field), condition.value)
+                }
+            }
+
+            io.github.robertomike.hefesto.enums.Operator.DIFF -> {
+                if (condition.value == null) {
+                    cb.isNotNull(getFieldFrom<Any>(from, field))
+                } else {
+                    cb.notEqual(getFieldFrom<Any>(from, field), condition.value)
+                }
+            }
+
+            io.github.robertomike.hefesto.enums.Operator.GREATER -> cb.gt(
+                getFieldFrom<Number>(from, field),
+                condition.value as Number
+            )
+
+            io.github.robertomike.hefesto.enums.Operator.LESS -> cb.lt(
+                getFieldFrom<Number>(from, field),
+                condition.value as Number
+            )
+
+            io.github.robertomike.hefesto.enums.Operator.GREATER_OR_EQUAL -> cb.ge(
+                getFieldFrom<Number>(from, field),
+                condition.value as Number
+            )
+
+            io.github.robertomike.hefesto.enums.Operator.LESS_OR_EQUAL -> cb.le(
+                getFieldFrom<Number>(from, field),
+                condition.value as Number
+            )
+
+            io.github.robertomike.hefesto.enums.Operator.IN -> {
+                getFieldFrom<Any>(from, field).`in`(condition.value)
+            }
+
+            else -> throw UnsupportedOperationException("Unsupported operator for join condition: ${condition.operator}")
+        }
     }
 
     private fun transform(wheres: List<BaseWhere>): Predicate {

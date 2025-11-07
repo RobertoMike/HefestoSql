@@ -3,15 +3,18 @@ package io.github.robertomike.hefesto.builders
 import io.github.robertomike.hefesto.actions.wheres.WhereRaw
 import io.github.robertomike.hefesto.constructors.*
 import io.github.robertomike.hefesto.enums.JoinOperator
+import io.github.robertomike.hefesto.enums.SelectOperator
 import io.github.robertomike.hefesto.enums.WhereOperator
 import io.github.robertomike.hefesto.models.BaseModel
 import io.github.robertomike.hefesto.utils.FluentHibernateResultTransformer
 import io.github.robertomike.hefesto.utils.Page
 import io.github.robertomike.hefesto.utils.SharedMethods
+import io.github.robertomike.hefesto.utils.SubQueryContext
 import org.hibernate.QueryException
 import org.hibernate.Session
 import org.hibernate.query.Query
 import java.util.*
+import java.util.function.Consumer
 
 class Hefesto<T : BaseModel> : BaseBuilder<T, Session, ConstructWhereImplementation, ConstructJoinImplementation,
         ConstructOrderImplementation, ConstructSelectImplementation, ConstructGroupByImplementation, Hefesto<T>>,
@@ -253,6 +256,282 @@ class Hefesto<T : BaseModel> : BaseBuilder<T, Session, ConstructWhereImplementat
             orders.construct(),
             groupBy.construct()
         ).joinToString(" ")
+    }
+
+    // ================================
+    // Lambda-based Subquery Methods
+    // ================================
+
+    /**
+     * Adds a WHERE IN clause using a lambda-based subquery.
+     *
+     * Usage:
+     * ```java
+     * var users = Hefesto.make(User.class)
+     *     .whereIn("id", UserPet.class, subQuery -> {
+     *         subQuery.addSelect("user.id");
+     *         subQuery.where("petType", "DOG");
+     *     })
+     *     .get();
+     * ```
+     *
+     * @param field The field to check against the subquery results
+     * @param subQueryModel The entity class for the subquery
+     * @param configurer Lambda to configure the subquery
+     * @return this builder for chaining
+     */
+    fun <S : BaseModel> whereIn(field: String, subQueryModel: Class<S>, configurer: Consumer<SubQueryContext<S>>): Hefesto<T> {
+        val subQueryBuilder = Hefesto.make(subQueryModel)
+        val context = SubQueryContext(subQueryBuilder)
+        configurer.accept(context)
+        return whereIn(field, subQueryBuilder) as Hefesto<T>
+    }
+
+    /**
+     * Adds a WHERE NOT IN clause using a lambda-based subquery.
+     *
+     * Usage:
+     * ```java
+     * var users = Hefesto.make(User.class)
+     *     .whereNotIn("id", UserPet.class, subQuery -> {
+     *         subQuery.addSelect("user.id");
+     *         subQuery.where("petType", "CAT");
+     *     })
+     *     .get();
+     * ```
+     *
+     * @param field The field to check against the subquery results
+     * @param subQueryModel The entity class for the subquery
+     * @param configurer Lambda to configure the subquery
+     * @return this builder for chaining
+     */
+    fun <S : BaseModel> whereNotIn(field: String, subQueryModel: Class<S>, configurer: Consumer<SubQueryContext<S>>): Hefesto<T> {
+        val subQueryBuilder = Hefesto.make(subQueryModel)
+        val context = SubQueryContext(subQueryBuilder)
+        configurer.accept(context)
+        return whereNotIn(field, subQueryBuilder) as Hefesto<T>
+    }
+
+    // Note: whereExists/whereNotExists are not supported in HQL base builder
+    // Use whereRaw() for custom EXISTS queries if needed
+
+    /**
+     * Adds an OR WHERE IN clause using a lambda-based subquery.
+     *
+     * @param field The field to check against the subquery results
+     * @param subQueryModel The entity class for the subquery
+     * @param configurer Lambda to configure the subquery
+     * @return this builder for chaining
+     */
+    fun <S : BaseModel> orWhereIn(field: String, subQueryModel: Class<S>, configurer: Consumer<SubQueryContext<S>>): Hefesto<T> {
+        val subQueryBuilder = Hefesto.make(subQueryModel)
+        val context = SubQueryContext(subQueryBuilder)
+        configurer.accept(context)
+        return orWhereIn(field, subQueryBuilder) as Hefesto<T>
+    }
+
+    /**
+     * Adds an OR WHERE NOT IN clause using a lambda-based subquery.
+     *
+     * @param field The field to check against the subquery results
+     * @param subQueryModel The entity class for the subquery
+     * @param configurer Lambda to configure the subquery
+     * @return this builder for chaining
+     */
+    fun <S : BaseModel> orWhereNotIn(field: String, subQueryModel: Class<S>, configurer: Consumer<SubQueryContext<S>>): Hefesto<T> {
+        val subQueryBuilder = Hefesto.make(subQueryModel)
+        val context = SubQueryContext(subQueryBuilder)
+        configurer.accept(context)
+        return orWhereNotIn(field, subQueryBuilder) as Hefesto<T>
+    }
+
+    // Note: orWhereExists/orWhereNotExists are not supported in HQL base builder
+    // Use whereRaw() or orWhereRaw() for custom EXISTS queries if needed
+
+    // ================================
+    // Aggregate Function Shortcuts
+    // ================================
+
+    /**
+     * Adds a COUNT aggregate function for the specified field.
+     * This is a convenience method that wraps addSelect with SelectOperator.COUNT.
+     *
+     * Usage:
+     * ```java
+     * // Count all records
+     * var builder = Hefesto.make(User.class).count();
+     *
+     * // Count specific field
+     * var builder = Hefesto.make(User.class).count("id");
+     * ```
+     *
+     * @param field The field name to count (defaults to "*" for COUNT(*))
+     * @return this builder for chaining
+     */
+    @JvmOverloads
+    fun count(field: String = "*"): Hefesto<T> {
+        return addSelect(field, SelectOperator.COUNT) as Hefesto<T>
+    }
+
+    /**
+     * Adds a COUNT aggregate function with an alias.
+     * Useful for groupBy queries where you need to reference the count in results.
+     *
+     * Usage:
+     * ```java
+     * var results = Hefesto.make(UserPet.class)
+     *     .addSelect("user.id")
+     *     .count("id", "petCount")
+     *     .groupBy("user")
+     *     .get();
+     * ```
+     *
+     * @param field The field name to count
+     * @param alias The alias for the aggregate result
+     * @return this builder for chaining
+     */
+    fun count(field: String, alias: String): Hefesto<T> {
+        return addSelect(field, alias, SelectOperator.COUNT) as Hefesto<T>
+    }
+
+    /**
+     * Adds a SUM aggregate function for the specified field.
+     *
+     * Usage:
+     * ```java
+     * var builder = Hefesto.make(Order.class).sum("amount");
+     * ```
+     *
+     * @param field The field name to sum
+     * @return this builder for chaining
+     */
+    fun sum(field: String): Hefesto<T> {
+        return addSelect(field, SelectOperator.SUM) as Hefesto<T>
+    }
+
+    /**
+     * Adds a SUM aggregate function with an alias.
+     *
+     * Usage:
+     * ```java
+     * var stats = Hefesto.make(Order.class)
+     *     .addSelect("userId")
+     *     .sum("amount", "totalAmount")
+     *     .groupBy("userId")
+     *     .get();
+     * ```
+     *
+     * @param field The field name to sum
+     * @param alias The alias for the aggregate result
+     * @return this builder for chaining
+     */
+    fun sum(field: String, alias: String): Hefesto<T> {
+        return addSelect(field, alias, SelectOperator.SUM) as Hefesto<T>
+    }
+
+    /**
+     * Adds an AVG (average) aggregate function for the specified field.
+     *
+     * Usage:
+     * ```java
+     * var builder = Hefesto.make(User.class).avg("age");
+     * ```
+     *
+     * @param field The field name to average
+     * @return this builder for chaining
+     */
+    fun avg(field: String): Hefesto<T> {
+        return addSelect(field, SelectOperator.AVG) as Hefesto<T>
+    }
+
+    /**
+     * Adds an AVG aggregate function with an alias.
+     *
+     * Usage:
+     * ```java
+     * var stats = Hefesto.make(Employee.class)
+     *     .addSelect("department")
+     *     .avg("salary", "avgSalary")
+     *     .groupBy("department")
+     *     .get();
+     * ```
+     *
+     * @param field The field name to average
+     * @param alias The alias for the aggregate result
+     * @return this builder for chaining
+     */
+    fun avg(field: String, alias: String): Hefesto<T> {
+        return addSelect(field, alias, SelectOperator.AVG) as Hefesto<T>
+    }
+
+    /**
+     * Adds a MIN aggregate function for the specified field.
+     *
+     * Usage:
+     * ```java
+     * var builder = Hefesto.make(Product.class).min("price");
+     * ```
+     *
+     * @param field The field name to find minimum
+     * @return this builder for chaining
+     */
+    fun min(field: String): Hefesto<T> {
+        return addSelect(field, SelectOperator.MIN) as Hefesto<T>
+    }
+
+    /**
+     * Adds a MIN aggregate function with an alias.
+     *
+     * Usage:
+     * ```java
+     * var stats = Hefesto.make(Product.class)
+     *     .addSelect("category")
+     *     .min("price", "minPrice")
+     *     .groupBy("category")
+     *     .get();
+     * ```
+     *
+     * @param field The field name to find minimum
+     * @param alias The alias for the aggregate result
+     * @return this builder for chaining
+     */
+    fun min(field: String, alias: String): Hefesto<T> {
+        return addSelect(field, alias, SelectOperator.MIN) as Hefesto<T>
+    }
+
+    /**
+     * Adds a MAX aggregate function for the specified field.
+     *
+     * Usage:
+     * ```java
+     * var builder = Hefesto.make(Product.class).max("price");
+     * ```
+     *
+     * @param field The field name to find maximum
+     * @return this builder for chaining
+     */
+    fun max(field: String): Hefesto<T> {
+        return addSelect(field, SelectOperator.MAX) as Hefesto<T>
+    }
+
+    /**
+     * Adds a MAX aggregate function with an alias.
+     *
+     * Usage:
+     * ```java
+     * var stats = Hefesto.make(Product.class)
+     *     .addSelect("category")
+     *     .max("price", "maxPrice")
+     *     .groupBy("category")
+     *     .get();
+     * ```
+     *
+     * @param field The field name to find maximum
+     * @param alias The alias for the aggregate result
+     * @return this builder for chaining
+     */
+    fun max(field: String, alias: String): Hefesto<T> {
+        return addSelect(field, alias, SelectOperator.MAX) as Hefesto<T>
     }
 
 

@@ -1,5 +1,6 @@
 package io.github.robertomike.hefesto.actions
 
+import io.github.robertomike.hefesto.actions.wheres.Where
 import io.github.robertomike.hefesto.enums.JoinOperator
 import java.util.*
 
@@ -16,6 +17,12 @@ data class Join(
      * to create: root -> store -> user
      */
     val deepJoins: MutableList<Join> = mutableListOf()
+    
+    /**
+     * Optional WHERE conditions that should be applied to this join
+     * Used for inline join conditions like: join("pets") { it.where("name", "lola") }
+     */
+    val conditions: MutableList<Where> = mutableListOf()
 
     fun getAcronym(): String = alias ?: table.lowercase(Locale.ROOT)
 

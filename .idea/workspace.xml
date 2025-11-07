@@ -4,12 +4,30 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: test now pass">
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: add Deep Join feature documentation and integration tests">
+      <change afterPath="$PROJECT_DIR$/.idea/copilot.data.migration.agent.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/gradle.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/gradle.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/builders/Hefesto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/builders/Hefesto.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructJoinImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructJoinImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructSelectImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructSelectImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructWhereImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructWhereImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/SelectBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/SelectBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/builders/Hefesto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/builders/Hefesto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructJoinImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructJoinImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/constructors/JoinBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/constructors/JoinBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate/build.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/settings.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/settings.gradle.kts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/build.gradle.kts" beforeDir="false" afterPath="$PROJECT_DIR$/shared/build.gradle.kts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/Join.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/Join.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructJoin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructJoin.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/builders/BaseBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/builders/BaseBuilder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/utils/ConditionalBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/utils/ConditionalBuilder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/utils/SortBuilder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/utils/SortBuilder.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -86,18 +104,18 @@
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="GitHubPullRequestSearchHistory"><![CDATA[{
-  "lastFilter": {
-    "state": "OPEN",
-    "assignee": "RobertoMike"
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;RobertoMike&quot;
   }
-}]]></component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/RobertoMike/HefestoSql.git",
-    "accountId": "827264b6-9bb3-4fb5-b7e9-a85c4b9a278a"
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/RobertoMike/HefestoSql.git&quot;,
+    &quot;accountId&quot;: &quot;827264b6-9bb3-4fb5-b7e9-a85c4b9a278a&quot;
   }
-}]]></component>
+}</component>
   <component name="JpbToolWindowState">
     <option name="isToolWindowVisible" value="false" />
   </component>
@@ -123,6 +141,7 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "Gradle.All test.executor": "Coverage",
+    "Gradle.Bechnmark.executor": "Coverage",
     "Gradle.ComplexWheresTest.findInSetInsideCollection.executor": "Debug",
     "Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition.executor": "Debug",
     "Gradle.ComplexWheresTest.findInSetWithAnd.executor": "Debug",
@@ -184,8 +203,8 @@
       <command value="gradle publishToMavenLocal -Plocal=true" />
       <command value="gradle publishLibraryPublicationToMavenLocal -Plocal" />
       <command value="gradle hibernate-criteria-builder:publishLibraryPublicationToMavenLocal -Plocal" />
-      <command value="gradle publishToMavenLocal -Plocal" />
       <command value="gradle build -x test" />
+      <command value="gradle publishToMavenLocal -Plocal" />
     </option>
   </component>
   <component name="RunManager" selected="Gradle.All test">
@@ -240,8 +259,39 @@
       </ExternalSystemSettings>
       <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
       <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <EXTENSION ID="com.intellij.execution.ExternalSystemRunConfigurationJavaExtension">
+        <extension name="coverage">
+          <pattern>
+            <option name="PATTERN" value="io.github.robertomike.hefesto.benchmarks.*" />
+            <option name="ENABLED" value="true" />
+            <option name="INCLUDE" value="false" />
+          </pattern>
+        </extension>
+      </EXTENSION>
       <DebugAllEnabled>false</DebugAllEnabled>
       <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="Bechnmark" type="GradleRunConfiguration" factoryName="Gradle">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":hefesto-benchmarks:jmh" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
     <configuration name="HefestoSql [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
@@ -392,6 +442,7 @@
     <list>
       <item itemvalue="Gradle.All test" />
       <item itemvalue="Gradle.test hibernate-query-language" />
+      <item itemvalue="Gradle.Bechnmark" />
       <item itemvalue="Gradle.HefestoSql [build]" />
       <item itemvalue="Gradle.HefestoSql:shared [publishLibraryPublicationToCentral_repository_ossrhRepository]" />
       <item itemvalue="Gradle.HefestoSql [hibernate-criteria-builder:publishLibraryPublicationToMavenLocal]" />
@@ -459,7 +510,8 @@
       <workItem from="1720099098522" duration="6460000" />
       <workItem from="1731493347826" duration="33000" />
       <workItem from="1731527145372" duration="1954000" />
-      <workItem from="1762423230845" duration="8285000" />
+      <workItem from="1762423230845" duration="22421000" />
+      <workItem from="1762517827463" duration="6980000" />
     </task>
     <task id="LOCAL-00001" summary="Feat: implementing a module for hibernate 5 and change workflow to release every module independently">
       <option name="closed" value="true" />
@@ -645,7 +697,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762439726539</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="Feat: add Deep Join feature documentation and integration tests">
+      <option name="closed" value="true" />
+      <created>1762444514931</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1762444514931</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -673,7 +733,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="feature/change-to-kotlin" />
+                        <option value="origin/hibernate-5" />
                       </list>
                     </value>
                   </entry>
@@ -709,7 +769,9 @@
     <MESSAGE value="Fix: solving problem with the pipeline of release with hibernate base" />
     <MESSAGE value="Feat: changing from java to kotlin, now build, we need to fix some test." />
     <MESSAGE value="Feat: test now pass" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: test now pass" />
+    <MESSAGE value="Feat: improved joins" />
+    <MESSAGE value="Feat: add Deep Join feature documentation and integration tests" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: add Deep Join feature documentation and integration tests" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -724,7 +786,8 @@
     <select />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1762439633874" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/HefestoSql$Bechnmark.ic" NAME="Bechnmark Coverage Results" MODIFIED="1762526438318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
+    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1762527763479" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/HefestoSql$test_hibernate_query_language.ic" NAME="test hibernate-query-language Coverage Results" MODIFIED="1716278027755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/HefestoSql$GroupByBuilderTest_groupBy.ic" NAME="GroupByBuilderTest.groupBy Coverage Results" MODIFIED="1716152058601" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
     <SUITE FILE_PATH="coverage/HefestoSql$HefestoTest_findFirstBy.ic" NAME="HefestoTest.findFirstBy Coverage Results" MODIFIED="1715418112916" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

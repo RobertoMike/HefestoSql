@@ -25,7 +25,7 @@ class ConstructSelectImplementation<T : BaseModel> : ConstructSelect() {
         multiSelect(root, cr, cb)
     }
 
-    fun multiSelect(root: Root<*>, cr: CriteriaQuery<*>, cb: CriteriaBuilder) {
+    fun multiSelect(root: Root<*>, cr: CriteriaQuery<*>, cb: CriteriaBuilder, isProjection: Boolean = false) {
         this.cb = cb
 
         val selects = mutableListOf<Selection<*>>()
@@ -40,7 +40,19 @@ class ConstructSelectImplementation<T : BaseModel> : ConstructSelect() {
             selects.add(select)
         }
 
-        cr.multiselect(*selects.toTypedArray())
+        // For a single select without alias, try using select() for simple types
+        // BUT not when projecting to a DTO, as multiselect() is required for constructor calls
+        if (selects.size == 1 && items[0].alias == null && !isProjection) {
+            try {
+                @Suppress("UNCHECKED_CAST")
+                (cr as CriteriaQuery<Any>).select(selects[0] as Selection<Any>)
+            } catch (e: Exception) {
+                // Fallback to multiselect if select() doesn't work
+                cr.multiselect(*selects.toTypedArray())
+            }
+        } else {
+            cr.multiselect(*selects.toTypedArray())
+        }
     }
 
     private fun getSelectField(root: Root<*>, element: Select): Expression<*> {

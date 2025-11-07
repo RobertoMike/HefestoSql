@@ -13,6 +13,8 @@ import io.github.robertomike.hefesto.utils.ConditionalBuilder
 import io.github.robertomike.hefesto.utils.Page
 import io.github.robertomike.hefesto.utils.SortBuilder
 import io.github.robertomike.hefesto.utils.CastUtils.getClassInstance
+import jakarta.persistence.metamodel.SingularAttribute
+import kotlin.reflect.KProperty1
 import java.util.*
 
 /**
@@ -118,6 +120,11 @@ abstract class BaseBuilder<
     fun setSelect(select: String): BUILDER {
         this.selects.clear()
         selects.add(Select(select))
+        return this as BUILDER
+    }
+
+    fun limit(limit: Int): BUILDER {
+        this.limit = limit
         return this as BUILDER
     }
 
@@ -248,6 +255,144 @@ abstract class BaseBuilder<
         joins.add(Join.make(table, joinField, operator))
         return this as BUILDER
     }
+
+    // ========== TYPE-SAFE JOIN SUPPORT ==========
+
+    /**
+     * Type-safe join using JPA Metamodel SingularAttribute.
+     *
+     * @param attribute the JPA metamodel attribute representing the relationship
+     * @return the modified builder object
+     */
+    fun <T, V> join(attribute: SingularAttribute<T, V>): BUILDER {
+        joins.add(Join.make(attribute.name, attribute.name))
+        return this as BUILDER
+    }
+
+    /**
+     * Type-safe join using JPA Metamodel SingularAttribute with operator.
+     *
+     * @param attribute the JPA metamodel attribute
+     * @param operator the join operator
+     * @return the modified builder object
+     */
+    fun <T, V> join(attribute: SingularAttribute<T, V>, operator: JoinOperator): BUILDER {
+        joins.add(Join.make(attribute.name, attribute.name, operator))
+        return this as BUILDER
+    }
+
+    /**
+     * Type-safe join using Kotlin property reference.
+     *
+     * @param property the Kotlin property reference
+     * @return the modified builder object
+     */
+    fun <T, V> join(property: KProperty1<T, V>): BUILDER {
+        joins.add(Join.make(property.name, property.name))
+        return this as BUILDER
+    }
+
+    /**
+     * Type-safe join using Kotlin property reference with operator.
+     *
+     * @param property the Kotlin property reference
+     * @param operator the join operator
+     * @return the modified builder object
+     */
+    fun <T, V> join(property: KProperty1<T, V>, operator: JoinOperator): BUILDER {
+        joins.add(Join.make(property.name, property.name, operator))
+        return this as BUILDER
+    }
+
+    // ========== TYPE-SAFE SELECT SUPPORT ==========
+
+    /**
+     * Type-safe addSelect using JPA Metamodel SingularAttribute.
+     *
+     * @param attribute the JPA metamodel attribute
+     * @return the current instance
+     */
+    fun <T, V> addSelect(attribute: SingularAttribute<T, V>): BUILDER {
+        return addSelect(attribute.name)
+    }
+
+    /**
+     * Type-safe addSelect using JPA Metamodel SingularAttribute with alias.
+     *
+     * @param attribute the JPA metamodel attribute
+     * @param alias the alias for the select
+     * @return the current instance
+     */
+    fun <T, V> addSelect(attribute: SingularAttribute<T, V>, alias: String): BUILDER {
+        return addSelect(attribute.name, alias)
+    }
+
+    /**
+     * Type-safe addSelect using JPA Metamodel SingularAttribute with operator.
+     *
+     * @param attribute the JPA metamodel attribute
+     * @param operator the select operator (SUM, COUNT, etc.)
+     * @return the current instance
+     */
+    fun <T, V> addSelect(attribute: SingularAttribute<T, V>, operator: SelectOperator): BUILDER {
+        return addSelect(attribute.name, operator)
+    }
+
+    /**
+     * Type-safe addSelect using Kotlin property reference.
+     *
+     * @param property the Kotlin property reference
+     * @return the current instance
+     */
+    fun <T, V> addSelect(property: KProperty1<T, V>): BUILDER {
+        return addSelect(property.name)
+    }
+
+    /**
+     * Type-safe addSelect using Kotlin property reference with alias.
+     *
+     * @param property the Kotlin property reference
+     * @param alias the alias for the select
+     * @return the current instance
+     */
+    fun <T, V> addSelect(property: KProperty1<T, V>, alias: String): BUILDER {
+        return addSelect(property.name, alias)
+    }
+
+    /**
+     * Type-safe addSelect using Kotlin property reference with operator.
+     *
+     * @param property the Kotlin property reference
+     * @param operator the select operator (SUM, COUNT, etc.)
+     * @return the current instance
+     */
+    fun <T, V> addSelect(property: KProperty1<T, V>, operator: SelectOperator): BUILDER {
+        return addSelect(property.name, operator)
+    }
+
+    // ========== TYPE-SAFE GROUP BY SUPPORT ==========
+
+    /**
+     * Type-safe groupBy using JPA Metamodel SingularAttribute.
+     *
+     * @param attribute the JPA metamodel attribute
+     * @return the current instance
+     */
+    fun <T, V> groupBy(attribute: SingularAttribute<T, V>): BUILDER {
+        return groupBy(attribute.name)
+    }
+
+    /**
+     * Type-safe groupBy using Kotlin property reference.
+     *
+     * @param property the Kotlin property reference
+     * @return the current instance
+     */
+    fun <T, V> groupBy(property: KProperty1<T, V>): BUILDER {
+        return groupBy(property.name)
+    }
+
+    // ========== END TYPE-SAFE SUPPORT ==========
 
     /**
      * This allows you to group by multiple fields

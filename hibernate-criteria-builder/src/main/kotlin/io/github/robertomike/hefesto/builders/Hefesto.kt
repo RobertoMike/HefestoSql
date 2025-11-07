@@ -129,6 +129,46 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
     }
 
     /**
+     * Adds a join with inline conditions using a builder lambda.
+     * This allows you to configure the join with an alias and WHERE conditions.
+     * 
+     * Example:
+     * ```java
+     * Hefesto.make(User.class)
+     *     .join("pets", join -> {
+     *         join.alias("Pet");
+     *         join.where("name", "lola");
+     *     })
+     *     .get();
+     * ```
+     *
+     * @param field the field to join on
+     * @param configurator lambda to configure the join (alias, conditions, etc.)
+     * @return the updated Hefesto object
+     */
+    fun join(field: String, configurator: java.util.function.Consumer<JoinBuilder>): Hefesto<T> {
+        val builder = JoinBuilder(field)
+        configurator.accept(builder)
+        joins.add(builder.build())
+        return this
+    }
+
+    /**
+     * Adds a join with specific join type and inline conditions using a builder lambda.
+     *
+     * @param field the field to join on
+     * @param joinType the type of join (LEFT, RIGHT, INNER, etc.)
+     * @param configurator lambda to configure the join (alias, conditions, etc.)
+     * @return the updated Hefesto object
+     */
+    fun join(field: String, joinType: JoinOperator, configurator: java.util.function.Consumer<JoinBuilder>): Hefesto<T> {
+        val builder = JoinBuilder(field, joinType)
+        configurator.accept(builder)
+        joins.add(builder.build())
+        return this
+    }
+
+    /**
      * Adds fetch joins for eager loading relationships.
      *
      * @param fields the fields to fetch
@@ -250,7 +290,7 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      * @return The created query.
      */
     @Suppress("UNCHECKED_CAST")
-    protected fun createQuery(): Query<T> {
+    private fun createQuery(): Query<T> {
         val currentSession = getSessionInstance()
         val cb = currentSession.criteriaBuilder
         val cr = cb.createQuery(model)
@@ -263,9 +303,9 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         if (originalModel == null) {
             selects.construct(root as Root<T>, cr, cb)
         } else {
-            selects.multiSelect(root, cr, cb)
+            selects.multiSelect(root, cr, cb, isProjection = true)
         }
-        wheres.setJoins(joins.joins).construct(cb, cr, root)
+        wheres.setJoins(joins.joins).setJoinConditions(joins.joinConditions).construct(cb, cr, root)
         orders.setJoins(joins.joins).construct(cb, cr, root)
         groupBy.construct(cr, root)
 
@@ -320,7 +360,7 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         joins.construct(root)
         val allJoins = HashMap(parentJoins)
         allJoins.putAll(joins.joins)
-        wheres.setJoins(allJoins).constructSubQuery(sub, cb, root, parentRoot)
+        wheres.setJoins(allJoins).setJoinConditions(joins.joinConditions).constructSubQuery(sub, cb, root, parentRoot)
         selects.setJoins(allJoins).constructSubQuery(root, sub)
         groupBy.construct(cr, root)
 
@@ -374,7 +414,7 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
 
         cr.select(cb.count(root))
         joins.construct(root)
-        wheres.setJoins(joins.joins).construct(cb, cr, root)
+        wheres.setJoins(joins.joins).setJoinConditions(joins.joinConditions).construct(cb, cr, root)
         groupBy.construct(cr, root)
 
         return currentSession.createQuery(cr).singleResult
@@ -433,11 +473,482 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
         selects.setJoins(joins.joins)
             .multiSelect(root, cr, cb)
         wheres.setJoins(joins.joins)
+            .setJoinConditions(joins.joinConditions)
             .construct(cb, cr, root)
         orders.setJoins(joins.joins)
             .construct(cb, cr, root)
         groupBy.construct(cr, root)
 
         return cr
+    }
+
+    // ========== LAMBDA-BASED SUBQUERY METHODS ==========
+
+    /**
+     * Adds a WHERE IN clause with a lambda-configured subquery.
+     * The subquery result type is automatically inferred from the field type.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * whereIn("id", UserPet.class, subQuery -> {
+     *     subQuery.addSelect("user.id");
+     *     subQuery.where("active", true);
+     * })
+     * 
+     * // Kotlin
+     * whereIn("id", UserPet::class.java) {
+     *     addSelect("user.id")
+     *     where("active", true)
+     * }
+     * ```
+     *
+     * @param field the field to apply the WHERE IN clause on
+     * @param subQueryModel the entity class for the subquery
+     * @param block the lambda to configure the subquery
+     * @return the updated Hefesto object
+     */
+    fun <S : BaseModel> whereIn(
+        field: String,
+        subQueryModel: Class<S>,
+        block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
+    ): Hefesto<T> {
+        val subQuery = make(subQueryModel)
+        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
+        block.accept(context)
+        
+        // Automatically set result type to the field type if not explicitly set
+        if (!subQuery.hasCustomResultForSubQuery() && subQuery.getSelectsSize() > 0) {
+            // Try to infer result type from field
+            try {
+                val fieldObj = model.getDeclaredField(field)
+                subQuery.setCustomResultForSubQuery(fieldObj.type)
+            } catch (e: NoSuchFieldException) {
+                // Field might be from a join or deep path, default to Long
+                // User can call setCustomResultForSubQuery on getBuilder() if different type needed
+                subQuery.setCustomResultForSubQuery(Long::class.java)
+            }
+        }
+        
+        return whereIn(field, context.getBuilder())
+    }
+
+    /**
+     * Adds a WHERE NOT IN clause with a lambda-configured subquery.
+     * The subquery result type is automatically inferred from the field type.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * whereNotIn("id", UserPet.class, subQuery -> {
+     *     subQuery.addSelect("user.id");
+     *     subQuery.where("active", false);
+     * })
+     * ```
+     *
+     * @param field the field to apply the WHERE NOT IN clause on
+     * @param subQueryModel the entity class for the subquery
+     * @param block the lambda to configure the subquery
+     * @return the updated Hefesto object
+     */
+    fun <S : BaseModel> whereNotIn(
+        field: String,
+        subQueryModel: Class<S>,
+        block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
+    ): Hefesto<T> {
+        val subQuery = make(subQueryModel)
+        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
+        block.accept(context)
+        
+        // Automatically set result type to the field type if not explicitly set
+        if (!subQuery.hasCustomResultForSubQuery() && subQuery.getSelectsSize() > 0) {
+            try {
+                val fieldObj = model.getDeclaredField(field)
+                subQuery.setCustomResultForSubQuery(fieldObj.type)
+            } catch (e: NoSuchFieldException) {
+                // Field might be from a join or deep path, default to Long
+                subQuery.setCustomResultForSubQuery(Long::class.java)
+            }
+        }
+        
+        return whereNotIn(field, context.getBuilder())
+    }
+
+    /**
+     * Adds an OR WHERE IN clause with a lambda-configured subquery.
+     * The subquery result type is automatically inferred from the field type.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * orWhereIn("id", UserPet.class, subQuery -> {
+     *     subQuery.addSelect("user.id");
+     *     subQuery.where("status", "PENDING");
+     * })
+     * ```
+     *
+     * @param field the field to apply the WHERE IN clause on
+     * @param subQueryModel the entity class for the subquery
+     * @param block the lambda to configure the subquery
+     * @return the updated Hefesto object
+     */
+    fun <S : BaseModel> orWhereIn(
+        field: String,
+        subQueryModel: Class<S>,
+        block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
+    ): Hefesto<T> {
+        val subQuery = make(subQueryModel)
+        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
+        block.accept(context)
+        
+        if (!subQuery.hasCustomResultForSubQuery() && subQuery.getSelectsSize() > 0) {
+            try {
+                val fieldObj = model.getDeclaredField(field)
+                subQuery.setCustomResultForSubQuery(fieldObj.type)
+            } catch (e: NoSuchFieldException) {
+                // Field might be from a join or deep path, default to Long
+                subQuery.setCustomResultForSubQuery(Long::class.java)
+            }
+        }
+        
+        return orWhereIn(field, context.getBuilder())
+    }
+
+    /**
+     * Adds an OR WHERE NOT IN clause with a lambda-configured subquery.
+     * The subquery result type is automatically inferred from the field type.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * orWhereNotIn("id", UserPet.class, subQuery -> {
+     *     subQuery.addSelect("user.id");
+     *     subQuery.where("deleted", true);
+     * })
+     * ```
+     *
+     * @param field the field to apply the WHERE NOT IN clause on
+     * @param subQueryModel the entity class for the subquery
+     * @param block the lambda to configure the subquery
+     * @return the updated Hefesto object
+     */
+    fun <S : BaseModel> orWhereNotIn(
+        field: String,
+        subQueryModel: Class<S>,
+        block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
+    ): Hefesto<T> {
+        val subQuery = make(subQueryModel)
+        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
+        block.accept(context)
+        
+        if (!subQuery.hasCustomResultForSubQuery() && subQuery.getSelectsSize() > 0) {
+            try {
+                val fieldObj = model.getDeclaredField(field)
+                subQuery.setCustomResultForSubQuery(fieldObj.type)
+            } catch (e: NoSuchFieldException) {
+                // Field might be from a join or deep path, default to Long
+                subQuery.setCustomResultForSubQuery(Long::class.java)
+            }
+        }
+        
+        return orWhereNotIn(field, context.getBuilder())
+    }
+
+    /**
+     * Adds a WHERE EXISTS clause with a lambda-configured subquery.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * whereExists(UserPet.class, subQuery -> {
+     *     subQuery.whereField("user.id", "id");
+     *     subQuery.where("active", true);
+     * })
+     * ```
+     *
+     * @param subQueryModel the entity class for the subquery
+     * @param block the lambda to configure the subquery
+     * @return the updated Hefesto object
+     */
+    fun <S : BaseModel> whereExists(
+        subQueryModel: Class<S>,
+        block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
+    ): Hefesto<T> {
+        val subQuery = make(subQueryModel)
+        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
+        block.accept(context)
+        return whereExists(context.getBuilder())
+    }
+
+    /**
+     * Adds a WHERE NOT EXISTS clause with a lambda-configured subquery.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * whereNotExists(UserPet.class, subQuery -> {
+     *     subQuery.whereField("user.id", "id");
+     *     subQuery.where("deleted", true);
+     * })
+     * ```
+     *
+     * @param subQueryModel the entity class for the subquery
+     * @param block the lambda to configure the subquery
+     * @return the updated Hefesto object
+     */
+    fun <S : BaseModel> whereNotExists(
+        subQueryModel: Class<S>,
+        block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
+    ): Hefesto<T> {
+        val subQuery = make(subQueryModel)
+        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
+        block.accept(context)
+        return whereNotExists(context.getBuilder())
+    }
+
+    /**
+     * Adds an OR WHERE EXISTS clause with a lambda-configured subquery.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * orWhereExists(UserPet.class, subQuery -> {
+     *     subQuery.whereField("user.id", "id");
+     *     subQuery.where("status", "ACTIVE");
+     * })
+     * ```
+     *
+     * @param subQueryModel the entity class for the subquery
+     * @param block the lambda to configure the subquery
+     * @return the updated Hefesto object
+     */
+    fun <S : BaseModel> orWhereExists(
+        subQueryModel: Class<S>,
+        block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
+    ): Hefesto<T> {
+        val subQuery = make(subQueryModel)
+        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
+        block.accept(context)
+        return orWhereExists(context.getBuilder())
+    }
+
+    /**
+     * Adds an OR WHERE NOT EXISTS clause with a lambda-configured subquery.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * orWhereNotExists(UserPet.class, subQuery -> {
+     *     subQuery.whereField("user.id", "id");
+     *     subQuery.where("archived", true);
+     * })
+     * ```
+     *
+     * @param subQueryModel the entity class for the subquery
+     * @param block the lambda to configure the subquery
+     * @return the updated Hefesto object
+     */
+    fun <S : BaseModel> orWhereNotExists(
+        subQueryModel: Class<S>,
+        block: java.util.function.Consumer<io.github.robertomike.hefesto.utils.SubQueryContext<Hefesto<S>>>
+    ): Hefesto<T> {
+        val subQuery = make(subQueryModel)
+        val context = io.github.robertomike.hefesto.utils.SubQueryContext(subQuery)
+        block.accept(context)
+        return orWhereNotExists(context.getBuilder())
+    }
+
+    // ==================== Aggregate Function Shortcuts ====================
+
+    /**
+     * Adds a COUNT aggregate function to the select clause.
+     * If no field is specified, counts all rows (COUNT(*)).
+     * 
+     * Example:
+     * ```
+     * // Java
+     * Long count = Hefesto.make(User.class)
+     *     .count()
+     *     .findFirstFor(Long.class);
+     * 
+     * Long activeCount = Hefesto.make(User.class)
+     *     .where("active", true)
+     *     .count("id")
+     *     .findFirstFor(Long.class);
+     * ```
+     *
+     * @param field optional field to count (defaults to "*" for count all)
+     * @return the updated Hefesto object
+     */
+    @JvmOverloads
+    fun count(field: String = "*"): Hefesto<T> {
+        return addSelect(field, io.github.robertomike.hefesto.enums.SelectOperator.COUNT) as Hefesto<T>
+    }
+
+    /**
+     * Adds a COUNT aggregate function with an alias.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * Hefesto.make(User.class)
+     *     .count("id", "totalUsers")
+     *     .findFirstFor(Long.class);
+     * ```
+     *
+     * @param field the field to count
+     * @param alias the alias for the result
+     * @return the updated Hefesto object
+     */
+    fun count(field: String, alias: String): Hefesto<T> {
+        return addSelect(field, alias, io.github.robertomike.hefesto.enums.SelectOperator.COUNT) as Hefesto<T>
+    }
+
+    /**
+     * Adds a SUM aggregate function to the select clause.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * Double total = Hefesto.make(Order.class)
+     *     .sum("amount")
+     *     .findFirstFor(Double.class);
+     * ```
+     *
+     * @param field the field to sum
+     * @return the updated Hefesto object
+     */
+    fun sum(field: String): Hefesto<T> {
+        return addSelect(field, io.github.robertomike.hefesto.enums.SelectOperator.SUM) as Hefesto<T>
+    }
+
+    /**
+     * Adds a SUM aggregate function with an alias.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * Hefesto.make(Order.class)
+     *     .sum("amount", "totalAmount")
+     *     .findFirstFor(Double.class);
+     * ```
+     *
+     * @param field the field to sum
+     * @param alias the alias for the result
+     * @return the updated Hefesto object
+     */
+    fun sum(field: String, alias: String): Hefesto<T> {
+        return addSelect(field, alias, io.github.robertomike.hefesto.enums.SelectOperator.SUM) as Hefesto<T>
+    }
+
+    /**
+     * Adds an AVG (average) aggregate function to the select clause.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * Double avgAge = Hefesto.make(User.class)
+     *     .avg("age")
+     *     .findFirstFor(Double.class);
+     * ```
+     *
+     * @param field the field to average
+     * @return the updated Hefesto object
+     */
+    fun avg(field: String): Hefesto<T> {
+        return addSelect(field, io.github.robertomike.hefesto.enums.SelectOperator.AVG) as Hefesto<T>
+    }
+
+    /**
+     * Adds an AVG aggregate function with an alias.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * Hefesto.make(User.class)
+     *     .avg("age", "averageAge")
+     *     .findFirstFor(Double.class);
+     * ```
+     *
+     * @param field the field to average
+     * @param alias the alias for the result
+     * @return the updated Hefesto object
+     */
+    fun avg(field: String, alias: String): Hefesto<T> {
+        return addSelect(field, alias, io.github.robertomike.hefesto.enums.SelectOperator.AVG) as Hefesto<T>
+    }
+
+    /**
+     * Adds a MIN aggregate function to the select clause.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * Long minId = Hefesto.make(User.class)
+     *     .min("id")
+     *     .findFirstFor(Long.class);
+     * ```
+     *
+     * @param field the field to find minimum value
+     * @return the updated Hefesto object
+     */
+    fun min(field: String): Hefesto<T> {
+        return addSelect(field, io.github.robertomike.hefesto.enums.SelectOperator.MIN) as Hefesto<T>
+    }
+
+    /**
+     * Adds a MIN aggregate function with an alias.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * Hefesto.make(User.class)
+     *     .min("age", "youngestAge")
+     *     .findFirstFor(Integer.class);
+     * ```
+     *
+     * @param field the field to find minimum value
+     * @param alias the alias for the result
+     * @return the updated Hefesto object
+     */
+    fun min(field: String, alias: String): Hefesto<T> {
+        return addSelect(field, alias, io.github.robertomike.hefesto.enums.SelectOperator.MIN) as Hefesto<T>
+    }
+
+    /**
+     * Adds a MAX aggregate function to the select clause.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * Long maxId = Hefesto.make(User.class)
+     *     .max("id")
+     *     .findFirstFor(Long.class);
+     * ```
+     *
+     * @param field the field to find maximum value
+     * @return the updated Hefesto object
+     */
+    fun max(field: String): Hefesto<T> {
+        return addSelect(field, io.github.robertomike.hefesto.enums.SelectOperator.MAX) as Hefesto<T>
+    }
+
+    /**
+     * Adds a MAX aggregate function with an alias.
+     * 
+     * Example:
+     * ```
+     * // Java
+     * Hefesto.make(User.class)
+     *     .max("age", "oldestAge")
+     *     .findFirstFor(Integer.class);
+     * ```
+     *
+     * @param field the field to find maximum value
+     * @param alias the alias for the result
+     * @return the updated Hefesto object
+     */
+    fun max(field: String, alias: String): Hefesto<T> {
+        return addSelect(field, alias, io.github.robertomike.hefesto.enums.SelectOperator.MAX) as Hefesto<T>
     }
 }
