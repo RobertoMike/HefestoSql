@@ -134,7 +134,7 @@ class ConstructWhereImplementation : ConstructWhere() {
                 return@forEach
             }
 
-            lastPredicate = applyWhereOperation(value, lastPredicate, predicate)
+            lastPredicate = applyWhereOperation(value, lastPredicate!!, predicate) // Do not remove the '!!' is useful for a smart cast in kotlin
         }
 
         return lastPredicate!!
