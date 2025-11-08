@@ -24,20 +24,20 @@ class ConstructWhereImplementation : ConstructWhere() {
         iterator(wheresQuery, items)
 
         if (wheresQuery.isNotEmpty()) {
-            wheresQuery.add(0, "Where ")
+            wheresQuery.add(0, "Where")
         }
 
-        return wheresQuery.joinToString("")
+        return wheresQuery.joinToString(" ")
     }
 
     fun iterator(wheresQuery: MutableList<String>, whereList: List<BaseWhere>) {
         whereList.forEach { value ->
             if (value is CollectionWhere) {
-                if (wheresQuery.isNotEmpty()) {
+                if (wheresQuery.isNotEmpty() && wheresQuery[wheresQuery.size - 1] != "(") {
                     wheresQuery.add(" ${value.whereOperation.operator}")
                 }
 
-                wheresQuery.add(" (")
+                wheresQuery.add("(")
                 iterator(wheresQuery, value.wheres)
                 wheresQuery.add(")")
                 return@forEach
@@ -47,13 +47,9 @@ class ConstructWhereImplementation : ConstructWhere() {
     }
 
     fun constructBaseWhere(wheresQuery: MutableList<String>, where: BaseWhere) {
-        if (wheresQuery.isNotEmpty()) {
-            if (wheresQuery[wheresQuery.size - 1] != " (") {
-                wheresQuery.add(" ${where.whereOperation.operator}")
-            }
+        if (wheresQuery.isNotEmpty() && wheresQuery[wheresQuery.size - 1] != "(") {
+            wheresQuery.add(where.whereOperation.operator)
         }
-
-        wheresQuery.add(" ")
 
         if (where is WhereRaw) {
             wheresQuery.add(where.query)

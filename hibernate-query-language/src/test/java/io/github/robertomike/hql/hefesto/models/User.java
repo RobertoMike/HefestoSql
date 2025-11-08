@@ -24,6 +24,17 @@ public class User implements HibernateModel {
     private String name;
     private String email;
     private String photo;
+    private Boolean active;
+    private Boolean verified;
+    private String role;
+    private Integer level;
+    private String phone;
+    
+    @Column(name = "deleted_at")
+    private java.time.LocalDateTime deletedAt;
+    
+    @Column(name = "created_at")
+    private java.time.LocalDateTime createdAt;
 
     @Column(name = "status")
     @Convert(converter = StatusConverter.class)

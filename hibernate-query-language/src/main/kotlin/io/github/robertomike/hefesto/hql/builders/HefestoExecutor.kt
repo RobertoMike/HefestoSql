@@ -249,8 +249,8 @@ internal class HefestoExecutor<T : BaseModel>(
             query, acronymTable,
             joins.construct(hefesto), joinsFetchQuery,
             wheres.construct(params, acronymTable),
-            orders.construct(),
-            groupBy.construct()
+            groupBy.construct(),
+            orders.construct()
         ).joinToString(" ")
     }
 
@@ -273,8 +273,8 @@ internal class HefestoExecutor<T : BaseModel>(
             query, acronymTable,
             joins.construct(hefesto),
             wheres.construct(params, acronymTable),
-            orders.construct(),
-            groupBy.construct()
+            groupBy.construct(),
+            orders.construct()
         ).joinToString(" ")
     }
 

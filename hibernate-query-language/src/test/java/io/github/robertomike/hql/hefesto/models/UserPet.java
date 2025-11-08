@@ -21,4 +21,12 @@ public class UserPet implements HibernateModel {
     @ManyToOne(optional = false, cascade = CascadeType.ALL)
     @JoinColumn(name = "pet_id", nullable = false)
     private Pet pet;
+    private Boolean active;
+    private String type;
+    
+    @Column(name = "created_at")
+    private java.time.LocalDateTime createdAt;
+    
+    @Column(name = "deleted_at")
+    private java.time.LocalDateTime deletedAt;
 }
