@@ -1,8 +1,7 @@
 plugins {
     kotlin("jvm")
     id("java-library")
-    id("maven-publish")
-    id("signing")
+    id("com.vanniktech.maven.publish")
 }
 
 group = "io.github.robertomike"
@@ -12,14 +11,9 @@ repositories {
     mavenCentral()
 }
 
-val pomGroupId = group
-val pomVersion = version
-val artifactId = "hefesto-hibernate-hql"
 val jdkCompileVersion = 17
 
 java {
-    withJavadocJar()
-    withSourcesJar()
     toolchain {
         languageVersion.set(JavaLanguageVersion.of(jdkCompileVersion))
     }
@@ -73,62 +67,43 @@ tasks.test {
     useJUnitPlatform()
 }
 
-publishing {
-    publications {
-        create<MavenPublication>("library") {
-            from(components["java"])
-
-            groupId = pomGroupId.toString()
-            artifactId = artifactId
-            version = pomVersion.toString()
-
-            pom {
-                name.set("HefestoSql")
-                description.set("HefestoSql is an open-source Java library for creation of query with hibernate")
-                url.set("https://github.com/RobertoMike/HefestoSql")
-                inceptionYear.set("2024")
-
-                licenses {
-                    license {
-                        name.set("MIT License")
-                        url.set("http://www.opensource.org/licenses/mit-license.php")
-                    }
-                }
-                developers {
-                    developer {
-                        name.set("Roberto Micheletti")
-                        email.set("rmworking@hotmail.com")
-                        organization.set("Roberto Micheletti")
-                        organizationUrl.set("https://github.com/RobertoMike")
-                    }
-                }
-                scm {
-                    connection.set("scm:git:git://github.com/RobertoMike/HefestoSql.git")
-                    developerConnection.set("scm:git:ssh://github.com:RobertoMike/HefestoSql.git")
-                    url.set("https://github.com/RobertoMike/HefestoSql")
-                }
+mavenPublishing {
+    publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
+    signAllPublications()
+    
+    coordinates(
+        groupId = project.group.toString(),
+        artifactId = "hefesto-hibernate-hql",
+        version = project.version.toString()
+    )
+    
+    pom {
+        name.set("HefestoSql - Hibernate Query Language")
+        description.set("HefestoSql Hibernate Query Language support - an open-source Kotlin/Java library for creating queries with Hibernate")
+        url.set("https://github.com/RobertoMike/HefestoSql")
+        inceptionYear.set("2024")
+        
+        licenses {
+            license {
+                name.set("MIT License")
+                url.set("https://opensource.org/licenses/MIT")
             }
         }
-    }
-    repositories {
-        maven {
-            name = "central_repository_ossrh"
-            url = uri("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
-            credentials {
-                username = System.getenv("OSSRH_USERNAME")
-                password = System.getenv("OSSRH_PASSWORD")
-            }
-            metadataSources {
-                gradleMetadata()
+        
+        developers {
+            developer {
+                id.set("robertomike")
+                name.set("Roberto Micheletti")
+                email.set("rmworking@hotmail.com")
+                url.set("https://github.com/RobertoMike")
             }
         }
-    }
-}
-
-if (!project.hasProperty("local")) {
-    signing {
-        setRequired { !version.toString().endsWith("SNAPSHOT") }
-        sign(publishing.publications["library"])
+        
+        scm {
+            connection.set("scm:git:git://github.com/RobertoMike/HefestoSql.git")
+            developerConnection.set("scm:git:ssh://git@github.com/RobertoMike/HefestoSql.git")
+            url.set("https://github.com/RobertoMike/HefestoSql")
+        }
     }
 }
 
@@ -136,9 +111,4 @@ tasks.register("printVersion") {
     doLast {
         println(project.version)
     }
-}
-
-tasks.javadoc {
-    source = sourceSets.main.get().allJava
-    classpath = configurations.compileClasspath.get()
 }
