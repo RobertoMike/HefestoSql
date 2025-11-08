@@ -187,6 +187,7 @@ internal class HefestoExecutor<T : BaseModel>(
         joinsFetch: ConstructJoinFetch,
         orders: ConstructOrderImplementation,
         groupBy: ConstructGroupByImplementation,
+        offset: Int?,
         hefesto: Hefesto<T>
     ): R {
         if (selects.isEmpty()) {
@@ -196,7 +197,7 @@ internal class HefestoExecutor<T : BaseModel>(
         return applyTransformer(
             createBaseQuery(
                 session, selects, wheres, joins, joinsFetch, 
-                orders, groupBy, 1, null, false, hefesto
+                orders, groupBy, 1, offset, false, hefesto
             ),
             resultClass
         ).singleResult
@@ -264,18 +265,32 @@ internal class HefestoExecutor<T : BaseModel>(
         orders: ConstructOrderImplementation,
         groupBy: ConstructGroupByImplementation,
         params: MutableMap<String, Any?>,
+        limit: Int?,
+        offset: Int?,
         hefesto: Hefesto<T>
     ): String {
         var query = selects.constructSubQuery(hefesto)
         query += " from $table"
 
-        return listOf(
+        val parts = listOf(
             query, acronymTable,
             joins.construct(hefesto),
             wheres.construct(params, acronymTable),
             groupBy.construct(),
             orders.construct()
-        ).joinToString(" ")
+        ).filter { it.isNotBlank() }
+        
+        var finalQuery = parts.joinToString(" ")
+        
+        // Add LIMIT and OFFSET to HQL subquery if specified
+        if (offset != null && offset > 0) {
+            finalQuery += " OFFSET $offset"
+        }
+        if (limit != null && limit > 0) {
+            finalQuery += " LIMIT $limit"
+        }
+        
+        return finalQuery
     }
 
     /**
@@ -304,8 +319,8 @@ internal class HefestoExecutor<T : BaseModel>(
      * Checks if the class is a basic/primitive type that doesn't need transformation.
      */
     private fun isBasicClass(clazz: Class<*>): Boolean {
-        return clazz == String::class.java || clazz == Boolean::class.javaObjectType || clazz == Char::class.javaObjectType ||
-                clazz == Byte::class.javaObjectType || clazz == Short::class.javaObjectType || clazz == Int::class.javaObjectType ||
-                clazz == Long::class.javaObjectType || clazz == Float::class.javaObjectType || clazz == Double::class.javaObjectType
+        return clazz == String::class.java || clazz == Boolean::class.javaPrimitiveType || clazz == Char::class.javaPrimitiveType ||
+                clazz == Byte::class.javaPrimitiveType || clazz == Short::class.javaPrimitiveType || clazz == Int::class.javaPrimitiveType ||
+                clazz == Long::class.javaPrimitiveType || clazz == Float::class.javaPrimitiveType || clazz == Double::class.javaPrimitiveType
     }
 }

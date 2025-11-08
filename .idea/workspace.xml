@@ -4,17 +4,15 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="feat: Implement HQL constructors for Join, Order, Select, Where, and utility classes&#10;&#10;- Added `ConstructJoinFetch` and `ConstructJoinImplementation` for handling join fetch and join operations in HQL.&#10;- Introduced `ConstructOrderImplementation` to manage order by clauses in HQL queries.&#10;- Created `ConstructSelectImplementation` for building select statements with support for aggregate functions.&#10;- Developed `ConstructWhereImplementation` to construct where clauses with various conditions and operators.&#10;- Implemented utility classes: `ClassUtils`, `FluentHibernateResultTransformer`, `NestedSetter`, `ReflectionUtils`, `StringUtils`, and `SubQueryContext` for enhanced functionality and ease of use in HQL.&#10;- Added `AggregateShortcuts` and `SubQueryConfigurer` to streamline aggregate function usage and subquery configuration.">
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: test solved">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/JoinBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/constructors/JoinBuilderTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/builders/HefestoExecutor.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/builders/HefestoExecutor.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructWhereImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructWhereImplementation.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/constructors/JoinBuilderTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/constructors/JoinBuilderTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/DEEP_JOIN_FEATURE.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/MIGRATION_NOTES.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/RELEASING.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructWhereImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructWhereImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/User.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/UserPet.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/UserPet.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/test/resources/data-base.sql" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/resources/data-base.sql" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/utils/SubQueryConfigurer.kt" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/utils/SubQueryContext.kt" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -127,7 +125,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "Gradle.All test.executor": "Run",
+    "Gradle.All test.executor": "Coverage",
     "Gradle.Bechnmark.executor": "Coverage",
     "Gradle.ComplexWheresTest.findInSetInsideCollection.executor": "Debug",
     "Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition.executor": "Debug",
@@ -511,7 +509,7 @@
       <workItem from="1762423230845" duration="22421000" />
       <workItem from="1762517827463" duration="6980000" />
       <workItem from="1762529452268" duration="10480000" />
-      <workItem from="1762596090646" duration="3525000" />
+      <workItem from="1762596090646" duration="7391000" />
     </task>
     <task id="LOCAL-00001" summary="Feat: implementing a module for hibernate 5 and change workflow to release every module independently">
       <option name="closed" value="true" />
@@ -721,7 +719,15 @@
       <option name="project" value="LOCAL" />
       <updated>1762537740061</updated>
     </task>
-    <option name="localTasksCounter" value="27" />
+    <task id="LOCAL-00027" summary="Feat: test solved">
+      <option name="closed" value="true" />
+      <created>1762601222842</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1762601222842</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -762,7 +768,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Feat: adding encoding to UTF-8" />
     <MESSAGE value="Feat: changing short key sign for github secret key" />
     <MESSAGE value="Feat: ide changes" />
     <MESSAGE value="Feat: updating README.md" />
@@ -787,16 +792,22 @@
     <MESSAGE value="Feat: add Deep Join feature documentation and integration tests" />
     <MESSAGE value="Add subquery support and join builder enhancements&#10;&#10;- Implemented SubQueryTest for testing lambda-based subqueries in HQL.&#10;- Added JoinBuilder class for configuring joins with inline conditions and nested joins.&#10;- Created SubQueryContext for building subqueries with a fluent API.&#10;- Developed WhereGroupContext for building grouped WHERE conditions with AND/OR logic.&#10;- Enhanced existing builder methods to support nested queries and conditions." />
     <MESSAGE value="feat: Implement HQL constructors for Join, Order, Select, Where, and utility classes&#10;&#10;- Added `ConstructJoinFetch` and `ConstructJoinImplementation` for handling join fetch and join operations in HQL.&#10;- Introduced `ConstructOrderImplementation` to manage order by clauses in HQL queries.&#10;- Created `ConstructSelectImplementation` for building select statements with support for aggregate functions.&#10;- Developed `ConstructWhereImplementation` to construct where clauses with various conditions and operators.&#10;- Implemented utility classes: `ClassUtils`, `FluentHibernateResultTransformer`, `NestedSetter`, `ReflectionUtils`, `StringUtils`, and `SubQueryContext` for enhanced functionality and ease of use in HQL.&#10;- Added `AggregateShortcuts` and `SubQueryConfigurer` to streamline aggregate function usage and subquery configuration." />
-    <option name="LAST_COMMIT_MESSAGE" value="feat: Implement HQL constructors for Join, Order, Select, Where, and utility classes&#10;&#10;- Added `ConstructJoinFetch` and `ConstructJoinImplementation` for handling join fetch and join operations in HQL.&#10;- Introduced `ConstructOrderImplementation` to manage order by clauses in HQL queries.&#10;- Created `ConstructSelectImplementation` for building select statements with support for aggregate functions.&#10;- Developed `ConstructWhereImplementation` to construct where clauses with various conditions and operators.&#10;- Implemented utility classes: `ClassUtils`, `FluentHibernateResultTransformer`, `NestedSetter`, `ReflectionUtils`, `StringUtils`, and `SubQueryContext` for enhanced functionality and ease of use in HQL.&#10;- Added `AggregateShortcuts` and `SubQueryConfigurer` to streamline aggregate function usage and subquery configuration." />
+    <MESSAGE value="Feat: test solved" />
+    <option name="LAST_COMMIT_MESSAGE" value="Feat: test solved" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
-          <url>file://$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/builders/HefestoExecutor.kt</url>
-          <line>247</line>
-          <option name="timeStamp" value="3" />
+          <url>file://$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructWhereImplementation.kt</url>
+          <line>50</line>
+          <option name="timeStamp" value="5" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructWhereImplementation.kt</url>
+          <line>36</line>
+          <option name="timeStamp" value="6" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -812,7 +823,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/HefestoSql$Bechnmark.ic" NAME="Bechnmark Coverage Results" MODIFIED="1762526438318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
-    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1762596118020" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1762609108264" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <EXCLUDED_FILTER>io.github.robertomike.hefesto.benchmarks.*</EXCLUDED_FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/HefestoSql$test_hibernate_query_language.ic" NAME="test hibernate-query-language Coverage Results" MODIFIED="1716278027755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

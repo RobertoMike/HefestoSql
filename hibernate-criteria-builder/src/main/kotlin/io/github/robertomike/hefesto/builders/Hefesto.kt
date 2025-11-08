@@ -343,7 +343,7 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      * @return the first result of the specified class, or null if no result is found
      */
     fun <R> findFirstFor(resultClass: Class<R>): R {
-        return executor.findFirstFor(getSessionInstance(), resultClass, selects, wheres, joins, orders, groupBy)
+        return executor.findFirstFor(getSessionInstance(), resultClass, selects, wheres, joins, orders, groupBy, offset)
     }
 
     /**
@@ -353,7 +353,7 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      * @return a list of objects of the specified resultClass
      */
     fun <R> findFor(resultClass: Class<R>): List<R> {
-        return executor.findFor(getSessionInstance(), resultClass, selects, wheres, joins, orders, groupBy)
+        return executor.findFor(getSessionInstance(), resultClass, selects, wheres, joins, orders, groupBy, limit, offset)
     }
 
     // ========== HELPER METHODS ==========

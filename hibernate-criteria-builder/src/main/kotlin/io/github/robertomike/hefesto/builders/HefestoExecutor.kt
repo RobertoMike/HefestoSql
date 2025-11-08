@@ -120,6 +120,11 @@ internal class HefestoExecutor<T : BaseModel>(
         selects.setJoins(allJoins).constructSubQuery(root, sub)
         groupBy.construct(cr, root)
 
+        // Note: Hibernate Criteria API's Subquery doesn't support setMaxResults/setFirstResult
+        // Limits in subqueries are typically handled at the SQL level
+        // For now, we pass the parameters but cannot apply them directly
+        // This is a known limitation of Hibernate's Criteria API
+
         return sub
     }
 
@@ -226,7 +231,8 @@ internal class HefestoExecutor<T : BaseModel>(
         wheres: ConstructWhereImplementation,
         joins: ConstructJoinImplementation<T>,
         orders: ConstructOrderImplementation,
-        groupBy: ConstructGroupByImplementation
+        groupBy: ConstructGroupByImplementation,
+        offset: Int?
     ): R {
         if (selects.isEmpty()) {
             throw QueryException("You need put at least one select")
@@ -235,6 +241,10 @@ internal class HefestoExecutor<T : BaseModel>(
         val cr = commonConstructForCustomResult(session, resultClass, selects, wheres, joins, orders, groupBy)
         val query = session.createQuery(cr)
         query.maxResults = 1
+        
+        if (offset != null) {
+            query.firstResult = offset
+        }
 
         return query.singleResult
     }
@@ -252,14 +262,25 @@ internal class HefestoExecutor<T : BaseModel>(
         wheres: ConstructWhereImplementation,
         joins: ConstructJoinImplementation<T>,
         orders: ConstructOrderImplementation,
-        groupBy: ConstructGroupByImplementation
+        groupBy: ConstructGroupByImplementation,
+        limit: Int?,
+        offset: Int?
     ): List<R> {
         if (selects.isEmpty()) {
             throw QueryException("You need put at least one select")
         }
 
         val cr = commonConstructForCustomResult(session, resultClass, selects, wheres, joins, orders, groupBy)
-        return session.createQuery(cr).resultList
+        val query = session.createQuery(cr)
+        
+        if (limit != null) {
+            query.maxResults = limit
+        }
+        if (offset != null) {
+            query.firstResult = offset
+        }
+        
+        return query.resultList
     }
 
     /**

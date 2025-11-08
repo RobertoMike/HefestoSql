@@ -20,34 +20,34 @@ import java.util.Set;
 public class User implements HibernateModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    private String name;
-    private String email;
-    private String photo;
-    private Boolean active;
-    private Boolean verified;
-    private String role;
-    private Integer level;
-    private String phone;
+    public Long id;
+    public String name;
+    public String email;
+    public String photo;
+    public Boolean active;
+    public Boolean verified;
+    public String role;
+    public Integer level;
+    public String phone;
     
     @Column(name = "deleted_at")
-    private java.time.LocalDateTime deletedAt;
+    public java.time.LocalDateTime deletedAt;
     
     @Column(name = "created_at")
-    private java.time.LocalDateTime createdAt;
+    public java.time.LocalDateTime createdAt;
 
     @Column(name = "status")
     @Convert(converter = StatusConverter.class)
-    private Set<Status> status;
+    public Set<Status> status;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_pet",
             joinColumns = {@JoinColumn(name = "user_id")},
             inverseJoinColumns = @JoinColumn(name = "pet_id"))
     @ToString.Exclude
-    private Set<Pet> pets;
+    public Set<Pet> pets;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", orphanRemoval = true, cascade = CascadeType.ALL)
-    private List<Address> addresses;
+    public List<Address> addresses;
 
     public User(Long id, String name) {
         this.id = id;

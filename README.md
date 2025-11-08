@@ -219,10 +219,23 @@ Hefesto.make(User.class)
 
 ## 📖 Documentation
 
-- **[Complete Documentation](DOCUMENTATION.md)** - Full feature guide with comprehensive examples
-- **[Performance Benchmarks](benchmarks/README.md)** - Performance comparison with raw Hibernate
-- **[API Reference](docs/API.md)** - Detailed API documentation
+### Getting Started
+- **[Getting Started Guide](docs/GETTING_STARTED.md)** - Installation, setup, and first queries
 - **[Migration Guide](docs/MIGRATION.md)** - Upgrade guide for existing projects
+
+### Core Features
+- **[Type-Safe Properties](docs/TYPE_SAFE_PROPERTIES.md)** - Compile-time safe property references (Java & Kotlin)
+- **[Deep Joins](docs/DEEP_JOINS.md)** - Navigate multi-level relationships with dot notation
+- **[Conditional Groups](docs/CONDITIONAL_GROUPS.md)** - Build complex WHERE clauses with whereAny/whereAll
+- **[Subqueries](docs/SUBQUERIES.md)** - Lambda-based subquery builder with EXISTS, IN, NOT IN
+
+### Advanced Topics
+- **[Advanced Features](docs/ADVANCED_FEATURES.md)** - DTOs, projections, pagination, performance optimization
+- **[Performance Benchmarks](benchmarks/README.md)** - Performance comparison with raw Hibernate
+
+### Reference
+- **[Complete Documentation](DOCUMENTATION.md)** - Legacy comprehensive documentation
+- **[Releasing Guide](docs/RELEASING.md)** - For maintainers
 
 ---
 

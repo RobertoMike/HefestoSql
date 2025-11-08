@@ -2,10 +2,12 @@ package io.github.robertomike.hefesto.utils
 
 import io.github.robertomike.hefesto.builders.BaseBuilder
 import io.github.robertomike.hefesto.enums.SelectOperator
+import kotlin.reflect.KProperty1
 
 /**
  * Interface providing shortcut methods for common aggregate functions.
  * These methods simplify adding aggregate selections like COUNT, SUM, AVG, MIN, MAX.
+ * Supports both string-based field names and Kotlin property references for type safety.
  *
  * @param <B> the builder type
  */
@@ -68,6 +70,44 @@ interface AggregateShortcuts<B : BaseBuilder<*, *, *, *, *, *, *, *>> {
     }
 
     /**
+     * Adds a COUNT aggregate function using a Kotlin property reference.
+     * 
+     * Example:
+     * ```
+     * // Kotlin
+     * val activeCount = Hefesto.make(User::class.java)
+     *     .where(User::active, true)
+     *     .count(User::id)
+     *     .findFirstFor(Long::class.java)
+     * ```
+     *
+     * @param property the property to count
+     * @return the updated builder object
+     */
+    fun <T, R> count(property: KProperty1<T, R>): B {
+        return (this as B).addSelect(property, SelectOperator.COUNT) as B
+    }
+
+    /**
+     * Adds a COUNT aggregate function using a Kotlin property reference with an alias.
+     * 
+     * Example:
+     * ```
+     * // Kotlin
+     * Hefesto.make(User::class.java)
+     *     .count(User::id, "totalUsers")
+     *     .findFirstFor(Long::class.java)
+     * ```
+     *
+     * @param property the property to count
+     * @param alias the alias for the result
+     * @return the updated builder object
+     */
+    fun <T, R> count(property: KProperty1<T, R>, alias: String): B {
+        return (this as B).addSelect(property.name, alias, SelectOperator.COUNT) as B
+    }
+
+    /**
      * Adds a SUM aggregate function to the select clause.
      * 
      * Example:
@@ -102,6 +142,43 @@ interface AggregateShortcuts<B : BaseBuilder<*, *, *, *, *, *, *, *>> {
      */
     fun sum(field: String, alias: String): B {
         return (this as B).addSelect(field, alias, SelectOperator.SUM) as B
+    }
+
+    /**
+     * Adds a SUM aggregate function using a Kotlin property reference.
+     * 
+     * Example:
+     * ```
+     * // Kotlin
+     * val total = Hefesto.make(Order::class.java)
+     *     .sum(Order::amount)
+     *     .findFirstFor(Double::class.java)
+     * ```
+     *
+     * @param property the property to sum
+     * @return the updated builder object
+     */
+    fun <T, R> sum(property: KProperty1<T, R>): B {
+        return (this as B).addSelect(property, SelectOperator.SUM) as B
+    }
+
+    /**
+     * Adds a SUM aggregate function using a Kotlin property reference with an alias.
+     * 
+     * Example:
+     * ```
+     * // Kotlin
+     * Hefesto.make(Order::class.java)
+     *     .sum(Order::amount, "totalAmount")
+     *     .findFirstFor(Double::class.java)
+     * ```
+     *
+     * @param property the property to sum
+     * @param alias the alias for the result
+     * @return the updated builder object
+     */
+    fun <T, R> sum(property: KProperty1<T, R>, alias: String): B {
+        return (this as B).addSelect(property.name, alias, SelectOperator.SUM) as B
     }
 
     /**
@@ -142,6 +219,43 @@ interface AggregateShortcuts<B : BaseBuilder<*, *, *, *, *, *, *, *>> {
     }
 
     /**
+     * Adds an AVG (average) aggregate function using a Kotlin property reference.
+     * 
+     * Example:
+     * ```
+     * // Kotlin
+     * val avgAge = Hefesto.make(User::class.java)
+     *     .avg(User::age)
+     *     .findFirstFor(Double::class.java)
+     * ```
+     *
+     * @param property the property to average
+     * @return the updated builder object
+     */
+    fun <T, R> avg(property: KProperty1<T, R>): B {
+        return (this as B).addSelect(property, SelectOperator.AVG) as B
+    }
+
+    /**
+     * Adds an AVG aggregate function using a Kotlin property reference with an alias.
+     * 
+     * Example:
+     * ```
+     * // Kotlin
+     * Hefesto.make(User::class.java)
+     *     .avg(User::age, "averageAge")
+     *     .findFirstFor(Double::class.java)
+     * ```
+     *
+     * @param property the property to average
+     * @param alias the alias for the result
+     * @return the updated builder object
+     */
+    fun <T, R> avg(property: KProperty1<T, R>, alias: String): B {
+        return (this as B).addSelect(property.name, alias, SelectOperator.AVG) as B
+    }
+
+    /**
      * Adds a MIN aggregate function to the select clause.
      * 
      * Example:
@@ -179,6 +293,43 @@ interface AggregateShortcuts<B : BaseBuilder<*, *, *, *, *, *, *, *>> {
     }
 
     /**
+     * Adds a MIN aggregate function using a Kotlin property reference.
+     * 
+     * Example:
+     * ```
+     * // Kotlin
+     * val minId = Hefesto.make(User::class.java)
+     *     .min(User::id)
+     *     .findFirstFor(Long::class.java)
+     * ```
+     *
+     * @param property the property to find minimum value
+     * @return the updated builder object
+     */
+    fun <T, R> min(property: KProperty1<T, R>): B {
+        return (this as B).addSelect(property, SelectOperator.MIN) as B
+    }
+
+    /**
+     * Adds a MIN aggregate function using a Kotlin property reference with an alias.
+     * 
+     * Example:
+     * ```
+     * // Kotlin
+     * Hefesto.make(User::class.java)
+     *     .min(User::age, "youngestAge")
+     *     .findFirstFor(Int::class.java)
+     * ```
+     *
+     * @param property the property to find minimum value
+     * @param alias the alias for the result
+     * @return the updated builder object
+     */
+    fun <T, R> min(property: KProperty1<T, R>, alias: String): B {
+        return (this as B).addSelect(property.name, alias, SelectOperator.MIN) as B
+    }
+
+    /**
      * Adds a MAX aggregate function to the select clause.
      * 
      * Example:
@@ -213,5 +364,42 @@ interface AggregateShortcuts<B : BaseBuilder<*, *, *, *, *, *, *, *>> {
      */
     fun max(field: String, alias: String): B {
         return (this as B).addSelect(field, alias, SelectOperator.MAX) as B
+    }
+
+    /**
+     * Adds a MAX aggregate function using a Kotlin property reference.
+     * 
+     * Example:
+     * ```
+     * // Kotlin
+     * val maxId = Hefesto.make(User::class.java)
+     *     .max(User::id)
+     *     .findFirstFor(Long::class.java)
+     * ```
+     *
+     * @param property the property to find maximum value
+     * @return the updated builder object
+     */
+    fun <T, R> max(property: KProperty1<T, R>): B {
+        return (this as B).addSelect(property, SelectOperator.MAX) as B
+    }
+
+    /**
+     * Adds a MAX aggregate function using a Kotlin property reference with an alias.
+     * 
+     * Example:
+     * ```
+     * // Kotlin
+     * Hefesto.make(User::class.java)
+     *     .max(User::age, "oldestAge")
+     *     .findFirstFor(Int::class.java)
+     * ```
+     *
+     * @param property the property to find maximum value
+     * @param alias the alias for the result
+     * @return the updated builder object
+     */
+    fun <T, R> max(property: KProperty1<T, R>, alias: String): B {
+        return (this as B).addSelect(property.name, alias, SelectOperator.MAX) as B
     }
 }

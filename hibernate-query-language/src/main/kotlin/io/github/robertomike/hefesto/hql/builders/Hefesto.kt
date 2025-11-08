@@ -168,7 +168,8 @@ class Hefesto<T : BaseModel> : BaseBuilder<T, Session, ConstructWhereImplementat
      * @return the first result of the specified class, or null if no result is found
      */
     fun <R> findFirstFor(resultClass: Class<R>): R {
-        return executor.findFirstFor(getSessionInstance(), resultClass, selects, wheres, joins, joinsFetch, orders, groupBy, this)
+        return executor.findFirstFor(getSessionInstance(), resultClass, selects, wheres, joins, joinsFetch, orders, groupBy,
+            offset, this)
     }
 
     /**
@@ -186,7 +187,7 @@ class Hefesto<T : BaseModel> : BaseBuilder<T, Session, ConstructWhereImplementat
     }
 
     fun getSubQuery(params: MutableMap<String, Any?>): String {
-        return executor.getSubQuery(selects, wheres, joins, orders, groupBy, params, this)
+        return executor.getSubQuery(selects, wheres, joins, orders, groupBy, params, limit, offset, this)
     }
 
     // ================================

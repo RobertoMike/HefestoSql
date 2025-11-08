@@ -2,8 +2,6 @@ package io.github.robertomike.hefesto;
 
 import io.github.robertomike.hefesto.builders.Hefesto;
 import io.github.robertomike.hefesto.enums.Operator;
-import io.github.robertomike.hefesto.enums.Status;
-import io.github.robertomike.hefesto.hefesto.models.Pet;
 import io.github.robertomike.hefesto.hefesto.models.User;
 import io.github.robertomike.hefesto.hefesto.models.User_;
 import org.junit.jupiter.api.Test;
@@ -413,7 +411,7 @@ public class LambdaConditionalGroupTest {
     public void testWhereAnyWithNullValues() {
         var users = Hefesto.make(User.class)
                 .whereAny(group -> {
-                    group.where("name", (String) null);  // Should be ignored
+                    group.where("name", null);  // Should be ignored
                     group.where("email", "test@example.com");
                 })
                 .get();

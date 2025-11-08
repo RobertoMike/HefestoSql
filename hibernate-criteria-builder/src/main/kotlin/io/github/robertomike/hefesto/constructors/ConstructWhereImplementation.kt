@@ -2,6 +2,8 @@ package io.github.robertomike.hefesto.constructors
 
 import io.github.robertomike.hefesto.actions.wheres.*
 import io.github.robertomike.hefesto.builders.Hefesto
+import io.github.robertomike.hefesto.enums.Operator
+import io.github.robertomike.hefesto.enums.WhereOperator
 import io.github.robertomike.hefesto.exceptions.QueryException
 import io.github.robertomike.hefesto.exceptions.UnsupportedOperationException
 import io.github.robertomike.hefesto.utils.CastUtils
@@ -15,14 +17,14 @@ class ConstructWhereImplementation : ConstructWhere() {
     protected lateinit var root: Root<*>
     private var joins: Map<String, Join<*, *>> = HashMap()
     private var parentRoot: Root<*>? = null
-    private var joinConditions: Map<String, List<io.github.robertomike.hefesto.actions.wheres.Where>> = HashMap()
+    private var joinConditions: Map<String, List<Where>> = HashMap()
 
     fun setJoins(joins: Map<String, Join<*, *>>): ConstructWhereImplementation {
         this.joins = joins
         return this
     }
     
-    fun setJoinConditions(joinConditions: Map<String, List<io.github.robertomike.hefesto.actions.wheres.Where>>): ConstructWhereImplementation {
+    fun setJoinConditions(joinConditions: Map<String, List<Where>>): ConstructWhereImplementation {
         this.joinConditions = joinConditions
         return this
     }
@@ -59,7 +61,7 @@ class ConstructWhereImplementation : ConstructWhere() {
     /**
      * Creates a predicate for an inline join condition
      */
-    private fun createJoinPredicate(alias: String, condition: io.github.robertomike.hefesto.actions.wheres.Where): Predicate? {
+    private fun createJoinPredicate(alias: String, condition: Where): Predicate? {
         val join = joins[alias] ?: return null
         
         // Use the join as the From element for this condition
@@ -67,17 +69,17 @@ class ConstructWhereImplementation : ConstructWhere() {
         val field = condition.field
         
         return when (condition.operator) {
-            io.github.robertomike.hefesto.enums.Operator.LIKE -> cb.like(
+            Operator.LIKE -> cb.like(
                 getFieldFrom<String>(from, field),
                 condition.value.toString()
             )
 
-            io.github.robertomike.hefesto.enums.Operator.NOT_LIKE -> cb.notLike(
+            Operator.NOT_LIKE -> cb.notLike(
                 getFieldFrom<String>(from, field),
                 condition.value.toString()
             )
 
-            io.github.robertomike.hefesto.enums.Operator.EQUAL -> {
+            Operator.EQUAL -> {
                 if (condition.value == null) {
                     cb.isNull(getFieldFrom<Any>(from, field))
                 } else {
@@ -85,7 +87,7 @@ class ConstructWhereImplementation : ConstructWhere() {
                 }
             }
 
-            io.github.robertomike.hefesto.enums.Operator.DIFF -> {
+            Operator.DIFF -> {
                 if (condition.value == null) {
                     cb.isNotNull(getFieldFrom<Any>(from, field))
                 } else {
@@ -93,27 +95,27 @@ class ConstructWhereImplementation : ConstructWhere() {
                 }
             }
 
-            io.github.robertomike.hefesto.enums.Operator.GREATER -> cb.gt(
+            Operator.GREATER -> cb.gt(
                 getFieldFrom<Number>(from, field),
                 condition.value as Number
             )
 
-            io.github.robertomike.hefesto.enums.Operator.LESS -> cb.lt(
+            Operator.LESS -> cb.lt(
                 getFieldFrom<Number>(from, field),
                 condition.value as Number
             )
 
-            io.github.robertomike.hefesto.enums.Operator.GREATER_OR_EQUAL -> cb.ge(
+            Operator.GREATER_OR_EQUAL -> cb.ge(
                 getFieldFrom<Number>(from, field),
                 condition.value as Number
             )
 
-            io.github.robertomike.hefesto.enums.Operator.LESS_OR_EQUAL -> cb.le(
+            Operator.LESS_OR_EQUAL -> cb.le(
                 getFieldFrom<Number>(from, field),
                 condition.value as Number
             )
 
-            io.github.robertomike.hefesto.enums.Operator.IN -> {
+            Operator.IN -> {
                 getFieldFrom<Any>(from, field).`in`(condition.value)
             }
 
@@ -132,7 +134,7 @@ class ConstructWhereImplementation : ConstructWhere() {
                 return@forEach
             }
 
-            lastPredicate = applyWhereOperation(value, lastPredicate!!, predicate)
+            lastPredicate = applyWhereOperation(value, lastPredicate, predicate)
         }
 
         return lastPredicate!!
@@ -168,42 +170,42 @@ class ConstructWhereImplementation : ConstructWhere() {
         }
 
         return when (where.operator) {
-            io.github.robertomike.hefesto.enums.Operator.LIKE -> cb.like(
+            Operator.LIKE -> cb.like(
                 getFieldFrom<String>(from, field),
                 getFieldFrom<String>(parentFrom, parentField)
             )
 
-            io.github.robertomike.hefesto.enums.Operator.NOT_LIKE -> cb.notLike(
+            Operator.NOT_LIKE -> cb.notLike(
                 getFieldFrom<String>(from, field),
                 getFieldFrom<String>(parentFrom, parentField)
             )
 
-            io.github.robertomike.hefesto.enums.Operator.EQUAL -> cb.equal(
+            Operator.EQUAL -> cb.equal(
                 getFieldFrom<Any>(from, field),
                 getFieldFrom<Any>(parentFrom, parentField)
             )
 
-            io.github.robertomike.hefesto.enums.Operator.DIFF -> cb.notEqual(
+            Operator.DIFF -> cb.notEqual(
                 getFieldFrom<Any>(from, field),
                 getFieldFrom<Any>(parentFrom, parentField)
             )
 
-            io.github.robertomike.hefesto.enums.Operator.GREATER -> cb.gt(
+            Operator.GREATER -> cb.gt(
                 getFieldFrom<Number>(from, field),
                 getFieldFrom<Number>(parentFrom, parentField)
             )
 
-            io.github.robertomike.hefesto.enums.Operator.LESS -> cb.lt(
+            Operator.LESS -> cb.lt(
                 getFieldFrom<Number>(from, field),
                 getFieldFrom<Number>(parentFrom, parentField)
             )
 
-            io.github.robertomike.hefesto.enums.Operator.GREATER_OR_EQUAL -> cb.ge(
+            Operator.GREATER_OR_EQUAL -> cb.ge(
                 getFieldFrom<Number>(from, field),
                 getFieldFrom<Number>(parentFrom, parentField)
             )
 
-            io.github.robertomike.hefesto.enums.Operator.LESS_OR_EQUAL -> cb.le(
+            Operator.LESS_OR_EQUAL -> cb.le(
                 getFieldFrom<Number>(from, field),
                 getFieldFrom<Number>(parentFrom, parentField)
             )
@@ -234,67 +236,65 @@ class ConstructWhereImplementation : ConstructWhere() {
         }
 
         return when (where.operator) {
-            io.github.robertomike.hefesto.enums.Operator.LIKE -> cb.like(
+            Operator.LIKE -> cb.like(
                 getFieldFrom<String>(from, field),
                 where.value.toString()
             )
 
-            io.github.robertomike.hefesto.enums.Operator.NOT_LIKE -> cb.notLike(
+            Operator.NOT_LIKE -> cb.notLike(
                 getFieldFrom<String>(from, field),
                 where.value.toString()
             )
 
-            io.github.robertomike.hefesto.enums.Operator.EQUAL -> cb.equal(
+            Operator.EQUAL -> cb.equal(
                 getFieldFrom<Any>(from, field),
                 where.value
             )
 
-            io.github.robertomike.hefesto.enums.Operator.DIFF -> cb.notEqual(
+            Operator.DIFF -> cb.notEqual(
                 getFieldFrom<Any>(from, field),
                 where.value
             )
 
-            io.github.robertomike.hefesto.enums.Operator.GREATER -> {
+            Operator.GREATER -> {
                 val path: Path<Number> = getFieldFrom(from, field)
                 val value = getTransformedValue(where.value, path)
                 cb.gt(path, value)
             }
 
-            io.github.robertomike.hefesto.enums.Operator.LESS -> {
+            Operator.LESS -> {
                 val path: Path<Number> = getFieldFrom(from, field)
                 val value = getTransformedValue(where.value, path)
                 cb.lt(path, value)
             }
 
-            io.github.robertomike.hefesto.enums.Operator.GREATER_OR_EQUAL -> {
+            Operator.GREATER_OR_EQUAL -> {
                 val path: Path<Number> = getFieldFrom(from, field)
                 val value = getTransformedValue(where.value, path)
                 cb.ge(path, value)
             }
 
-            io.github.robertomike.hefesto.enums.Operator.LESS_OR_EQUAL -> {
+            Operator.LESS_OR_EQUAL -> {
                 val path: Path<Number> = getFieldFrom(from, field)
                 val value = getTransformedValue(where.value, path)
                 cb.le(path, value)
             }
 
-            io.github.robertomike.hefesto.enums.Operator.IS_NULL -> cb.isNull(getFieldFrom<Any>(from, field))
-            io.github.robertomike.hefesto.enums.Operator.IS_NOT_NULL -> cb.isNotNull(getFieldFrom<Any>(from, field))
+            Operator.IS_NULL -> cb.isNull(getFieldFrom<Any>(from, field))
+            Operator.IS_NOT_NULL -> cb.isNotNull(getFieldFrom<Any>(from, field))
 
-            io.github.robertomike.hefesto.enums.Operator.IN -> applyWhereIn(where, from, field)
-            io.github.robertomike.hefesto.enums.Operator.NOT_IN -> cb.not(applyWhereIn(where, from, field))
+            Operator.IN -> applyWhereIn(where, from, field)
+            Operator.NOT_IN -> cb.not(applyWhereIn(where, from, field))
 
-            io.github.robertomike.hefesto.enums.Operator.FIND_IN_SET -> cb.greaterThan(
+            Operator.FIND_IN_SET -> cb.greaterThan(
                 getPredicateForFindInSet(where, getFieldFrom(from, field)),
                 cb.literal(0)
             )
 
-            io.github.robertomike.hefesto.enums.Operator.NOT_FIND_IN_SET -> cb.equal(
+            Operator.NOT_FIND_IN_SET -> cb.equal(
                 getPredicateForFindInSet(where, getFieldFrom(from, field)),
                 cb.literal(0)
             )
-
-            else -> throw UnsupportedOperationException("Unsupported operator: ${where.operator}")
         }
     }
 
@@ -335,9 +335,8 @@ class ConstructWhereImplementation : ConstructWhere() {
 
     private fun applyWhereOperation(where: BaseWhere, vararg predicate: Predicate): Predicate {
         return when (where.whereOperation) {
-            io.github.robertomike.hefesto.enums.WhereOperator.OR -> cb.or(*predicate)
-            io.github.robertomike.hefesto.enums.WhereOperator.AND -> cb.and(*predicate)
-            else -> throw UnsupportedOperationException("Unsupported where operation: ${where.whereOperation}")
+            WhereOperator.OR -> cb.or(*predicate)
+            WhereOperator.AND -> cb.and(*predicate)
         }
     }
 
