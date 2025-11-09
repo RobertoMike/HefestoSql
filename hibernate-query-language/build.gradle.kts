@@ -69,7 +69,10 @@ tasks.test {
 
 mavenPublishing {
     publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
-    signAllPublications()
+    // Only sign if credentials are available (CI environment)
+    if (project.hasProperty("signingInMemoryKey")) {
+        signAllPublications()
+    }
     
     coordinates(
         groupId = project.group.toString(),
@@ -112,3 +115,5 @@ tasks.register("printVersion") {
         println(project.version)
     }
 }
+
+

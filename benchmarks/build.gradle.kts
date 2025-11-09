@@ -39,8 +39,8 @@ kotlin {
 }
 
 jmh {
-    iterations.set(10)  // Increased from 3 to 10 for more stable results
-    warmupIterations.set(5)  // Increased from 2 to 5 for better warmup
+    iterations.set(6)  // Increased from 3 to 10 for more stable results
+    warmupIterations.set(3)  // Increased from 2 to 5 for better warmup
     fork.set(3)  // Increased from 1 to 3 for more reliable results
     threads.set(1)
     benchmarkMode.set(listOf("avgt")) // Average time

@@ -270,6 +270,66 @@ public class WhereBuilderTest {
     }
 
     @Test
+    void greaterWithNumber() {
+        var result = Hefesto.make(User.class)
+                .where("id", Operator.GREATER, 0L)
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> u.getId() > 0L));
+    }
+
+    @Test
+    void lessWithNumber() {
+        var result = Hefesto.make(User.class)
+                .where("id", Operator.LESS, 1000L)
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> u.getId() < 1000L));
+    }
+
+    @Test
+    void greaterOrEqualWithNumber() {
+        var result = Hefesto.make(User.class)
+                .where("id", Operator.GREATER_OR_EQUAL, 1L)
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> u.getId() >= 1L));
+    }
+
+    @Test
+    void lessOrEqualWithNumber() {
+        var result = Hefesto.make(User.class)
+                .where("id", Operator.LESS_OR_EQUAL, 1000L)
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> u.getId() <= 1000L));
+    }
+
+    @Test
+    void greaterWithString() {
+        var result = Hefesto.make(User.class)
+                .where("name", Operator.GREATER, "m")
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> u.getName().compareTo("m") > 0));
+    }
+
+    @Test
+    void lessWithString() {
+        var result = Hefesto.make(User.class)
+                .where("name", Operator.LESS, "m")
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> u.getName().compareTo("m") < 0));
+    }
+
+    @Test
     void findInSet() {
         var result = Hefesto.make(User.class)
                 .where("status", Operator.FIND_IN_SET, Status.ACTIVE)

@@ -95,25 +95,29 @@ class ConstructWhereImplementation : ConstructWhere() {
                 }
             }
 
-            Operator.GREATER -> cb.gt(
-                getFieldFrom<Number>(from, field),
-                condition.value as Number
-            )
+            Operator.GREATER -> {
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
+                @Suppress("UNCHECKED_CAST")
+                cb.greaterThan(path as Path<Comparable<Any>>, condition.value as Comparable<Any>)
+            }
 
-            Operator.LESS -> cb.lt(
-                getFieldFrom<Number>(from, field),
-                condition.value as Number
-            )
+            Operator.LESS -> {
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
+                @Suppress("UNCHECKED_CAST")
+                cb.lessThan(path as Path<Comparable<Any>>, condition.value as Comparable<Any>)
+            }
 
-            Operator.GREATER_OR_EQUAL -> cb.ge(
-                getFieldFrom<Number>(from, field),
-                condition.value as Number
-            )
+            Operator.GREATER_OR_EQUAL -> {
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
+                @Suppress("UNCHECKED_CAST")
+                cb.greaterThanOrEqualTo(path as Path<Comparable<Any>>, condition.value as Comparable<Any>)
+            }
 
-            Operator.LESS_OR_EQUAL -> cb.le(
-                getFieldFrom<Number>(from, field),
-                condition.value as Number
-            )
+            Operator.LESS_OR_EQUAL -> {
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
+                @Suppress("UNCHECKED_CAST")
+                cb.lessThanOrEqualTo(path as Path<Comparable<Any>>, condition.value as Comparable<Any>)
+            }
 
             Operator.IN -> {
                 getFieldFrom<Any>(from, field).`in`(condition.value)
@@ -190,25 +194,33 @@ class ConstructWhereImplementation : ConstructWhere() {
                 getFieldFrom<Any>(parentFrom, parentField)
             )
 
-            Operator.GREATER -> cb.gt(
-                getFieldFrom<Number>(from, field),
-                getFieldFrom<Number>(parentFrom, parentField)
-            )
+            Operator.GREATER -> {
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
+                val parentPath: Path<out Comparable<*>> = getFieldFrom(parentFrom, parentField)
+                @Suppress("UNCHECKED_CAST")
+                cb.greaterThan(path as Path<Comparable<Any>>, parentPath as Expression<Comparable<Any>>)
+            }
 
-            Operator.LESS -> cb.lt(
-                getFieldFrom<Number>(from, field),
-                getFieldFrom<Number>(parentFrom, parentField)
-            )
+            Operator.LESS -> {
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
+                val parentPath: Path<out Comparable<*>> = getFieldFrom(parentFrom, parentField)
+                @Suppress("UNCHECKED_CAST")
+                cb.lessThan(path as Path<Comparable<Any>>, parentPath as Expression<Comparable<Any>>)
+            }
 
-            Operator.GREATER_OR_EQUAL -> cb.ge(
-                getFieldFrom<Number>(from, field),
-                getFieldFrom<Number>(parentFrom, parentField)
-            )
+            Operator.GREATER_OR_EQUAL -> {
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
+                val parentPath: Path<out Comparable<*>> = getFieldFrom(parentFrom, parentField)
+                @Suppress("UNCHECKED_CAST")
+                cb.greaterThanOrEqualTo(path as Path<Comparable<Any>>, parentPath as Expression<Comparable<Any>>)
+            }
 
-            Operator.LESS_OR_EQUAL -> cb.le(
-                getFieldFrom<Number>(from, field),
-                getFieldFrom<Number>(parentFrom, parentField)
-            )
+            Operator.LESS_OR_EQUAL -> {
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
+                val parentPath: Path<out Comparable<*>> = getFieldFrom(parentFrom, parentField)
+                @Suppress("UNCHECKED_CAST")
+                cb.lessThanOrEqualTo(path as Path<Comparable<Any>>, parentPath as Expression<Comparable<Any>>)
+            }
 
             else -> throw UnsupportedOperationException("Unsupported operator: ${where.operator}")
         }
@@ -257,27 +269,31 @@ class ConstructWhereImplementation : ConstructWhere() {
             )
 
             Operator.GREATER -> {
-                val path: Path<Number> = getFieldFrom(from, field)
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
                 val value = getTransformedValue(where.value, path)
-                cb.gt(path, value)
+                @Suppress("UNCHECKED_CAST")
+                cb.greaterThan(path as Path<Comparable<Any>>, value as Comparable<Any>)
             }
 
             Operator.LESS -> {
-                val path: Path<Number> = getFieldFrom(from, field)
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
                 val value = getTransformedValue(where.value, path)
-                cb.lt(path, value)
+                @Suppress("UNCHECKED_CAST")
+                cb.lessThan(path as Path<Comparable<Any>>, value as Comparable<Any>)
             }
 
             Operator.GREATER_OR_EQUAL -> {
-                val path: Path<Number> = getFieldFrom(from, field)
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
                 val value = getTransformedValue(where.value, path)
-                cb.ge(path, value)
+                @Suppress("UNCHECKED_CAST")
+                cb.greaterThanOrEqualTo(path as Path<Comparable<Any>>, value as Comparable<Any>)
             }
 
             Operator.LESS_OR_EQUAL -> {
-                val path: Path<Number> = getFieldFrom(from, field)
+                val path: Path<out Comparable<*>> = getFieldFrom(from, field)
                 val value = getTransformedValue(where.value, path)
-                cb.le(path, value)
+                @Suppress("UNCHECKED_CAST")
+                cb.lessThanOrEqualTo(path as Path<Comparable<Any>>, value as Comparable<Any>)
             }
 
             Operator.IS_NULL -> cb.isNull(getFieldFrom<Any>(from, field))
@@ -340,11 +356,10 @@ class ConstructWhereImplementation : ConstructWhere() {
         }
     }
 
-    private fun getTransformedValue(originalValue: Any?, path: Path<Number>): Number {
+    private fun getTransformedValue(originalValue: Any?, path: Path<out Comparable<*>>): Comparable<*> {
         val typeField = path.javaType
         val value = originalValue ?: throw IllegalArgumentException("Value cannot be null")
-        val casted = CastUtils.castValue(typeField, value)
-        return casted as Number
+        return CastUtils.castValue(typeField, value) as Comparable<*>
     }
 
     fun constructSubQuery(subQuery: Subquery<*>, cb: CriteriaBuilder, root: Root<*>, parentRoot: Root<*>) {
