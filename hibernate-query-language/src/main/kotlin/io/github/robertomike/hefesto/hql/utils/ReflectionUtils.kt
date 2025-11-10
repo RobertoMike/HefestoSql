@@ -5,19 +5,31 @@ import java.beans.PropertyDescriptor
 import java.lang.reflect.AccessibleObject
 import java.lang.reflect.Method
 
+/**
+ * Utility object for Java reflection operations.
+ * Provides methods for accessing and manipulating class properties via getter/setter methods.
+ * 
+ * This is primarily used internally for result transformation and DTO mapping.
+ */
 object ReflectionUtils {
+    /**
+     * Makes an AccessibleObject accessible by setting accessible flag to true.
+     * Used to bypass Java access control checks.
+     *
+     * @param accessibleObject the object to make accessible (Field, Method, Constructor)
+     */
     @JvmStatic
     fun makePublic(accessibleObject: AccessibleObject?) {
         accessibleObject?.isAccessible = true
     }
 
     /**
-     * Try to find a class getter method by a property name. Don't check parent classes or
-     * interfaces.
+     * Finds a getter method for a property in a class.
+     * Does not check parent classes or interfaces.
      *
-     * @param classToCheck a class in which find a getter
-     * @param propertyName a property name
-     * @return the getter method or null, if such getter is not exist
+     * @param classToCheck the class to search in
+     * @param propertyName the property name to find getter for
+     * @return the getter method, or null if not found
      */
     @JvmStatic
     fun getClassGetter(classToCheck: Class<*>, propertyName: String): Method? {
@@ -38,14 +50,15 @@ object ReflectionUtils {
                 && descriptor.name.equals(propertyName, ignoreCase = true)
     }
 
+
     /**
-     * Try to find a class setter method by a property name. Don't check parent classes or
-     * interfaces.
+     * Finds a setter method for a property in a class, using getter method to determine type.
+     * Does not check parent classes or interfaces.
      *
-     * @param classToCheck a class in which find a setter
-     * @param propertyName a property name
-     * @param getterMethod a getter method for getting a type of a property
-     * @return the setter method or null, if such setter is not exist
+     * @param classToCheck the class to search in
+     * @param propertyName the property name to find setter for
+     * @param getterMethod the getter method to derive property type from
+     * @return the setter method, or null if not found
      */
     @JvmStatic
     fun getClassSetter(
@@ -59,14 +72,15 @@ object ReflectionUtils {
         )
     }
 
+
     /**
-     * Try to find a class setter method by a property name. Don't check parent classes or
-     * interfaces.
+     * Finds a setter method for a property in a class with explicit type specification.
+     * Does not check parent classes or interfaces.
      *
-     * @param classToCheck a class in which find a setter
-     * @param propertyName a property name
-     * @param propertyType a type of a property
-     * @return the setter method or null, if such setter is not exist
+     * @param classToCheck the class to search in
+     * @param propertyName the property name to find setter for
+     * @param propertyType the expected type of the property (can be null for any type)
+     * @return the setter method, or null if not found
      */
     @JvmStatic
     fun getClassSetter(
@@ -98,6 +112,12 @@ object ReflectionUtils {
                 && (propertyType == null || method.parameterTypes[0] == propertyType)
     }
 
+    /**
+     * Gets PropertyDescriptor array for a bean class using Java Beans Introspector.
+     *
+     * @param beanClass the class to introspect
+     * @return array of property descriptors
+     */
     private fun getPropertyDescriptors(beanClass: Class<*>): Array<PropertyDescriptor> {
         return try {
             Introspector.getBeanInfo(beanClass).propertyDescriptors
@@ -106,6 +126,13 @@ object ReflectionUtils {
         }
     }
 
+    /**
+     * Splits a property path into its component parts.
+     * For example, "user.address.city" becomes ["user", "address", "city"].
+     *
+     * @param property the property path with dot notation
+     * @return array of property name parts
+     */
     @JvmStatic
     fun getPropertyParts(property: String): Array<String> {
         return StringUtils.splitByDot(property)

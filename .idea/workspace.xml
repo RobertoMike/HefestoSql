@@ -4,15 +4,56 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Feat: test solved">
+    <list default="true" id="6d16c09e-bb46-47b6-8d16-d8abde6c38da" name="Changes" comment="Fix: resolved Kotlin smart cast issue in ConstructWhereImplementation&#10;Add: unit tests for greater, less, greaterOrEqual, and lessOrEqual operators in WhereBuilderTest&#10;Update: benchmark iterations and warmup settings in build.gradle.kts&#10;Enhance: conditional signing of Maven publications in multiple build.gradle.kts files&#10;Add: migration state for Copilot agent">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/DEEP_JOIN_FEATURE.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/MIGRATION_NOTES.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/RELEASING.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/builders/Hefesto.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/builders/Hefesto.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructGroupByImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructGroupByImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructJoinImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructJoinImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructOrderImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructOrderImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructSelectImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructSelectImplementation.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructWhereImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructWhereImplementation.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/test/java/io/github/robertomike/hefesto/hefesto/models/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/test/java/io/github/robertomike/hql/hefesto/models/User.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/utils/HibernateUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/utils/HibernateUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/utils/SubQueryConfigurer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/utils/SubQueryConfigurer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/utils/SubQueryContext.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-criteria-builder/src/main/kotlin/io/github/robertomike/hefesto/utils/SubQueryContext.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructGroupByImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructGroupByImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructJoinImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructJoinImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructOrderImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructOrderImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructSelectImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructSelectImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructWhereImplementation.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructWhereImplementation.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/ClassUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/ClassUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/FluentHibernateResultTransformer.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/FluentHibernateResultTransformer.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/NestedSetter.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/NestedSetter.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/ReflectionUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/ReflectionUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/StringUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/StringUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/kotlin/io/github/robertomike/hefesto/actions/JoinFetch.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate/src/main/kotlin/io/github/robertomike/hefesto/actions/JoinFetch.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/kotlin/io/github/robertomike/hefesto/actions/wheres/WhereField.kt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/kotlin/io/github/robertomike/hefesto/configs/HefestoAutoconfiguration.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate/src/main/kotlin/io/github/robertomike/hefesto/configs/HefestoAutoconfiguration.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/kotlin/io/github/robertomike/hefesto/models/HibernateModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate/src/main/kotlin/io/github/robertomike/hefesto/models/HibernateModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/hibernate/src/main/kotlin/io/github/robertomike/hefesto/utils/SharedMethods.kt" beforeDir="false" afterPath="$PROJECT_DIR$/hibernate/src/main/kotlin/io/github/robertomike/hefesto/utils/SharedMethods.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/GroupBy.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/GroupBy.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/Join.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/Join.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/Order.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/Order.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/Select.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/Select.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/wheres/BaseWhere.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/wheres/BaseWhere.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/wheres/CollectionWhere.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/wheres/CollectionWhere.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/wheres/Where.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/wheres/Where.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/wheres/WhereExist.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/actions/wheres/WhereExist.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructGroupBy.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructGroupBy.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructJoin.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructJoin.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructOrder.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructOrder.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructSelect.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructSelect.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructWhere.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/constructors/ConstructWhere.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/enums/JoinOperator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/enums/JoinOperator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/enums/Operator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/enums/Operator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/enums/SelectOperator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/enums/SelectOperator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/enums/Sort.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/enums/Sort.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/enums/WhereOperator.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/enums/WhereOperator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/exceptions/HefestoException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/exceptions/HefestoException.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/exceptions/QueryException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/exceptions/QueryException.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/exceptions/UnsupportedOperationException.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/exceptions/UnsupportedOperationException.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/models/BaseModel.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/models/BaseModel.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/utils/CastUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/utils/CastUtils.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/utils/Page.kt" beforeDir="false" afterPath="$PROJECT_DIR$/shared/src/main/kotlin/io/github/robertomike/hefesto/utils/Page.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -115,6 +156,9 @@
     <option name="stateVersion" value="1" />
   </component>
   <component name="PhpWorkspaceProjectConfiguration" interpreter_name="$PROJECT_DIR$/../../laragon/bin/php/php-8.4.5-nts-Win32-vs17-x64/php.exe" />
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 8
 }</component>
@@ -123,53 +167,56 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Gradle.All test.executor": "Coverage",
-    "Gradle.Bechnmark.executor": "Coverage",
-    "Gradle.ComplexWheresTest.findInSetInsideCollection.executor": "Debug",
-    "Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition.executor": "Debug",
-    "Gradle.ComplexWheresTest.findInSetWithAnd.executor": "Debug",
-    "Gradle.ComplexWheresTest.findInSetWithOr.executor": "Run",
-    "Gradle.GroupByBuilderTest.groupBy.executor": "Debug",
-    "Gradle.HefestoSql [build].executor": "Run",
-    "Gradle.HefestoSql [hibernate-criteria-builder:publishLibraryPublicationToMavenLocal].executor": "Run",
-    "Gradle.HefestoSql [publishLibraryPublicationToMavenLocal].executor": "Run",
-    "Gradle.HefestoSql [publishToMavenLocal].executor": "Run",
-    "Gradle.HefestoTest.findFirstBy.executor": "Debug",
-    "Gradle.SubQueryContextTest.testSubQueryWithWhereRaw.executor": "Run",
-    "Gradle.WhereBuilderTest.notLike.executor": "Debug",
-    "Gradle.WhereGroupContextTest.testNestedWhereAllInsideWhereAny.executor": "Debug",
-    "Gradle.test hibernate-query-language.executor": "Coverage",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "com.codeium.enabled": "true",
-    "dart.analysis.tool.window.visible": "false",
-    "git-widget-placeholder": "feature/change-to-kotlin",
-    "ignore.virus.scanning.warn.message": "true",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Work/personal/HefestoSql/hibernate/src/main/java/io/github/robertomike/hefesto/utils",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "run.code.analysis.last.selected.profile": "pProject Default",
-    "settings.editor.selected.configurable": "com.codeium.AppSettingsConfigurable",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Gradle.All test.executor&quot;: &quot;Coverage&quot;,
+    &quot;Gradle.Bechnmark.executor&quot;: &quot;Coverage&quot;,
+    &quot;Gradle.ComplexWheresTest.findInSetInsideCollection.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.ComplexWheresTest.findInSetInsideCollectionWithOtherCondition.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.ComplexWheresTest.findInSetWithAnd.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.ComplexWheresTest.findInSetWithOr.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.GroupByBuilderTest.groupBy.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.HefestoSql [build].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.HefestoSql [hibernate-criteria-builder:publishLibraryPublicationToMavenLocal].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.HefestoSql [publishLibraryPublicationToMavenLocal].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.HefestoSql [publishToMavenLocal].executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.HefestoTest.findFirstBy.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.KotlinPropertyReferenceTest.addSelect with Kotlin property reference.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.KotlinPropertyReferenceTest.aggregate functions with Kotlin property reference.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.KotlinPropertyReferenceTest.groupBy with Kotlin property reference.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.SubQueryContextTest.testSubQueryWithWhereRaw.executor&quot;: &quot;Run&quot;,
+    &quot;Gradle.WhereBuilderTest.notLike.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.WhereGroupContextTest.testNestedWhereAllInsideWhereAny.executor&quot;: &quot;Debug&quot;,
+    &quot;Gradle.test hibernate-query-language.executor&quot;: &quot;Coverage&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;com.codeium.enabled&quot;: &quot;true&quot;,
+    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;feature/change-to-kotlin&quot;,
+    &quot;ignore.virus.scanning.warn.message&quot;: &quot;true&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Work/personal/HefestoSql/hibernate/src/main/java/io/github/robertomike/hefesto/utils&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;run.code.analysis.last.selected.profile&quot;: &quot;pProject Default&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "mysql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="C:\Work\personal\HefestoSql\hibernate\src\main\java\io\github\robertomike\hefesto\utils" />
@@ -286,56 +333,12 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="HefestoSql [build]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="build" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
-    <configuration name="HefestoSql [publishLibraryPublicationToMavenLocal]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
-      <ExternalSystemSettings>
-        <option name="executionName" />
-        <option name="externalProjectPath" value="$PROJECT_DIR$" />
-        <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" />
-        <option name="taskDescriptions">
-          <list />
-        </option>
-        <option name="taskNames">
-          <list>
-            <option value="publishLibraryPublicationToMavenLocal" />
-          </list>
-        </option>
-        <option name="vmOptions" />
-      </ExternalSystemSettings>
-      <ExternalSystemDebugServerProcess>true</ExternalSystemDebugServerProcess>
-      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
-      <DebugAllEnabled>false</DebugAllEnabled>
-      <RunAsTest>false</RunAsTest>
-      <method v="2" />
-    </configuration>
     <configuration name="HefestoSql [publishToMavenLocal]" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
         <option name="externalSystemIdString" value="GRADLE" />
-        <option name="scriptParameters" value="" />
+        <option name="scriptParameters" value="-Plocal" />
         <option name="taskDescriptions">
           <list />
         </option>
@@ -352,7 +355,7 @@
       <RunAsTest>false</RunAsTest>
       <method v="2" />
     </configuration>
-    <configuration name="SubQueryContextTest.testSubQueryWithWhereRaw" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+    <configuration name="KotlinPropertyReferenceTest.addSelect with Kotlin property reference" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
       <ExternalSystemSettings>
         <option name="executionName" />
         <option name="externalProjectPath" value="$PROJECT_DIR$" />
@@ -365,7 +368,64 @@
           <list>
             <option value=":hefesto-hibernate-hql:test" />
             <option value="--tests" />
-            <option value="&quot;io.github.robertomike.hql.hefesto.constructors.SubQueryContextTest.testSubQueryWithWhereRaw&quot;" />
+            <option value="&quot;io.github.robertomike.hql.hefesto.constructors.KotlinPropertyReferenceTest.addSelect with Kotlin property reference&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="KotlinPropertyReferenceTest.aggregate functions with Kotlin property reference" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":hefesto-hibernate-hql:test" />
+            <option value="--tests" />
+            <option value="&quot;io.github.robertomike.hql.hefesto.constructors.KotlinPropertyReferenceTest.aggregate functions with Kotlin property reference&quot;" />
+          </list>
+        </option>
+        <option name="vmOptions" />
+      </ExternalSystemSettings>
+      <ExternalSystemDebugServerProcess>false</ExternalSystemDebugServerProcess>
+      <ExternalSystemReattachDebugProcess>true</ExternalSystemReattachDebugProcess>
+      <EXTENSION ID="com.intellij.execution.ExternalSystemRunConfigurationJavaExtension">
+        <extension name="coverage">
+          <pattern>
+            <option name="PATTERN" value="io.github.robertomike.hefesto.benchmarks.*" />
+            <option name="ENABLED" value="true" />
+            <option name="INCLUDE" value="false" />
+          </pattern>
+        </extension>
+      </EXTENSION>
+      <DebugAllEnabled>false</DebugAllEnabled>
+      <RunAsTest>true</RunAsTest>
+      <method v="2" />
+    </configuration>
+    <configuration name="KotlinPropertyReferenceTest.groupBy with Kotlin property reference" type="GradleRunConfiguration" factoryName="Gradle" temporary="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value=":hefesto-hibernate-hql:test" />
+            <option value="--tests" />
+            <option value="&quot;io.github.robertomike.hql.hefesto.constructors.KotlinPropertyReferenceTest.groupBy with Kotlin property reference&quot;" />
           </list>
         </option>
         <option name="vmOptions" />
@@ -439,19 +499,19 @@
       <item itemvalue="Gradle.All test" />
       <item itemvalue="Gradle.test hibernate-query-language" />
       <item itemvalue="Gradle.Bechnmark" />
-      <item itemvalue="Gradle.SubQueryContextTest.testSubQueryWithWhereRaw" />
-      <item itemvalue="Gradle.WhereGroupContextTest.testNestedWhereAllInsideWhereAny" />
-      <item itemvalue="Gradle.HefestoSql [build]" />
-      <item itemvalue="Gradle.HefestoSql [publishLibraryPublicationToMavenLocal]" />
       <item itemvalue="Gradle.HefestoSql [publishToMavenLocal]" />
+      <item itemvalue="Gradle.KotlinPropertyReferenceTest.addSelect with Kotlin property reference" />
+      <item itemvalue="Gradle.KotlinPropertyReferenceTest.aggregate functions with Kotlin property reference" />
+      <item itemvalue="Gradle.KotlinPropertyReferenceTest.groupBy with Kotlin property reference" />
+      <item itemvalue="Gradle.WhereGroupContextTest.testNestedWhereAllInsideWhereAny" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Gradle.WhereGroupContextTest.testNestedWhereAllInsideWhereAny" />
-        <item itemvalue="Gradle.SubQueryContextTest.testSubQueryWithWhereRaw" />
-        <item itemvalue="Gradle.HefestoSql [build]" />
         <item itemvalue="Gradle.HefestoSql [publishToMavenLocal]" />
-        <item itemvalue="Gradle.HefestoSql [publishLibraryPublicationToMavenLocal]" />
+        <item itemvalue="Gradle.KotlinPropertyReferenceTest.aggregate functions with Kotlin property reference" />
+        <item itemvalue="Gradle.KotlinPropertyReferenceTest.groupBy with Kotlin property reference" />
+        <item itemvalue="Gradle.KotlinPropertyReferenceTest.addSelect with Kotlin property reference" />
+        <item itemvalue="Gradle.WhereGroupContextTest.testNestedWhereAllInsideWhereAny" />
       </list>
     </recent_temporary>
   </component>
@@ -510,6 +570,10 @@
       <workItem from="1762517827463" duration="6980000" />
       <workItem from="1762529452268" duration="10480000" />
       <workItem from="1762596090646" duration="7391000" />
+      <workItem from="1762610322306" duration="6014000" />
+      <workItem from="1762680573592" duration="1743000" />
+      <workItem from="1762694417425" duration="6917000" />
+      <workItem from="1762779888911" duration="772000" />
     </task>
     <task id="LOCAL-00001" summary="Feat: implementing a module for hibernate 5 and change workflow to release every module independently">
       <option name="closed" value="true" />
@@ -727,7 +791,31 @@
       <option name="project" value="LOCAL" />
       <updated>1762601222842</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="Add type-safe property references documentation and tests for Kotlin and HQL&#10;&#10;- Introduced comprehensive documentation on type-safe properties, highlighting compile-time safety and usage examples for both Java and Kotlin.&#10;- Added tests for Kotlin property references in the Criteria Builder API, covering various query scenarios including where, order by, and joins.&#10;- Implemented tests for Kotlin property references in the HQL API, ensuring consistent behavior across both APIs.&#10;- Enhanced test coverage for complex queries, conditional groups, and mixed usage of string and property references.">
+      <option name="closed" value="true" />
+      <created>1762616420294</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1762616420294</updated>
+    </task>
+    <task id="LOCAL-00029" summary="Fix: solved a problem with kotlin about a problem with a smart cast.">
+      <option name="closed" value="true" />
+      <created>1762616705494</created>
+      <option name="number" value="00029" />
+      <option name="presentableId" value="LOCAL-00029" />
+      <option name="project" value="LOCAL" />
+      <updated>1762616705494</updated>
+    </task>
+    <task id="LOCAL-00030" summary="Fix: resolved Kotlin smart cast issue in ConstructWhereImplementation&#10;Add: unit tests for greater, less, greaterOrEqual, and lessOrEqual operators in WhereBuilderTest&#10;Update: benchmark iterations and warmup settings in build.gradle.kts&#10;Enhance: conditional signing of Maven publications in multiple build.gradle.kts files&#10;Add: migration state for Copilot agent">
+      <option name="closed" value="true" />
+      <created>1762709847992</created>
+      <option name="number" value="00030" />
+      <option name="presentableId" value="LOCAL-00030" />
+      <option name="project" value="LOCAL" />
+      <updated>1762709847992</updated>
+    </task>
+    <option name="localTasksCounter" value="31" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -768,10 +856,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Feat: changing short key sign for github secret key" />
-    <MESSAGE value="Feat: ide changes" />
-    <MESSAGE value="Feat: updating README.md" />
-    <MESSAGE value="Ide changes" />
     <MESSAGE value="Feat: renaming the current folder hibernate to hibernate criteria builder, creating a general hibernate module with the shared classes, and some other update to a new version" />
     <MESSAGE value="cherry pick changes from adding base hibernate module" />
     <MESSAGE value="Feat: adding hql module, tested at 85%" />
@@ -793,7 +877,11 @@
     <MESSAGE value="Add subquery support and join builder enhancements&#10;&#10;- Implemented SubQueryTest for testing lambda-based subqueries in HQL.&#10;- Added JoinBuilder class for configuring joins with inline conditions and nested joins.&#10;- Created SubQueryContext for building subqueries with a fluent API.&#10;- Developed WhereGroupContext for building grouped WHERE conditions with AND/OR logic.&#10;- Enhanced existing builder methods to support nested queries and conditions." />
     <MESSAGE value="feat: Implement HQL constructors for Join, Order, Select, Where, and utility classes&#10;&#10;- Added `ConstructJoinFetch` and `ConstructJoinImplementation` for handling join fetch and join operations in HQL.&#10;- Introduced `ConstructOrderImplementation` to manage order by clauses in HQL queries.&#10;- Created `ConstructSelectImplementation` for building select statements with support for aggregate functions.&#10;- Developed `ConstructWhereImplementation` to construct where clauses with various conditions and operators.&#10;- Implemented utility classes: `ClassUtils`, `FluentHibernateResultTransformer`, `NestedSetter`, `ReflectionUtils`, `StringUtils`, and `SubQueryContext` for enhanced functionality and ease of use in HQL.&#10;- Added `AggregateShortcuts` and `SubQueryConfigurer` to streamline aggregate function usage and subquery configuration." />
     <MESSAGE value="Feat: test solved" />
-    <option name="LAST_COMMIT_MESSAGE" value="Feat: test solved" />
+    <MESSAGE value="Add type-safe property references documentation and tests for Kotlin and HQL&#10;&#10;- Introduced comprehensive documentation on type-safe properties, highlighting compile-time safety and usage examples for both Java and Kotlin.&#10;- Added tests for Kotlin property references in the Criteria Builder API, covering various query scenarios including where, order by, and joins.&#10;- Implemented tests for Kotlin property references in the HQL API, ensuring consistent behavior across both APIs.&#10;- Enhanced test coverage for complex queries, conditional groups, and mixed usage of string and property references." />
+    <MESSAGE value="Fix: solved a problem with kotlin about a problem with a smart cast." />
+    <MESSAGE value="Fix: resolved Kotlin smart cast issue in ConstructWhereImplementation&#10;Add: unit tests for greater, less, greaterOrEqual, and lessOrEqual operators in WhereBuilderTest&#10;Update: benchmark iterations and warmup settings in build.gradle.kts&#10;Enhance: conditional signing of Maven publications in multiple build.gradle.kts files&#10;Add: migration state for Copilot agent&#10;Add: Whisperer for Laravel settings configuration" />
+    <MESSAGE value="Fix: resolved Kotlin smart cast issue in ConstructWhereImplementation&#10;Add: unit tests for greater, less, greaterOrEqual, and lessOrEqual operators in WhereBuilderTest&#10;Update: benchmark iterations and warmup settings in build.gradle.kts&#10;Enhance: conditional signing of Maven publications in multiple build.gradle.kts files&#10;Add: migration state for Copilot agent" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fix: resolved Kotlin smart cast issue in ConstructWhereImplementation&#10;Add: unit tests for greater, less, greaterOrEqual, and lessOrEqual operators in WhereBuilderTest&#10;Update: benchmark iterations and warmup settings in build.gradle.kts&#10;Enhance: conditional signing of Maven publications in multiple build.gradle.kts files&#10;Add: migration state for Copilot agent" />
     <option name="GROUP_MULTIFILE_MERGE_BY_DIRECTORY" value="true" />
   </component>
   <component name="XDebuggerManager">
@@ -801,13 +889,18 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructWhereImplementation.kt</url>
-          <line>50</line>
+          <line>75</line>
           <option name="timeStamp" value="5" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="kotlin-line">
           <url>file://$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/constructors/ConstructWhereImplementation.kt</url>
-          <line>36</line>
+          <line>61</line>
           <option name="timeStamp" value="6" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="kotlin-line">
+          <url>file://$PROJECT_DIR$/hibernate-query-language/src/main/kotlin/io/github/robertomike/hefesto/hql/utils/FluentHibernateResultTransformer.kt</url>
+          <line>47</line>
+          <option name="timeStamp" value="8" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
@@ -823,7 +916,7 @@
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
     <SUITE FILE_PATH="coverage/HefestoSql$Bechnmark.ic" NAME="Bechnmark Coverage Results" MODIFIED="1762526438318" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />
-    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1762609108264" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
+    <SUITE FILE_PATH="coverage/HefestoSql$All_test.ic" NAME="All test Coverage Results" MODIFIED="1762709386409" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true">
       <EXCLUDED_FILTER>io.github.robertomike.hefesto.benchmarks.*</EXCLUDED_FILTER>
     </SUITE>
     <SUITE FILE_PATH="coverage/HefestoSql$test_hibernate_query_language.ic" NAME="test hibernate-query-language Coverage Results" MODIFIED="1716278027755" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="true" />

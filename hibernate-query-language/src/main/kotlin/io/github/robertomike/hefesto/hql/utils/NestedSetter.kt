@@ -3,6 +3,23 @@ package io.github.robertomike.hefesto.hql.utils
 import org.hibernate.PropertyAccessException
 import java.lang.reflect.Method
 
+/**
+ * Reflection-based setter that supports nested property paths.
+ * 
+ * This class enables setting values on nested object properties using dot notation.
+ * For example, "user.address.city" will:
+ * 1. Get the user property
+ * 2. Get the address property from user (creating if null)
+ * 3. Set the city property on address
+ * 
+ * Used internally by FluentHibernateResultTransformer for DTO mapping.
+ * 
+ * Example:
+ * ```kotlin
+ * val setter = NestedSetter.create(UserDTO::class.java, "address.city")
+ * setter.set(userDTO, "New York")  // Automatically handles nested navigation
+ * ```
+ */
 class NestedSetter private constructor(
     private val clazz: Class<*>,
     private val getMethods: Array<Method>,
@@ -11,6 +28,14 @@ class NestedSetter private constructor(
     private val propertyName: String
 ) {
 
+    /**
+     * Sets a value on the target object, navigating through nested properties if needed.
+     * Automatically creates intermediate objects if they are null.
+     *
+     * @param target the object to set the property on
+     * @param value the value to set
+     * @throws PropertyAccessException if the property cannot be accessed or type mismatch occurs
+     */
     fun set(target: Any, value: Any?) {
         try {
             invokeSet(target, value)
@@ -49,7 +74,13 @@ class NestedSetter private constructor(
 
     companion object {
         /**
-         * Create a setter for a nested property.
+         * Creates a NestedSetter for a property path in a class.
+         * Supports nested properties using dot notation (e.g., "user.address.city").
+         *
+         * @param theClass the class containing the property
+         * @param propertyName the property path (can be nested with dots)
+         * @return a NestedSetter configured for the property
+         * @throws PropertyAccessException if the property path is invalid
          */
         @JvmStatic
         fun create(theClass: Class<*>?, propertyName: String): NestedSetter {

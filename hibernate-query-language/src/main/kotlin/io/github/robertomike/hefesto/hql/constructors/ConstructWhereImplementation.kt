@@ -8,10 +8,35 @@ import io.github.robertomike.hefesto.exceptions.QueryException
 import io.github.robertomike.hefesto.exceptions.UnsupportedOperationException
 import io.github.robertomike.hefesto.hql.actions.wheres.WhereRaw
 
+/**
+ * HQL implementation of WHERE clause construction.
+ * 
+ * Converts WHERE conditions into HQL string-based query fragments.
+ * Manages query parameters to prevent SQL injection.
+ * 
+ * Supports:
+ * - All standard operators (EQUAL, GREATER, LIKE, etc.)
+ * - Collection operations (IN, FIND_IN_SET)
+ * - NULL checks
+ * - Nested condition groups with AND/OR operators
+ * - Raw HQL conditions
+ * - Subquery conditions
+ * 
+ * Parameters are stored in a map and referenced by placeholder names
+ * in the generated HQL string.
+ */
 class ConstructWhereImplementation : ConstructWhere() {
     private lateinit var params: MutableMap<String, Any?>
     private var acronymTable: String = ""
 
+    /**
+     * Constructs the WHERE clause as an HQL string.
+     * Builds parameter map and generates WHERE conditions with proper operators.
+     *
+     * @param params mutable map to store query parameters
+     * @param acronymTable the table alias to use for field references
+     * @return the HQL WHERE clause string (e.g., "Where user.name = :param1 AND user.age > :param2")
+     */
     fun construct(params: MutableMap<String, Any?>, acronymTable: String = ""): String {
         this.params = params
         this.acronymTable = acronymTable
@@ -77,18 +102,29 @@ class ConstructWhereImplementation : ConstructWhere() {
         throw QueryException("Invalid class extended from BaseWhere: ${where.javaClass}")
     }
 
+    /**
+     * Constructs HQL for comparing two fields.
+     * Automatically qualifies field names with table aliases.
+     *
+     * @param wheresQuery the list to append the WHERE clause to
+     * @param whereField the WhereField condition containing the two fields to compare
+     */
     private fun constructWhereField(wheresQuery: MutableList<String>, whereField: WhereField) {
+        val field1 = qualifyFieldName(whereField.field)
+        val field2 = qualifyFieldName(whereField.secondField)
+        
         when (whereField.operator) {
             Operator.LIKE,
             Operator.NOT_LIKE,
             Operator.EQUAL,
             Operator.DIFF,
+            Operator.GREATER,
             Operator.GREATER_OR_EQUAL,
             Operator.LESS,
             Operator.LESS_OR_EQUAL ->
-                wheresQuery.add("${whereField.parentField} ${whereField.operator.operator} ${whereField.field}")
+                wheresQuery.add("$field1 ${whereField.operator.operator} $field2")
 
-            else -> throw UnsupportedOperationException("Unsupported operator: ${whereField.operator}")
+            else -> throw UnsupportedOperationException("Unsupported operator for field comparison: ${whereField.operator}")
         }
     }
 

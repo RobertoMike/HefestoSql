@@ -1,12 +1,14 @@
 package io.github.robertomike.hefesto.exceptions
 
 /**
- * This class is for the exceptions that can be thrown
+ * Base exception class for all Hefesto-related errors.
+ * 
+ * Thrown when general errors occur during query building or execution.
  */
 class HefestoException : RuntimeException {
     /**
-     * constructor
-     * @param message the message
+     * Creates a new HefestoException with the specified message.
+     * @param message the error message
      */
     constructor(message: String) : super(message)
 

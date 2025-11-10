@@ -4,6 +4,27 @@ import io.github.robertomike.hefesto.exceptions.HefestoException
 import org.hibernate.query.TupleTransformer
 import java.lang.reflect.Constructor
 
+/**
+ * Hibernate result transformer that maps query results to custom DTO classes.
+ * 
+ * This transformer intelligently handles result mapping by trying multiple strategies:
+ * 1. Direct type match - if result is already the target type
+ * 2. Constructor injection - if a matching constructor exists
+ * 3. Setter injection - using JavaBean setters with support for nested properties
+ * 
+ * The transformer caches reflection metadata for performance. Nested properties
+ * are supported using dot notation (e.g., "user.address.city").
+ * 
+ * Example usage (internal):
+ * ```kotlin
+ * // Maps Object[] results to UserDTO
+ * val transformer = FluentHibernateResultTransformer<UserDTO>(UserDTO::class.java)
+ * query.setTupleTransformer(transformer)
+ * ```
+ *
+ * @param T the target result type
+ * @param resultClass the class to transform results into
+ */
 class FluentHibernateResultTransformer<T>(
     private val resultClass: Class<*>
 ) : TupleTransformer<T> {
@@ -11,6 +32,18 @@ class FluentHibernateResultTransformer<T>(
     private var setters: Array<NestedSetter>? = null
     private var constructors: Array<Constructor<*>>? = null
 
+    /**
+     * Transforms a tuple (array of values) and aliases into a result object.
+     * 
+     * Strategy:
+     * 1. If tuple contains target type, return it directly
+     * 2. Try to find matching constructor and invoke it
+     * 3. Fall back to setter injection with nested property support
+     *
+     * @param tuple the array of values from the query result
+     * @param aliases the column/field aliases from the query
+     * @return the transformed result object
+     */
     override fun transformTuple(tuple: Array<Any?>, aliases: Array<String>): T {
         if (tuple.isNotEmpty() && tuple[0] != null && tuple[0]!!.javaClass == resultClass) {
             @Suppress("UNCHECKED_CAST")

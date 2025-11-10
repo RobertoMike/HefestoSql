@@ -7,15 +7,43 @@ import io.github.robertomike.hefesto.models.BaseModel
 import io.github.robertomike.hefesto.utils.HibernateUtils
 import jakarta.persistence.criteria.*
 
+/**
+ * Criteria API implementation of SELECT clause construction.
+ * 
+ * Converts SELECT definitions into JPA Criteria API Selection objects.
+ * Supports:
+ * - Simple field selections
+ * - Aggregate functions (COUNT, SUM, AVG, MIN, MAX)
+ * - Field aliases for result mapping
+ * - Selections from joined entities
+ * - DTO projections via constructor expressions
+ * 
+ * When no selections are specified, defaults to selecting the entire root entity.
+ * For DTO projections, creates a tuple or uses constructor expressions.
+ */
 class ConstructSelectImplementation<T : BaseModel> : ConstructSelect() {
     private var joins: Map<String, Join<*, *>> = emptyMap()
     private lateinit var cb: CriteriaBuilder
 
+    /**
+     * Sets the join map for resolving select fields on joined entities.
+     *
+     * @param joins map of join aliases to Join objects
+     * @return this instance for chaining
+     */
     fun setJoins(joins: Map<String, Join<*, *>>): ConstructSelectImplementation<T> {
         this.joins = joins
         return this
     }
 
+    /**
+     * Constructs the SELECT clause for a standard entity query.
+     * If no selections defined, selects the entire root entity.
+     *
+     * @param root the root entity
+     * @param cr the CriteriaQuery to apply selections to
+     * @param cb the CriteriaBuilder for creating expressions
+     */
     fun construct(root: Root<T>, cr: CriteriaQuery<T>, cb: CriteriaBuilder) {
         if (isEmpty()) {
             cr.select(root)
@@ -25,6 +53,15 @@ class ConstructSelectImplementation<T : BaseModel> : ConstructSelect() {
         multiSelect(root, cr, cb)
     }
 
+    /**
+     * Constructs a multi-select query for DTO projections or tuple results.
+     * Used when selecting specific fields rather than entire entities.
+     *
+     * @param root the root entity
+     * @param cr the CriteriaQuery to apply selections to
+     * @param cb the CriteriaBuilder for creating expressions
+     * @param isProjection true if projecting to a DTO class (requires multiselect)
+     */
     fun multiSelect(root: Root<*>, cr: CriteriaQuery<*>, cb: CriteriaBuilder, isProjection: Boolean = false) {
         this.cb = cb
 

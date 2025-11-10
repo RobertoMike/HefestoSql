@@ -1,13 +1,17 @@
 package io.github.robertomike.hefesto.models
 
 /**
- * This class is the base for the models that can be used inside HefestoSql
+ * Base interface for all entity models used with HefestoSql.
+ * 
+ * All JPA entities used with Hefesto builders must implement this interface
+ * to provide the table name for query construction.
  */
 interface BaseModel {
     /**
-     * Retrieves the table.
+     * Gets the table name for this entity.
+     * Used by Hefesto to build queries with correct table references.
      *
-     * @return  the table as a string
+     * @return the table name as a string (typically the entity class simple name)
      */
     fun getTable(): String
 }

@@ -3,6 +3,7 @@ package io.github.robertomike.hefesto.builders
 import io.github.robertomike.hefesto.actions.Join
 import io.github.robertomike.hefesto.actions.JoinFetch
 import io.github.robertomike.hefesto.actions.wheres.WhereCustom
+import io.github.robertomike.hefesto.actions.wheres.WhereField
 import io.github.robertomike.hefesto.constructors.*
 import io.github.robertomike.hefesto.enums.JoinOperator
 import io.github.robertomike.hefesto.enums.Operator
@@ -235,11 +236,7 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      * @return the updated Hefesto object
      */
     override fun whereField(field1: String, field2: String): Hefesto<T> {
-        whereCustom { cb, _, root, _, parentRoot ->
-            val path1 = resolveFieldPath<Any>(root, parentRoot, field1, false)
-            val path2 = resolveFieldPath<Any>(root, parentRoot, field2, parentRoot != null)
-            cb.equal(path1, path2)
-        }
+        wheres.add(WhereField(field1, field2))
         return this
     }
 
@@ -252,20 +249,7 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
      * @return the updated Hefesto object
      */
     override fun whereField(field1: String, operator: Operator, field2: String): Hefesto<T> {
-        whereCustom { cb, _, root, _, _ ->
-            val path1 = resolveFieldPath<Comparable<Any>>(root, null, field1, false)
-            val path2 = resolveFieldPath<Comparable<Any>>(root, null, field2, false)
-            
-            when (operator) {
-                Operator.EQUAL -> cb.equal(path1, path2)
-                Operator.DIFF -> cb.notEqual(path1, path2)
-                Operator.GREATER -> cb.greaterThan(path1, path2)
-                Operator.GREATER_OR_EQUAL -> cb.greaterThanOrEqualTo(path1, path2)
-                Operator.LESS -> cb.lessThan(path1, path2)
-                Operator.LESS_OR_EQUAL -> cb.lessThanOrEqualTo(path1, path2)
-                else -> throw io.github.robertomike.hefesto.exceptions.UnsupportedOperationException("Operator $operator is not supported for field-to-field comparison")
-            }
-        }
+        wheres.add(WhereField(field1, operator, field2))
         return this
     }
 
@@ -374,29 +358,6 @@ class Hefesto<T : BaseModel>(model: Class<T>) :
                 // Field might be from a join or deep path, default to Long
                 subQuery.setCustomResultForSubQuery(Long::class.java)
             }
-        }
-    }
-
-    /**
-     * Resolves a field path from the appropriate root (parent or local).
-     * Used for field-to-field comparisons in WHERE clauses.
-     *
-     * @param root the local root
-     * @param parentRoot the parent root (for subqueries), can be null
-     * @param fieldName the field name to resolve
-     * @param useParent whether to use parent root if available
-     * @return the resolved field path
-     */
-    private fun <R> resolveFieldPath(
-        root: Root<*>,
-        parentRoot: Root<*>?,
-        fieldName: String,
-        useParent: Boolean
-    ): jakarta.persistence.criteria.Path<R> {
-        return if (useParent && parentRoot != null) {
-            io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom(parentRoot, fieldName)
-        } else {
-            io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom(root, fieldName)
         }
     }
 

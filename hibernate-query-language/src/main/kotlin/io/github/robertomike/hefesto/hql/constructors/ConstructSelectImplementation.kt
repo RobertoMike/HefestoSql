@@ -6,11 +6,30 @@ import io.github.robertomike.hefesto.constructors.ConstructSelect
 import io.github.robertomike.hefesto.enums.SelectOperator
 import io.github.robertomike.hefesto.exceptions.QueryException
 
+/**
+ * HQL implementation of SELECT clause construction.
+ * 
+ * Converts SELECT definitions into HQL string-based select clauses.
+ * Supports:
+ * - Simple field selections
+ * - Aggregate functions (COUNT, SUM, AVG, MIN, MAX)
+ * - Field aliases for result mapping
+ * - Automatic table alias prefixing
+ * - Constructor expressions for DTO projections
+ * 
+ * Example output: "select user.id, user.name as userName, count(order.id) as orderCount"
+ */
 class ConstructSelectImplementation : ConstructSelect() {
     private val prefix = "select "
     private lateinit var hefesto: Hefesto<*>
     private var nested = false
 
+    /**
+     * Constructs the SELECT clause as an HQL string.
+     *
+     * @param builder the Hefesto builder containing table alias information
+     * @return the HQL SELECT clause string (e.g., "select user.name, user.email")
+     */
     fun construct(builder: Hefesto<*>): String {
         this.hefesto = builder
         val select = items.stream()

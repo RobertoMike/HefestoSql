@@ -4,6 +4,29 @@ import io.github.robertomike.hefesto.actions.wheres.Where
 import io.github.robertomike.hefesto.enums.JoinOperator
 import java.util.*
 
+/**
+ * Represents a JOIN clause in a query.
+ * 
+ * Supports various join types:
+ * - Simple relationship joins (following entity associations)
+ * - Custom joins with explicit field conditions
+ * - Deep/nested joins using dot notation or deep join chains
+ * - Inline WHERE conditions on joins
+ * 
+ * @property table the table or relationship field to join
+ * @property alias optional alias for the joined table (defaults to table name lowercased)
+ * @property fieldJoin the field on the joined table for custom joins
+ * @property fieldReference the field on the parent/reference table for custom joins
+ * @property joinOperator the type of join (INNER, LEFT, RIGHT), defaults to INNER
+ * 
+ * Example:
+ * ```kotlin
+ * Join("address")                                  // Simple join
+ * Join("address", "addr")                          // With alias
+ * Join("address", "addr", JoinOperator.LEFT)       // With join type
+ * Join("pets", "p", "ownerId", "user.id")          // Custom join condition
+ * ```
+ */
 data class Join(
     val table: String,
     var alias: String? = null,

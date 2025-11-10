@@ -1,12 +1,15 @@
 package io.github.robertomike.hefesto.exceptions
 
 /**
- * This class is for the exceptions that can be thrown
+ * Exception thrown when errors occur during query construction or validation.
+ * 
+ * This includes issues with invalid field names, unsupported operations,
+ * or malformed query syntax.
  */
 class QueryException : RuntimeException {
     /**
-     * constructor
-     * @param message the message
+     * Creates a new QueryException with the specified message.
+     * @param message the error message describing the query problem
      */
     constructor(message: String) : super(message)
 

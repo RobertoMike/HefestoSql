@@ -11,6 +11,22 @@ import io.github.robertomike.hefesto.utils.HibernateUtils.DOT_REGEX
 import io.github.robertomike.hefesto.utils.HibernateUtils.getFieldFrom
 import jakarta.persistence.criteria.*
 
+/**
+ * Criteria API implementation of WHERE clause construction.
+ * 
+ * Converts WHERE conditions into JPA Criteria API Predicate objects.
+ * Handles various condition types including:
+ * - Simple field comparisons (EQUAL, GREATER, LESS, etc.)
+ * - Pattern matching (LIKE, NOT_LIKE)
+ * - Collection operations (IN, NOT_IN, FIND_IN_SET)
+ * - NULL checks (IS_NULL, IS_NOT_NULL)
+ * - Subquery conditions (EXISTS, NOT_EXISTS)
+ * - Custom predicates via lambda expressions
+ * - Inline join conditions
+ * 
+ * This class manages join references and can apply conditions on both
+ * the root entity and joined entities.
+ */
 class ConstructWhereImplementation : ConstructWhere() {
     protected lateinit var cb: CriteriaBuilder
     protected var cr: CriteriaQuery<*>? = null
@@ -19,16 +35,37 @@ class ConstructWhereImplementation : ConstructWhere() {
     private var parentRoot: Root<*>? = null
     private var joinConditions: Map<String, List<Where>> = HashMap()
 
+    /**
+     * Sets the join map for resolving field paths on joined entities.
+     *
+     * @param joins map of join aliases to Join objects
+     * @return this instance for chaining
+     */
     fun setJoins(joins: Map<String, Join<*, *>>): ConstructWhereImplementation {
         this.joins = joins
         return this
     }
     
+    /**
+     * Sets the inline join conditions that were defined via JoinBuilder.
+     * These conditions are applied directly on the join and combined with WHERE clause.
+     *
+     * @param joinConditions map of join aliases to their WHERE conditions
+     * @return this instance for chaining
+     */
     fun setJoinConditions(joinConditions: Map<String, List<Where>>): ConstructWhereImplementation {
         this.joinConditions = joinConditions
         return this
     }
 
+    /**
+     * Constructs and applies all WHERE predicates to the CriteriaQuery.
+     * Combines regular WHERE conditions with inline join conditions.
+     *
+     * @param cb the CriteriaBuilder for creating predicates
+     * @param cr the CriteriaQuery to apply predicates to
+     * @param root the root entity
+     */
     fun construct(cb: CriteriaBuilder, cr: CriteriaQuery<*>, root: Root<*>) {
         this.cr = cr
         this.cb = cb
@@ -155,71 +192,80 @@ class ConstructWhereImplementation : ConstructWhere() {
         }
     }
 
+    /**
+     * Constructs a Predicate that compares two fields.
+     * Handles field resolution from root, joins, and parent root (for subqueries).
+     *
+     * @param where the WhereField condition containing the two fields to compare
+     * @return the constructed Predicate
+     */
     private fun constructWhereField(where: WhereField): Predicate {
         var from: From<*, *> = root
-        var parentFrom: From<*, *> = parentRoot ?: root
-        var parentField = where.parentField
+        var secondFrom: From<*, *> = parentRoot ?: root
+        var secondField = where.secondField
         var field = where.field
 
+        // Resolve first field - check if it references a join
         if (field.contains(".") && joins.containsKey(field.split(DOT_REGEX.toRegex())[0])) {
             val split = field.split(DOT_REGEX.toRegex())
             from = joins[split[0]]!!
             field = split[1]
         }
 
-        if (parentField!!.contains(".") && joins.containsKey(field.split(DOT_REGEX.toRegex())[0])) {
-            val split = parentField.split(DOT_REGEX.toRegex())
-            parentFrom = joins[split[0]]!!
-            parentField = split[1]
+        // Resolve second field - check if it references a join
+        if (secondField.contains(".") && joins.containsKey(secondField.split(DOT_REGEX.toRegex())[0])) {
+            val split = secondField.split(DOT_REGEX.toRegex())
+            secondFrom = joins[split[0]]!!
+            secondField = split[1]
         }
 
         return when (where.operator) {
             Operator.LIKE -> cb.like(
                 getFieldFrom<String>(from, field),
-                getFieldFrom<String>(parentFrom, parentField)
+                getFieldFrom<String>(secondFrom, secondField)
             )
 
             Operator.NOT_LIKE -> cb.notLike(
                 getFieldFrom<String>(from, field),
-                getFieldFrom<String>(parentFrom, parentField)
+                getFieldFrom<String>(secondFrom, secondField)
             )
 
             Operator.EQUAL -> cb.equal(
                 getFieldFrom<Any>(from, field),
-                getFieldFrom<Any>(parentFrom, parentField)
+                getFieldFrom<Any>(secondFrom, secondField)
             )
 
             Operator.DIFF -> cb.notEqual(
                 getFieldFrom<Any>(from, field),
-                getFieldFrom<Any>(parentFrom, parentField)
+                getFieldFrom<Any>(secondFrom, secondField)
             )
 
             Operator.GREATER -> {
                 val path: Path<out Comparable<*>> = getFieldFrom(from, field)
-                val parentPath: Path<out Comparable<*>> = getFieldFrom(parentFrom, parentField)
+                val secondPath: Path<out Comparable<*>> = getFieldFrom(secondFrom, secondField)
                 @Suppress("UNCHECKED_CAST")
-                cb.greaterThan(path as Path<Comparable<Any>>, parentPath as Expression<Comparable<Any>>)
+                cb.greaterThan(path as Path<Comparable<Any>>, secondPath as Expression<Comparable<Any>>)
             }
 
             Operator.LESS -> {
                 val path: Path<out Comparable<*>> = getFieldFrom(from, field)
-                val parentPath: Path<out Comparable<*>> = getFieldFrom(parentFrom, parentField)
+                val secondPath: Path<out Comparable<*>> = getFieldFrom(secondFrom, secondField)
                 @Suppress("UNCHECKED_CAST")
-                cb.lessThan(path as Path<Comparable<Any>>, parentPath as Expression<Comparable<Any>>)
+                cb.lessThan(path as Path<Comparable<Any>>, secondPath as Expression<Comparable<Any>>)
             }
 
             Operator.GREATER_OR_EQUAL -> {
                 val path: Path<out Comparable<*>> = getFieldFrom(from, field)
-                val parentPath: Path<out Comparable<*>> = getFieldFrom(parentFrom, parentField)
+                val secondPath: Path<out Comparable<*>> = getFieldFrom(secondFrom, secondField)
                 @Suppress("UNCHECKED_CAST")
-                cb.greaterThanOrEqualTo(path as Path<Comparable<Any>>, parentPath as Expression<Comparable<Any>>)
+                cb.greaterThanOrEqualTo(path as Path<Comparable<Any>>, secondPath as Expression<Comparable<Any>>)
             }
 
             Operator.LESS_OR_EQUAL -> {
                 val path: Path<out Comparable<*>> = getFieldFrom(from, field)
-                val parentPath: Path<out Comparable<*>> = getFieldFrom(parentFrom, parentField)
+                val secondPath: Path<out Comparable<*>> = getFieldFrom(secondFrom, secondField)
                 @Suppress("UNCHECKED_CAST")
-                cb.lessThanOrEqualTo(path as Path<Comparable<Any>>, parentPath as Expression<Comparable<Any>>)
+                cb.lessThanOrEqualTo(path as Path<Comparable<Any>>, secondPath as Expression<Comparable<Any>>)
             }
 
             else -> throw UnsupportedOperationException("Unsupported operator: ${where.operator}")

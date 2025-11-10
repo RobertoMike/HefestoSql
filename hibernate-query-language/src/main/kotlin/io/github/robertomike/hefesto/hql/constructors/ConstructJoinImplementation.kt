@@ -4,7 +4,28 @@ import io.github.robertomike.hefesto.actions.Join
 import io.github.robertomike.hefesto.hql.builders.Hefesto
 import io.github.robertomike.hefesto.constructors.ConstructJoin
 
+/**
+ * HQL implementation of JOIN clause construction.
+ * 
+ * Converts JOIN definitions into HQL string-based join clauses.
+ * Supports:
+ * - Simple joins on entity relationships
+ * - Deep/nested joins using dot notation (e.g., "user.address.city")
+ * - Different join types (INNER, LEFT, RIGHT)
+ * - Custom join conditions via ON clause
+ * - Join aliases for use in WHERE/SELECT/ORDER clauses
+ * 
+ * Automatically resolves table aliases and field references
+ * to generate proper HQL join syntax.
+ */
 class ConstructJoinImplementation : ConstructJoin() {
+    /**
+     * Constructs the JOIN clauses as an HQL string.
+     * Processes each join definition and creates the corresponding HQL join syntax.
+     *
+     * @param builder the Hefesto builder containing table alias information
+     * @return the HQL JOIN clause string (e.g., "inner join user.address addr left join addr.city city")
+     */
     fun construct(builder: Hefesto<*>): String {
         val joinQuery = StringBuilder()
 

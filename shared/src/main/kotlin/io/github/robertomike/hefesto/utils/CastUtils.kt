@@ -6,7 +6,11 @@ import java.math.BigDecimal
 import java.math.BigInteger
 
 /**
- * This class is a helper to cast values
+ * Utility object for type casting and class instantiation operations.
+ * Provides safe casting methods for common data types and dynamic object creation.
+ * 
+ * This utility handles conversions between various numeric types, strings, booleans,
+ * and other common Java types used in query results.
  */
 object CastUtils {
     /**
@@ -57,6 +61,16 @@ object CastUtils {
         throw QueryException("Unsupported casting type: $type")
     }
 
+    /**
+     * Creates a new instance of the specified class using its no-argument constructor.
+     * 
+     * This method is typically used internally for DTO instantiation during query result mapping.
+     *
+     * @param clazz the class to instantiate
+     * @param <T> the type of the class
+     * @return a new instance of the specified class
+     * @throws HefestoException if the class cannot be instantiated (e.g., no default constructor)
+     */
     @JvmStatic
     fun <T> getClassInstance(clazz: Class<T>): T {
         return try {

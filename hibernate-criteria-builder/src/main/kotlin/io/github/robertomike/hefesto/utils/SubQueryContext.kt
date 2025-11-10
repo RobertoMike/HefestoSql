@@ -24,9 +24,9 @@ import io.github.robertomike.hefesto.builders.BaseBuilder
  * 
  * @param BUILDER the type of builder being configured
  */
-class SubQueryContext<BUILDER : BaseBuilder<*, *, *, *, *, *, *, *>>(
+class SubQueryContext<BUILDER>(
     private val subQueryBuilder: BUILDER
-) {
+) where BUILDER : BaseBuilder<*, *, *, *, *, *, *, *>, BUILDER : SharedMethods<BUILDER> {
     
     /**
      * Adds a WHERE condition to the subquery.
@@ -72,6 +72,31 @@ class SubQueryContext<BUILDER : BaseBuilder<*, *, *, *, *, *, *, *>>(
      */
     fun whereIsNotNull(field: String): SubQueryContext<BUILDER> {
         subQueryBuilder.whereIsNotNull(field)
+        return this
+    }
+
+    /**
+     * Adds a WHERE clause comparing two fields.
+     *
+     * @param field1 the first field name
+     * @param field2 the second field name
+     * @return this context for chaining
+     */
+    fun whereField(field1: String, field2: String): SubQueryContext<BUILDER> {
+        subQueryBuilder.whereField(field1, field2)
+        return this
+    }
+
+    /**
+     * Adds a WHERE clause comparing two fields with a specific operator.
+     *
+     * @param field1 the first field name
+     * @param operator the comparison operator
+     * @param field2 the second field name
+     * @return this context for chaining
+     */
+    fun whereField(field1: String, operator: io.github.robertomike.hefesto.enums.Operator, field2: String): SubQueryContext<BUILDER> {
+        subQueryBuilder.whereField(field1, operator, field2)
         return this
     }
 

@@ -21,11 +21,11 @@ object SubQueryConfigurer {
      * @param block Lambda to configure the subquery
      * @return The configured subquery builder
      */
-    fun <S, BUILDER : BaseBuilder<*, *, *, *, *, *, *, *>> configureSubQuery(
+    fun <S, BUILDER> configureSubQuery(
         subQueryModel: Class<S>,
         builderFactory: (Class<S>) -> BUILDER,
         block: Consumer<SubQueryContext<BUILDER>>
-    ): BUILDER {
+    ): BUILDER where BUILDER : BaseBuilder<*, *, *, *, *, *, *, *>, BUILDER : SharedMethods<BUILDER> {
         val subQuery = builderFactory(subQueryModel)
         val context = SubQueryContext(subQuery)
         block.accept(context)

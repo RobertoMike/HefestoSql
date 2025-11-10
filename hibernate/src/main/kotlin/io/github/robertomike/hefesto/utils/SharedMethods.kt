@@ -65,23 +65,29 @@ interface SharedMethods<B : BaseBuilder<*, *, *, *, *, *, *, *>> {
     }
 
     /**
-     * This method adds a where field to the query that allows you to filter by a field of a join, the same root or the parent when is a subQuery
+     * Adds a WHERE clause comparing two fields.
+     * This allows filtering based on field-to-field comparisons within the same entity,
+     * across joins, or between parent and subquery entities.
      *
-     * @param parentField could be parent field or a join field
+     * @param field the first field to compare
+     * @param secondField the second field to compare against
+     * @return the updated builder
      */
-    fun whereField(field: String, parentField: String): B {
-        wheres.add(WhereField(field, parentField))
+    fun whereField(field: String, secondField: String): B {
+        wheres.add(WhereField(field, secondField))
         return this as B
     }
 
     /**
-     * This method adds a where field to the query that allows you to filter by a field of a join, the same root or the parent when is a subQuery
+     * Adds a WHERE clause comparing two fields with a specific operator.
      *
-     * @param operator    not all operators are supported, only LIKE, NOT_LIKE, EQUAL, DIFF, GREATER, LESS, GREATER_OR_EQUAL, LESS_OR_EQUAL
-     * @param parentField could be parent field or a join field
+     * @param field the first field to compare
+     * @param operator the comparison operator (EQUAL, GREATER, LESS, etc.)
+     * @param secondField the second field to compare against
+     * @return the updated builder
      */
-    fun whereField(field: String, operator: Operator, parentField: String): B {
-        wheres.add(WhereField(field, operator, parentField))
+    fun whereField(field: String, operator: Operator, secondField: String): B {
+        wheres.add(WhereField(field, operator, secondField))
         return this as B
     }
 
