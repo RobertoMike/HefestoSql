@@ -1,6 +1,6 @@
 package io.github.robertomike.hql.hefesto.builders;
 
-import io.github.robertomike.hefesto.builders.Hefesto;
+import io.github.robertomike.hefesto.hql.builders.Hefesto;
 import io.github.robertomike.hefesto.enums.JoinOperator;
 import io.github.robertomike.hql.BaseTest;
 import io.github.robertomike.hql.hefesto.models.Pet;

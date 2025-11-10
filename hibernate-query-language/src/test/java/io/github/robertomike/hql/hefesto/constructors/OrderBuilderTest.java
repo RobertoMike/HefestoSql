@@ -1,7 +1,7 @@
 package io.github.robertomike.hql.hefesto.constructors;
 
 import io.github.robertomike.hql.BaseTest;
-import io.github.robertomike.hefesto.builders.Hefesto;
+import io.github.robertomike.hefesto.hql.builders.Hefesto;
 import io.github.robertomike.hefesto.enums.Sort;
 import io.github.robertomike.hql.hefesto.models.User;
 import org.junit.jupiter.api.Test;

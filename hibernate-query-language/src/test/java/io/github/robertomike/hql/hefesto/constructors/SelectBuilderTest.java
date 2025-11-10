@@ -1,7 +1,7 @@
 package io.github.robertomike.hql.hefesto.constructors;
 
 import io.github.robertomike.hql.BaseTest;
-import io.github.robertomike.hefesto.builders.Hefesto;
+import io.github.robertomike.hefesto.hql.builders.Hefesto;
 import io.github.robertomike.hefesto.enums.SelectOperator;
 import io.github.robertomike.hql.hefesto.models.Pet;
 import io.github.robertomike.hql.hefesto.models.User;

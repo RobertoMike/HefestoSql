@@ -3,7 +3,7 @@ package io.github.robertomike.hql.hefesto.constructors;
 import io.github.robertomike.hql.BaseTest;
 import io.github.robertomike.hefesto.actions.wheres.BaseWhere;
 import io.github.robertomike.hefesto.actions.wheres.Where;
-import io.github.robertomike.hefesto.builders.Hefesto;
+import io.github.robertomike.hefesto.hql.builders.Hefesto;
 import io.github.robertomike.hefesto.enums.JoinOperator;
 import io.github.robertomike.hefesto.enums.Operator;
 import io.github.robertomike.hql.enums.Status;
@@ -262,6 +262,74 @@ public class WhereBuilderTest {
                 UnsupportedOperationException.class,
                 query::findFirst
         );
+    }
+
+    @Test
+    void greaterWithDate() {
+        var referenceDate = java.time.LocalDateTime.of(2020, 1, 1, 0, 0);
+        var result = Hefesto.make(User.class)
+                .where("createdAt", Operator.GREATER, referenceDate)
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> u.getCreatedAt().isAfter(referenceDate)));
+    }
+
+    @Test
+    void lessWithDate() {
+        var referenceDate = java.time.LocalDateTime.of(2030, 12, 31, 23, 59);
+        var result = Hefesto.make(User.class)
+                .where("createdAt", Operator.LESS, referenceDate)
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> u.getCreatedAt().isBefore(referenceDate)));
+    }
+
+    @Test
+    void greaterOrEqualWithDate() {
+        var referenceDate = java.time.LocalDateTime.of(2020, 1, 1, 0, 0);
+        var result = Hefesto.make(User.class)
+                .where("createdAt", Operator.GREATER_OR_EQUAL, referenceDate)
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> 
+            u.getCreatedAt().isAfter(referenceDate) || u.getCreatedAt().isEqual(referenceDate)
+        ));
+    }
+
+    @Test
+    void lessOrEqualWithDate() {
+        var referenceDate = java.time.LocalDateTime.of(2030, 12, 31, 23, 59);
+        var result = Hefesto.make(User.class)
+                .where("createdAt", Operator.LESS_OR_EQUAL, referenceDate)
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> 
+            u.getCreatedAt().isBefore(referenceDate) || u.getCreatedAt().isEqual(referenceDate)
+        ));
+    }
+
+    @Test
+    void greaterWithString() {
+        var result = Hefesto.make(User.class)
+                .where("name", Operator.GREATER, "m")
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> u.getName().compareTo("m") > 0));
+    }
+
+    @Test
+    void lessWithString() {
+        var result = Hefesto.make(User.class)
+                .where("name", Operator.LESS, "m")
+                .get();
+
+        assertFalse(result.isEmpty());
+        assertTrue(result.stream().allMatch(u -> u.getName().compareTo("m") < 0));
     }
 
     @Test
