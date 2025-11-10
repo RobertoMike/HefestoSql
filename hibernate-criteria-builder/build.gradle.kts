@@ -78,7 +78,7 @@ tasks.test {
 mavenPublishing {
     publishToMavenCentral(com.vanniktech.maven.publish.SonatypeHost.CENTRAL_PORTAL, automaticRelease = true)
     // Only sign if credentials are available (CI environment)
-    if (project.hasProperty("signingInMemoryKey")) {
+    if (project.hasProperty("signing.keyId")) {
         signAllPublications()
     }
     
