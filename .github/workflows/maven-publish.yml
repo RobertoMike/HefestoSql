@@ -30,14 +30,17 @@ jobs:
       - name: Make gradlew executable
         run: chmod +x ./gradlew
 
-      - name: Setup GPG
+      - name: Prepare GPG key for signing
         run: |
-          export GPG_TTY=$(tty)
-          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
-          gpg --list-secret-keys --keyid-format LONG
-          chmod -R 777 ~/.gnupg
-          gpg --batch --export-secret-keys --pinentry-mode=loopback --passphrase "${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" -o ~/.gnupg/secring.gpg
-          ls -lh ~/.gnupg/secring.gpg
+          # Decode base64 GPG key and export as ASCII-armored format
+          echo "${{ secrets.OSSRH_GPG_SECRET_KEY }}" | base64 -d > /tmp/gpg-key.gpg
+          gpg --batch --import /tmp/gpg-key.gpg
+          GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep sec | awk '{print $2}' | cut -d'/' -f2)
+          gpg --batch --armor --export-secret-keys $GPG_KEY_ID > /tmp/gpg-key.asc
+          echo "GPG_ASCII_KEY<<EOF" >> $GITHUB_ENV
+          cat /tmp/gpg-key.asc >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+          rm /tmp/gpg-key.gpg /tmp/gpg-key.asc
 
       - name: Build all modules
         run: ./gradlew build -x test --no-daemon
@@ -47,9 +50,8 @@ jobs:
         run: |
           export GPG_TTY=$(tty)
           ./gradlew :hefesto-base:publishAllPublicationsToMavenCentralRepository \
-            -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} \
-            -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg \
-            -Psigning.password="${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" \
+            -PsigningInMemoryKey="${GPG_ASCII_KEY}" \
+            -PsigningInMemoryKeyPassword="${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" \
             --no-daemon
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
@@ -60,9 +62,8 @@ jobs:
         run: |
           export GPG_TTY=$(tty)
           ./gradlew :hefesto-hibernate-base:publishAllPublicationsToMavenCentralRepository \
-            -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} \
-            -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg \
-            -Psigning.password="${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" \
+            -PsigningInMemoryKey="${GPG_ASCII_KEY}" \
+            -PsigningInMemoryKeyPassword="${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" \
             --no-daemon
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
@@ -73,9 +74,8 @@ jobs:
         run: |
           export GPG_TTY=$(tty)
           ./gradlew :hefesto-hibernate:publishAllPublicationsToMavenCentralRepository \
-            -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} \
-            -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg \
-            -Psigning.password="${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" \
+            -PsigningInMemoryKey="${GPG_ASCII_KEY}" \
+            -PsigningInMemoryKeyPassword="${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" \
             --no-daemon
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
@@ -86,9 +86,8 @@ jobs:
         run: |
           export GPG_TTY=$(tty)
           ./gradlew :hefesto-hibernate-hql:publishAllPublicationsToMavenCentralRepository \
-            -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} \
-            -Psigning.secretKeyRingFile=/home/runner/.gnupg/secring.gpg \
-            -Psigning.password="${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" \
+            -PsigningInMemoryKey="${GPG_ASCII_KEY}" \
+            -PsigningInMemoryKeyPassword="${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" \
             --no-daemon
         env:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
