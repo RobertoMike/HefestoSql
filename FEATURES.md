@@ -12,6 +12,7 @@ This document provides comprehensive details on all major features implemented i
 4. [Aggregate Shortcuts](#4-aggregate-shortcuts)
 5. [Deep Join Navigation](#5-deep-join-navigation)
 6. [Inline Join Conditions](#6-inline-join-conditions)
+7. [Field-to-Field Comparisons](#7-field-to-field-comparisons)
 
 ---
 
@@ -881,6 +882,255 @@ Run benchmarks:
 
 ---
 
+## 7. Field-to-Field Comparisons
+
+**Status:** ✅ Implemented  
+**Version:** 3.0+  
+**Tests:** 33 test cases (17 Criteria Builder, 16 HQL)
+
+### Overview
+
+The `whereField()` method allows you to compare two fields instead of comparing a field to a static value. This is essential for complex queries where you need to compare columns within the same entity, across joins, or between parent and subquery entities.
+
+### Problem Solved
+
+**Before:**
+```java
+// Had to use raw SQL or complex custom predicates
+.whereCustom((cb, cq, root, joins, parentRoot) -> {
+    Path<LocalDateTime> startDate = root.get("startDate");
+    Path<LocalDateTime> endDate = root.get("endDate");
+    return cb.lessThan(startDate, endDate);
+})
+```
+
+**After:**
+```java
+// Clean, readable field-to-field comparison
+.whereField("startDate", Operator.LESS, "endDate")
+```
+
+### Usage Examples
+
+#### Basic Field Comparison (Same Entity)
+```java
+// Find records where startDate is before endDate
+List<Event> events = Hefesto.make(Event.class)
+    .whereField("startDate", Operator.LESS, "endDate")
+    .get();
+
+// Find users where name differs from email
+List<User> users = Hefesto.make(User.class)
+    .whereField("name", Operator.DIFF, "email")
+    .get();
+```
+
+#### Field Comparison with Default EQUAL Operator
+```java
+// Default operator is EQUAL
+List<User> users = Hefesto.make(User.class)
+    .whereField("firstName", "lastName")  // firstName = lastName
+    .get();
+```
+
+#### Field Comparison Across Joins
+```java
+// Compare fields from different joined entities
+List<User> users = Hefesto.make(User.class)
+    .join("posts", "p")
+    .whereField("createdAt", Operator.GREATER, "p.publishedAt")
+    .get();
+
+// With multiple joins
+List<Order> orders = Hefesto.make(Order.class)
+    .join("user", "u")
+    .join("payment", "pay")
+    .whereField("u.createdAt", Operator.LESS, "pay.processedAt")
+    .get();
+```
+
+#### Field Comparison in Subqueries
+```java
+// Correlate parent and subquery fields
+List<User> usersWithRecentPosts = Hefesto.make(User.class)
+    .whereExists(Post.class, subQuery -> {
+        subQuery.whereField("userId", "id");  // Correlate subquery.userId with parent.id
+        subQuery.where("publishedAt", Operator.GREATER, LocalDateTime.now().minusDays(7));
+    })
+    .get();
+```
+
+#### Combining with Regular WHERE Conditions
+```java
+// Mix field comparisons with value comparisons
+List<Event> events = Hefesto.make(Event.class)
+    .where("status", "ACTIVE")
+    .whereField("startDate", Operator.LESS, "endDate")
+    .whereField("actualAttendees", Operator.LESS_OR_EQUAL, "maxCapacity")
+    .get();
+```
+
+#### Multiple Field Comparisons
+```java
+// Chain multiple field-to-field conditions
+List<Transaction> transactions = Hefesto.make(Transaction.class)
+    .whereField("requestedAmount", Operator.LESS_OR_EQUAL, "availableBalance")
+    .whereField("createdAt", Operator.LESS, "processedAt")
+    .whereField("minAmount", Operator.LESS_OR_EQUAL, "maxAmount")
+    .get();
+```
+
+### Supported Operators
+
+All comparison operators work with `whereField()`:
+
+| Operator | SQL | Use Case |
+|----------|-----|----------|
+| `EQUAL` (default) | `=` | Fields must be exactly equal |
+| `DIFF` | `<>` | Fields must be different |
+| `GREATER` | `>` | First field greater than second |
+| `GREATER_OR_EQUAL` | `>=` | First field greater or equal to second |
+| `LESS` | `<` | First field less than second |
+| `LESS_OR_EQUAL` | `<=` | First field less or equal to second |
+| `LIKE` | `LIKE` | Pattern matching between string fields |
+| `NOT_LIKE` | `NOT LIKE` | Negative pattern matching |
+
+### Real-World Examples
+
+#### Example 1: Date Range Validation
+```java
+// Find events where registration is still open
+List<Event> openEvents = Hefesto.make(Event.class)
+    .where("registrationStart", Operator.LESS_OR_EQUAL, LocalDateTime.now())
+    .whereField("registrationEnd", Operator.GREATER_OR_EQUAL, LocalDateTime.now())
+    .get();
+```
+
+#### Example 2: Capacity Management
+```java
+// Find venues that still have available capacity
+List<Venue> availableVenues = Hefesto.make(Venue.class)
+    .whereField("currentOccupancy", Operator.LESS, "maxCapacity")
+    .get();
+```
+
+#### Example 3: Financial Validation
+```java
+// Find transactions where amount is within limits
+List<Transaction> validTransactions = Hefesto.make(Transaction.class)
+    .whereField("amount", Operator.GREATER_OR_EQUAL, "minLimit")
+    .whereField("amount", Operator.LESS_OR_EQUAL, "maxLimit")
+    .where("status", "PENDING")
+    .get();
+```
+
+#### Example 4: Cross-Entity Comparison with Joins
+```java
+// Find orders where user's credit limit is sufficient
+List<Order> affordableOrders = Hefesto.make(Order.class)
+    .join("user", "u")
+    .whereField("totalAmount", Operator.LESS_OR_EQUAL, "u.creditLimit")
+    .where("status", "PENDING_PAYMENT")
+    .get();
+```
+
+#### Example 5: Subquery Correlation
+```java
+// Find users who have posts with more likes than the user's follower count
+List<User> viralPosters = Hefesto.make(User.class)
+    .whereExists(Post.class, subQuery -> {
+        subQuery.whereField("userId", "id");
+        subQuery.whereField("likeCount", Operator.GREATER, "user.followerCount");
+    })
+    .get();
+```
+
+### Implementation Details
+
+**Shared Module:**
+- `WhereField` class in `shared/src/.../actions/wheres/WhereField.kt`
+- Extends `Where` with `secondField` property
+- Supports all comparison operators
+
+**Criteria Builder:**
+- Resolves fields from root entity, joins, or parent root (subqueries)
+- Uses JPA Criteria API predicates for type-safe comparison
+- Handles nested field paths automatically
+
+**HQL:**
+- Automatically qualifies field names with table aliases
+- Generates clean HQL string comparisons
+- Supports all standard HQL operators
+
+### Testing
+
+Comprehensive test coverage ensures reliability:
+
+**Criteria Builder Tests (17):**
+- Same entity comparisons
+- All operator types (EQUAL, GREATER, LESS, etc.)
+- Join field comparisons
+- Subquery correlations
+- Combined with regular WHERE conditions
+- Multiple whereField chains
+- String operators (LIKE, NOT_LIKE)
+
+**HQL Tests (16):**
+- Same entity comparisons
+- All operator types
+- Join field comparisons
+- Field name qualification
+- Multiple joins scenarios
+- Complex combined conditions
+
+### Best Practices
+
+1. **Use Appropriate Operators**: Choose operators that match your field types (numeric comparisons for numbers, LIKE for strings)
+
+2. **Field Path Clarity**: Use join aliases for clarity when comparing across entities
+   ```java
+   .join("user", "u")
+   .whereField("createdAt", Operator.GREATER, "u.registeredAt")
+   ```
+
+3. **Subquery Correlation**: Always correlate subquery with parent using `whereField()`
+   ```java
+   .whereExists(Detail.class, sub -> {
+       sub.whereField("masterId", "id");  // Correlation
+   })
+   ```
+
+4. **Combine with Value Comparisons**: Mix field comparisons with regular WHERE for complex logic
+   ```java
+   .where("status", "ACTIVE")
+   .whereField("startDate", Operator.LESS, "endDate")
+   ```
+
+### Performance Considerations
+
+- Field-to-field comparisons are executed at the database level (no data transfer)
+- Indexes on compared fields improve performance significantly
+- Join comparisons may benefit from composite indexes
+- Subquery correlations use efficient EXISTS predicates
+
+### Migration from Custom Predicates
+
+If you were using `whereCustom()` for field comparisons:
+
+**Old Way:**
+```java
+.whereCustom((cb, cq, root, joins, parentRoot) -> {
+    return cb.lessThan(root.get("startDate"), root.get("endDate"));
+})
+```
+
+**New Way:**
+```java
+.whereField("startDate", Operator.LESS, "endDate")
+```
+
+---
+
 ## Future Enhancements
 
 Planned improvements for these features:
@@ -891,8 +1141,9 @@ Planned improvements for these features:
 - [ ] Aggregate function pipeline
 - [ ] Deep join condition support
 - [ ] Join condition type safety
+- [ ] Field-to-field comparison with arithmetic operations (e.g., field1 > field2 * 2)
 
 ---
 
-**Last Updated:** 2024  
-**Version:** 2.1+
+**Last Updated:** November 2025  
+**Version:** 3.0+
