@@ -32,15 +32,30 @@ jobs:
 
       - name: Prepare GPG key for signing
         run: |
-          # Decode base64 GPG key and export as ASCII-armored format
-          echo "${{ secrets.OSSRH_GPG_SECRET_KEY }}" | base64 -d > /tmp/gpg-key.gpg
-          gpg --batch --import /tmp/gpg-key.gpg
-          GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format LONG | grep sec | awk '{print $2}' | cut -d'/' -f2)
-          gpg --batch --armor --export-secret-keys $GPG_KEY_ID > /tmp/gpg-key.asc
-          echo "GPG_ASCII_KEY<<EOF" >> $GITHUB_ENV
-          cat /tmp/gpg-key.asc >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
-          rm /tmp/gpg-key.gpg /tmp/gpg-key.asc
+          # Import GPG key directly (it's already in ASCII-armored format)
+          echo "${{ secrets.OSSRH_GPG_SECRET_KEY }}" | gpg --batch --import 2>/dev/null || {
+            echo "Direct import failed, trying with temporary file"
+            echo "${{ secrets.OSSRH_GPG_SECRET_KEY }}" > /tmp/gpg-key.asc
+            gpg --batch --import /tmp/gpg-key.asc
+            rm -f /tmp/gpg-key.asc
+          }
+          
+          # Get the key ID
+          GPG_KEY_ID=$(gpg --list-secret-keys --keyid-format LONG 2>/dev/null | grep sec | head -1 | awk '{print $2}' | cut -d'/' -f2)
+          if [ -z "$GPG_KEY_ID" ]; then
+            echo "Error: Could not find GPG key after import"
+            gpg --list-keys
+            exit 1
+          fi
+          
+          echo "Successfully imported GPG key: $GPG_KEY_ID"
+          
+          # Export as ASCII-armored and store in environment
+          {
+            echo 'GPG_ASCII_KEY<<EOF'
+            gpg --batch --armor --export-secret-keys $GPG_KEY_ID
+            echo 'EOF'
+          } >> $GITHUB_ENV
 
       - name: Build all modules
         run: ./gradlew build -x test --no-daemon
