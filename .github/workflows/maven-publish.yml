@@ -33,7 +33,7 @@ jobs:
       - name: Setup GPG
         run: |
           export GPG_TTY=$(tty)
-          echo "${{ secrets.OSSRH_GPG_SECRET_KEY }}" | base64 -d | gpg --batch --import
+          cat <(echo -e "${{ secrets.OSSRH_GPG_SECRET_KEY }}") | gpg --batch --import
           gpg --list-secret-keys --keyid-format LONG
           chmod -R 777 ~/.gnupg
           gpg --batch --export-secret-keys --pinentry-mode=loopback --passphrase "${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}" -o ~/.gnupg/secring.gpg
