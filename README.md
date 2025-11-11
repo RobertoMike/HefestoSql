@@ -46,18 +46,18 @@ List<User> users = Hefesto.make(User.class)
 <dependency>
     <groupId>io.github.robertomike</groupId>
     <artifactId>hefesto-hibernate</artifactId>
-    <version>2.1.1</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
 **Gradle (Kotlin DSL):**
 ```kotlin
-implementation("io.github.robertomike:hefesto-hibernate:2.1.1")
+implementation("io.github.robertomike:hefesto-hibernate:3.0.0")
 ```
 
 **Gradle (Groovy):**
 ```gradle
-implementation 'io.github.robertomike:hefesto-hibernate:2.1.1'
+implementation 'io.github.robertomike:hefesto-hibernate:3.0.0'
 ```
 
 ### Hibernate 5.x (Legacy)
