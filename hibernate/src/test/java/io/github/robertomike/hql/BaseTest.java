@@ -40,13 +40,14 @@ public class BaseTest implements BeforeAllCallback, ExtensionContext.Store.Close
                 entityManager = sessionFactory.createEntityManager();
                 config.basicData(entityManager);
 
-                if (session != null) {
-                    BaseBuilder.setSession(session);
-                    return;
-                }
-
                 new HefestoAutoconfiguration(entityManager);
             }
+
+            // Re-assert this suite's session as the active global session on every
+            // beforeAll: another BaseTest lineage sharing this JVM/test task (e.g. the
+            // Criteria suite) may have overwritten BaseBuilder's global session since
+            // this lineage last ran.
+            BaseBuilder.setSession(session);
         } catch (Exception e) {
             throw new RuntimeException(e);
         } finally {

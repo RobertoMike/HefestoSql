@@ -5,7 +5,7 @@ plugins {
 }
 
 group = "io.github.robertomike"
-version = "3.0.0"
+version = "4.0.0"
 
 repositories {
     mavenCentral()
@@ -68,6 +68,11 @@ tasks.named<JavaCompile>("compileJava") {
     exclude("**/*.java")
 }
 
+// Ensure test Java compilation happens after Kotlin compilation
+tasks.named<JavaCompile>("compileTestJava") {
+    dependsOn(tasks.named("compileKotlin"))
+}
+
 // Configure jar task to handle duplicates by preferring Kotlin-compiled classes
 tasks.named<Jar>("jar") {
     duplicatesStrategy = DuplicatesStrategy.EXCLUDE
@@ -83,13 +88,13 @@ mavenPublishing {
     
     coordinates(
         groupId = project.group.toString(),
-        artifactId = "hefesto-hibernate-base",
+        artifactId = "hefesto-hibernate",
         version = project.version.toString()
     )
-    
+
     pom {
-        name.set("HefestoSql - Hibernate Base")
-        description.set("HefestoSql base Hibernate support - an open-source Kotlin/Java library for creating queries with Hibernate")
+        name.set("HefestoSql - Hibernate")
+        description.set("HefestoSql Hibernate support - an open-source Kotlin/Java library for creating queries with Hibernate, bundling both the Criteria Builder and HQL query builders")
         url.set("https://github.com/RobertoMike/HefestoSql")
         inceptionYear.set("2024")
         

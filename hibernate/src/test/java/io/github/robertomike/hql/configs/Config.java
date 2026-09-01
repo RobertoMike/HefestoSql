@@ -35,7 +35,7 @@ public class Config {
 
     public void basicData(EntityManager entityManager) {
         entityManager.getTransaction().begin();
-        try (var inputStream = getClass().getResourceAsStream("/data-base.sql")) {
+        try (var inputStream = getClass().getResourceAsStream("/data-base-hql.sql")) {
             String text = new String(inputStream.readAllBytes(), StandardCharsets.UTF_8);
 
             Arrays.asList(text.split(";")).forEach(s -> {
