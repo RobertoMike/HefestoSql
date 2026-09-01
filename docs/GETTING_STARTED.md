@@ -5,39 +5,51 @@ This guide will help you set up and start using HefestoSQL in your project.
 ## Prerequisites
 
 - Java 17 or higher
-- Hibernate 6.x (or Hibernate 5.x with version 1.x.x)
+- Hibernate 7.x (or an earlier Hibernate version - see below)
 - Maven or Gradle
 
 ## Installation
 
-### Hibernate 6.x (Recommended)
+### Hibernate 7.x (Recommended)
+
+One artifact bundles both the Criteria Builder (`Hefesto.make(...)`) and the HQL
+query builder (`hql.Hefesto.make(...)`).
 
 #### Maven
 ```xml
 <dependency>
     <groupId>io.github.robertomike</groupId>
     <artifactId>hefesto-hibernate</artifactId>
-    <version>2.1.1</version>
+    <version>4.0.0</version>
 </dependency>
 ```
 
 #### Gradle (Kotlin DSL)
 ```kotlin
 dependencies {
-    implementation("io.github.robertomike:hefesto-hibernate:2.1.1")
+    implementation("io.github.robertomike:hefesto-hibernate:4.0.0")
 }
 ```
 
 #### Gradle (Groovy)
 ```gradle
 dependencies {
-    implementation 'io.github.robertomike:hefesto-hibernate:2.1.1'
+    implementation 'io.github.robertomike:hefesto-hibernate:4.0.0'
 }
 ```
 
+> Note: as of 4.0.0, `hibernate-core` is pulled in under the `org.hibernate.orm`
+> groupId (it was `org.hibernate` before) - update any exclusions/BOMs that pin it.
+
+### Hibernate 6.x (Legacy)
+
+Use version `3.0.0` instead of `4.0.0` in the dependency declarations above, or see the
+[legacy/hibernate-6](https://github.com/RobertoMike/HefestoSql/tree/legacy/hibernate-6)
+branch.
+
 ### Hibernate 5.x (Legacy)
 
-Use version `1.1.1` instead of `2.1.1` in the dependency declarations above.
+Use version `1.1.1` instead of `4.0.0` in the dependency declarations above.
 
 ## Entity Setup
 

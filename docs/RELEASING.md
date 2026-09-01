@@ -49,9 +49,8 @@ The project uses GitHub Releases to trigger automated publishing to Maven Centra
 1. Ensure all changes are committed and pushed to the `master` branch
 2. Update version numbers in the module `build.gradle.kts` files if needed:
    - `shared/build.gradle.kts` - hefesto-base
-   - `hibernate/build.gradle.kts` - hefesto-hibernate-base
-   - `hibernate-criteria-builder/build.gradle.kts` - hefesto-hibernate
-   - `hibernate-query-language/build.gradle.kts` - hefesto-hibernate-hql
+   - `hibernate/build.gradle.kts` - hefesto-hibernate (bundles the Criteria Builder
+     and HQL query builders together)
 
 ### Step 2: Create a GitHub Release
 
@@ -63,9 +62,7 @@ The workflow uses tag names to determine which modules to publish:
 
 - **Release a specific module**: Include the module identifier in the tag
   - `-hefesto-base` - Publishes only hefesto-base
-  - `-hefesto-shared-hibernate` - Publishes only hefesto-hibernate-base
   - `-hefesto-hibernate` - Publishes only hefesto-hibernate
-  - `-hefesto-hql-hibernate` - Publishes only hefesto-hibernate-hql
 
 - **Release all modules**: Include `-all` in the tag
   - Example: `v2.2.0-all`
@@ -102,16 +99,20 @@ v2.2.0-all
 
 ## Module Information
 
-The project publishes four separate artifacts:
+The project publishes two separate artifacts:
 
 | Artifact ID | Module Directory | Description |
 |------------|------------------|-------------|
 | `hefesto-base` | `shared/` | Base classes for HefestoSql |
-| `hefesto-hibernate-base` | `hibernate/` | Base Hibernate support |
-| `hefesto-hibernate` | `hibernate-criteria-builder/` | Hibernate Criteria Builder support |
-| `hefesto-hibernate-hql` | `hibernate-query-language/` | Hibernate Query Language support |
+| `hefesto-hibernate` | `hibernate/` | Hibernate support - bundles the Criteria Builder and HQL query builders |
 
 All artifacts are published under the group ID: `io.github.robertomike`
+
+> Prior to 4.0.0, Hibernate support was split across three artifacts
+> (`hefesto-hibernate-base`, `hefesto-hibernate`, `hefesto-hibernate-hql`) targeting
+> Hibernate 6. That line is preserved on the
+> [legacy/hibernate-6](https://github.com/RobertoMike/HefestoSql/tree/legacy/hibernate-6)
+> branch for maintenance-only patches.
 
 ## Troubleshooting
 
