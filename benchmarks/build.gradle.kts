@@ -18,10 +18,11 @@ dependencies {
     // JMH
     jmh("org.openjdk.jmh:jmh-core:1.37")
     jmh("org.openjdk.jmh:jmh-generator-annprocess:1.37")
-    
-    // Hibernate
-    implementation("org.hibernate.orm:hibernate-core:7.4.7.Final")
-    
+
+    // Hibernate: pulled in transitively via :hefesto-hibernate's `api` dependency,
+    // so benchmarks always measure against whatever Hibernate version the published
+    // library actually ships with, without a second version to keep in sync.
+
     // H2 Database for benchmarks
     implementation("com.h2database:h2:2.1.214")
     

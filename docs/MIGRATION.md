@@ -1,5 +1,9 @@
 # Migration Notes: Maven Central Publishing Update
 
+> **Scope note:** This document is a historical record of the July 2024 OSSRH-to-Central-Portal
+> publishing migration. Its module list and layout predate the Hibernate 7 / 4.0.0 module
+> consolidation - for upgrading to 4.0.0, see [RELEASE_4.0.0.md](../RELEASE_4.0.0.md) instead.
+
 This document explains the changes made to update the Maven Central publishing workflow for post-July 2024 requirements.
 
 ## What Changed and Why

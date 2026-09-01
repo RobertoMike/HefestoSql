@@ -232,7 +232,8 @@ Hefesto.make(User.class)
 
 ### Getting Started
 - **[Getting Started Guide](docs/GETTING_STARTED.md)** - Installation, setup, and first queries
-- **[Migration Guide](docs/MIGRATION.md)** - Upgrade guide for existing projects
+- **[4.0.0 Release Notes](RELEASE_4.0.0.md)** - Upgrading to Hibernate 7 / the consolidated module
+- **[Publishing Migration Notes](docs/MIGRATION.md)** - Historical: the 2024 Maven Central Portal migration
 
 ### Core Features
 - **[Type-Safe Properties](docs/TYPE_SAFE_PROPERTIES.md)** - Compile-time safe property references (Java & Kotlin)

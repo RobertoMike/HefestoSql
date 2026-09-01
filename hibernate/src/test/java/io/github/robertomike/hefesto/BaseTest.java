@@ -34,15 +34,13 @@ public class BaseTest implements BeforeAllCallback, ExtensionContext.Store.Close
             if (!started) {
                 started = true;
 
-                if (session == null) {
-                    Config config = new Config();
-                    sessionFactory = config.sessionFactory();
-                    session = config.session(sessionFactory);
-                    entityManager = sessionFactory.createEntityManager();
-                    config.basicData(entityManager);
+                Config config = new Config();
+                sessionFactory = config.sessionFactory();
+                session = config.session(sessionFactory);
+                entityManager = sessionFactory.createEntityManager();
+                config.basicData(entityManager);
 
-                    new HefestoAutoconfiguration(entityManager);
-                }
+                new HefestoAutoconfiguration(entityManager);
             }
 
             // Re-assert this suite's session as the active global session on every
