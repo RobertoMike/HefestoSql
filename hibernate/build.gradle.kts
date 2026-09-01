@@ -35,8 +35,8 @@ tasks.withType<org.jetbrains.kotlin.gradle.tasks.KotlinCompile> {
 }
 
 dependencies {
-    implementation("org.hibernate:hibernate-core:6.0.0.Final")
-    api("org.hibernate:hibernate-core:6.0.0.Final")
+    implementation("org.hibernate.orm:hibernate-core:7.4.7.Final")
+    api("org.hibernate.orm:hibernate-core:7.4.7.Final")
 
     implementation(project(":hefesto-base"))
     api(project(":hefesto-base"))

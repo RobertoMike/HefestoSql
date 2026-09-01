@@ -52,8 +52,8 @@ tasks.named<Jar>("jar") {
 dependencies {
     implementation(kotlin("stdlib"))
     
-    implementation("org.hibernate:hibernate-core:6.0.0.Final")
-    api("org.hibernate:hibernate-core:6.0.0.Final")
+    implementation("org.hibernate.orm:hibernate-core:7.4.7.Final")
+    api("org.hibernate.orm:hibernate-core:7.4.7.Final")
 
     implementation(project(":hefesto-hibernate-base"))
     api(project(":hefesto-hibernate-base"))

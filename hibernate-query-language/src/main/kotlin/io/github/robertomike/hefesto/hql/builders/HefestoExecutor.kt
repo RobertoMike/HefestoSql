@@ -242,7 +242,11 @@ internal class HefestoExecutor<T : BaseModel>(
         isCounting: Boolean,
         hefesto: Hefesto<T>
     ): String {
-        var query = if (isCounting) "select count($acronymTable)" else selects.construct(hefesto)
+        var query = if (isCounting) {
+            "select count($acronymTable)"
+        } else {
+            selects.construct(hefesto).ifEmpty { "select $acronymTable" }
+        }
         query += " from $table"
         val joinsFetchQuery = if (!isCounting) joinsFetch.construct(hefesto) else ""
 

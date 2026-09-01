@@ -175,10 +175,10 @@ class ConstructWhereImplementation : ConstructWhere() {
             }
 
             Operator.NOT_FIND_IN_SET ->
-                wheresQuery.add("$operator($nameParamWhere,$field) = 0")
+                wheresQuery.add("cast($operator($nameParamWhere,$field) as integer) = 0")
 
             Operator.FIND_IN_SET ->
-                wheresQuery.add("$operator($nameParamWhere,$field) > 0")
+                wheresQuery.add("cast($operator($nameParamWhere,$field) as integer) > 0")
 
             else -> wheresQuery.add("$field $operator $nameParamWhere")
         }

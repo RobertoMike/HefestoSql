@@ -20,7 +20,7 @@ dependencies {
     jmh("org.openjdk.jmh:jmh-generator-annprocess:1.37")
     
     // Hibernate
-    implementation("org.hibernate.orm:hibernate-core:6.0.0.Final")
+    implementation("org.hibernate.orm:hibernate-core:7.4.7.Final")
     
     // H2 Database for benchmarks
     implementation("com.h2database:h2:2.1.214")
