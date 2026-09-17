@@ -3,7 +3,7 @@
 [![Maven Central](https://img.shields.io/maven-central/v/io.github.robertomike/hefesto-hibernate.svg)](https://central.sonatype.com/artifact/io.github.robertomike/hefesto-hibernate)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE.txt)
 [![Java](https://img.shields.io/badge/Java-17+-orange.svg)](https://www.oracle.com/java/)
-[![Hibernate](https://img.shields.io/badge/Hibernate-6.0+-green.svg)](https://hibernate.org/)
+[![Hibernate](https://img.shields.io/badge/Hibernate-7.0+-green.svg)](https://hibernate.org/)
 
 **HefestoSQL** is a powerful, fluent API wrapper for Hibernate that dramatically simplifies database queries. Write cleaner, more maintainable code with 70% less boilerplate.
 
@@ -39,26 +39,37 @@ List<User> users = Hefesto.make(User.class)
 
 ## 📦 Installation
 
-### Hibernate 6.x (Latest)
+### Hibernate 7.x (Latest)
+
+One artifact bundles both the Criteria Builder (`Hefesto.make(...)`) and the HQL
+query builder (`hql.Hefesto.make(...)`) - no need to pick or add a second dependency.
 
 **Maven:**
 ```xml
 <dependency>
     <groupId>io.github.robertomike</groupId>
     <artifactId>hefesto-hibernate</artifactId>
-    <version>3.0.0</version>
+    <version>4.0.0</version>
 </dependency>
 ```
 
 **Gradle (Kotlin DSL):**
 ```kotlin
-implementation("io.github.robertomike:hefesto-hibernate:3.0.0")
+implementation("io.github.robertomike:hefesto-hibernate:4.0.0")
 ```
 
 **Gradle (Groovy):**
 ```gradle
-implementation 'io.github.robertomike:hefesto-hibernate:3.0.0'
+implementation 'io.github.robertomike:hefesto-hibernate:4.0.0'
 ```
+
+> Note: as of 4.0.0, `hibernate-core` is pulled in under the `org.hibernate.orm`
+> groupId (it was `org.hibernate` before) - update any exclusions/BOMs that pin it.
+
+### Hibernate 6.x
+Replace version with `3.0.0` (splits into separate `hefesto-hibernate` /
+`hefesto-hibernate-hql` / `hefesto-hibernate-base` artifacts - see the
+[legacy/hibernate-6 branch](https://github.com/RobertoMike/HefestoSql/tree/legacy/hibernate-6)).
 
 ### Hibernate 5.x (Legacy)
 Replace version with `1.1.1`
@@ -221,7 +232,8 @@ Hefesto.make(User.class)
 
 ### Getting Started
 - **[Getting Started Guide](docs/GETTING_STARTED.md)** - Installation, setup, and first queries
-- **[Migration Guide](docs/MIGRATION.md)** - Upgrade guide for existing projects
+- **[4.0.0 Release Notes](RELEASE_4.0.0.md)** - Upgrading to Hibernate 7 / the consolidated module
+- **[Publishing Migration Notes](docs/MIGRATION.md)** - Historical: the 2024 Maven Central Portal migration
 
 ### Core Features
 - **[Type-Safe Properties](docs/TYPE_SAFE_PROPERTIES.md)** - Compile-time safe property references (Java & Kotlin)

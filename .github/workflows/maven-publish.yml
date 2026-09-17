@@ -56,37 +56,11 @@ jobs:
           ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
           ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.OSSRH_TOKEN }}
 
-      - name: Publish hefesto-hibernate-base
-        if: contains(github.event.release.tag_name, '-hefesto-shared-hibernate') || contains(github.event.release.tag_name, '-all')
-        run: |
-          export GPG_TTY=$(tty)
-          ./gradlew :hefesto-hibernate-base:publishAllPublicationsToMavenCentralRepository \
-            -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} \
-            -Psigning.password=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-            -Psigning.secretKeyRingFile=$HOME/.gnupg/secring.gpg \
-            --no-daemon
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.OSSRH_TOKEN }}
-
       - name: Publish hefesto-hibernate
         if: contains(github.event.release.tag_name, '-hefesto-hibernate') || contains(github.event.release.tag_name, '-all')
         run: |
           export GPG_TTY=$(tty)
           ./gradlew :hefesto-hibernate:publishAllPublicationsToMavenCentralRepository \
-            -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} \
-            -Psigning.password=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-            -Psigning.secretKeyRingFile=$HOME/.gnupg/secring.gpg \
-            --no-daemon
-        env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.OSSRH_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.OSSRH_TOKEN }}
-
-      - name: Publish hefesto-hibernate-hql
-        if: contains(github.event.release.tag_name, '-hefesto-hql-hibernate') || contains(github.event.release.tag_name, '-all')
-        run: |
-          export GPG_TTY=$(tty)
-          ./gradlew :hefesto-hibernate-hql:publishAllPublicationsToMavenCentralRepository \
             -Psigning.keyId=${{ secrets.GPG_SHORT_KEY }} \
             -Psigning.password=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
             -Psigning.secretKeyRingFile=$HOME/.gnupg/secring.gpg \
