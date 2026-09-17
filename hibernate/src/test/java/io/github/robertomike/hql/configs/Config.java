@@ -1,5 +1,6 @@
 package io.github.robertomike.hql.configs;
 
+import io.github.robertomike.commons.TestDbConfig;
 import io.github.robertomike.hql.hefesto.models.Address;
 import io.github.robertomike.hql.hefesto.models.Pet;
 import io.github.robertomike.hql.hefesto.models.User;
@@ -18,9 +19,20 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class Config {
+public class Config implements TestDbConfig {
     public SessionFactory sessionFactory() {
-        var config = new Configuration();
+        var prop = new Properties();
+
+        try {
+            var properties = getClass().getResource("/database-hql.properties");
+            var directory = Objects.requireNonNull(properties).getPath();
+            var fileReader = new FileReader(directory);
+            prop.load(fileReader);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        var config = new Configuration().addProperties(prop);
 
         return config.addAnnotatedClass(User.class)
                 .addAnnotatedClass(Address.class)

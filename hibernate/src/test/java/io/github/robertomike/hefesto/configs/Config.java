@@ -1,5 +1,6 @@
 package io.github.robertomike.hefesto.configs;
 
+import io.github.robertomike.commons.TestDbConfig;
 import io.github.robertomike.hefesto.hefesto.models.Address;
 import io.github.robertomike.hefesto.hefesto.models.Pet;
 import io.github.robertomike.hefesto.hefesto.models.User;
@@ -17,7 +18,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
-public class Config {
+public class Config implements TestDbConfig {
     public SessionFactory sessionFactory() {
         var prop = new Properties();
 
